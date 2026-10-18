@@ -1,0 +1,54 @@
+/* Official entrance derived from mock-up three. The 36-second image sequence is unchanged. */
+:root{--header-height:0px;--heading-height:0px}
+html,body{width:100%;max-width:100%;min-height:100%;overflow-x:clip}
+body{padding-top:env(safe-area-inset-top)}
+main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-area-inset-bottom)}
+
+.entrance-controls{position:fixed;z-index:40;top:0;right:0;width:auto;min-height:0;height:auto;padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 0 0;background:transparent}
+.entrance-controls .pills{gap:2px}
+.entrance-controls .pill{min-width:34px;min-height:34px;padding:6px 7px;font-size:9px;letter-spacing:.04em;color:#d6d6d6}
+.entrance-controls .pill:before{inset:4px 1px;border-color:#454545}
+.entrance-controls .music{width:34px;font-size:13px}
+
+.cinema{height:min(70svh,660px,calc(100svh - 128px));max-width:1600px}
+.cinema-space{--scene-scale:inherit;transform:translate(-50%,-50%) scale(var(--scene-scale,.9)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
+.cinema-world{transform-style:preserve-3d}
+.cinema-plate{-webkit-backface-visibility:visible}
+.cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
+.cinema-title:before{content:"";position:absolute;z-index:-1;inset:10% 4%;background:radial-gradient(ellipse at center,rgba(0,0,0,.74) 0%,rgba(0,0,0,.42) 38%,transparent 72%);filter:blur(10px);pointer-events:none}
+.cinema-title>span{position:relative;z-index:1}
+.final-title-main{font-size:clamp(40px,6.35vw,92px);letter-spacing:-.035em;color:#f5f5f5}
+.final-title-sub{font:400 clamp(17px,2.1vw,29px)/1 Source,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ededed}
+.final-title-enter{font:400 clamp(10px,1vw,14px)/1.2 Source,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#d4d4d4;margin-top:3px}
+
+/* A slightly longer final hold improves legibility without changing the installation choreography. */
+@keyframes cinema-title{0%,77%,100%{opacity:0}81.5%,90%{opacity:1}94%{opacity:0}}
+
+.entry{min-height:128px;overflow:visible}
+.entry-pill{overflow:visible;border:0;animation:entry-arrival 36s linear 1}
+.entry-pill .entry-outline{position:absolute;z-index:1;inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px);pointer-events:none;overflow:visible}
+.entry-pill .entry-outline rect{fill:none;stroke:#a2a2a2;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:entry-outline-draw 36s linear 1;transition:stroke 1.8s ease}
+.entry-pill .entry-label{position:relative;z-index:2;display:inline-block;opacity:0;animation:entry-label-arrival 36s linear 1}
+.entry-pill:hover .entry-outline rect,.entry-pill:focus-visible .entry-outline rect{stroke:#dedede}
+
+@keyframes entry-arrival{0%,80%{visibility:hidden;transform:translateY(-22px)}80.01%{visibility:visible;transform:translateY(-22px)}96%,100%{visibility:visible;transform:translateY(0)}}
+@keyframes entry-outline-draw{0%,80%{opacity:0;stroke-dashoffset:1}80.01%{opacity:.2;stroke-dashoffset:1}83%{opacity:.55}96%,100%{opacity:1;stroke-dashoffset:0}}
+@keyframes entry-label-arrival{0%,94%{opacity:0;letter-spacing:.18em;transform:translateY(-2px)}98%,100%{opacity:1;letter-spacing:.09em;transform:translateY(0)}}
+
+@media(max-width:640px){
+  .cinema{--scene-scale:.275;height:min(61svh,520px,calc(100svh - 112px))}
+  .cinema-title{gap:7px;padding:18px}
+  .final-title-main{font-size:clamp(36px,11.5vw,51px)}
+  .final-title-sub{font-size:clamp(15px,4.5vw,20px);letter-spacing:.17em}
+  .final-title-enter{font-size:10px;letter-spacing:.14em}
+  .entry{min-height:112px}
+  .entrance-controls{padding-top:max(9px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right))}
+}
+@media(max-height:500px) and (orientation:landscape){.cinema{height:calc(100svh - 78px)}.entry{min-height:78px}.cinema-title{gap:4px}.final-title-main{font-size:34px}.final-title-sub{font-size:15px}.final-title-enter{font-size:9px}}
+@media(prefers-reduced-motion:reduce){
+  .official-entrance .cinema-world{animation:camera 36s linear infinite!important}
+  .official-entrance .cinema-triangle{display:block!important;animation:triangle 36s linear infinite!important}
+  .official-entrance .cinema-title{display:flex!important;opacity:0;animation:cinema-title 36s linear infinite!important}
+  .official-entrance .p0{animation:plate0 36s linear infinite!important}.official-entrance .p1{animation:plate1 36s linear infinite!important}.official-entrance .p2{animation:plate2 36s linear infinite!important}.official-entrance .p3{animation:plate3 36s linear infinite!important}.official-entrance .p4{animation:plate4 36s linear infinite!important}.official-entrance .p5{animation:plate5 36s linear infinite!important}.official-entrance .p6{animation:plate6 36s linear infinite!important}.official-entrance .p7{animation:plate7 36s linear infinite!important}.official-entrance .p8{animation:plate8 36s linear infinite!important}.official-entrance .p9{animation:plate9 36s linear infinite!important}.official-entrance .p10{animation:plate10 36s linear infinite!important}.official-entrance .p11{animation:plate11 36s linear infinite!important}.official-entrance .p12{animation:plate12 36s linear infinite!important}.official-entrance .p13{animation:plate13 36s linear infinite!important}.official-entrance .p14{animation:plate14 36s linear infinite!important}.official-entrance .p15{animation:plate15 36s linear infinite!important}.official-entrance .p16{animation:plate16 36s linear infinite!important}.official-entrance .p17{animation:plate17 36s linear infinite!important}.official-entrance .p18{animation:plate18 36s linear infinite!important}.official-entrance .p19{animation:plate19 36s linear infinite!important}.official-entrance .p20{animation:plate20 36s linear infinite!important}.official-entrance .p21{animation:plate21 36s linear infinite!important}.official-entrance .p22{animation:plate22 36s linear infinite!important}.official-entrance .p23{animation:plate23 36s linear infinite!important}
+  .official-entrance .entry-pill{animation:entry-arrival 36s linear 1!important}.official-entrance .entry-outline rect{animation:entry-outline-draw 36s linear 1!important}.official-entrance .entry-label{animation:entry-label-arrival 36s linear 1!important}
+}

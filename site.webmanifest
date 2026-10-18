@@ -1,0 +1,17 @@
+{
+  "name": "The Three Eras of Jew-Hatred",
+  "short_name": "The Three Eras",
+  "description": "For centuries, Jew-hatred has changed its language to fit the times, from religious anti-Judaism, to racial antisemitism, to the antizionism of today.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [
+    {
+      "src": "/assets/site-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

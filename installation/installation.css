@@ -1,0 +1,36 @@
+@font-face{font-family:Caslon;src:url('../assets/Caslon.ttf');font-display:swap}
+@font-face{font-family:Source;src:url('../assets/Source-Regular.ttf');font-display:swap}
+:root{color-scheme:dark;--title:Caslon,Georgia,serif;--body:Source,Georgia,serif;--white:#ededed;--header-height:70px;--ease:cubic-bezier(.16,.72,.2,1)}
+*{box-sizing:border-box}html{background:#050505}body{margin:0;min-height:100svh;display:flex;flex-direction:column;color:var(--white);background:#050505;font-family:var(--body);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;cursor:pointer}a:focus-visible,button:focus-visible{outline:2px solid #e7e7e7;outline-offset:7px}.skip{position:absolute;top:-100px;background:#fff;color:#111;padding:12px;z-index:50}.skip:focus{top:0}
+.header{height:var(--header-height);flex:none;padding:20px clamp(18px,3vw,50px);display:flex;justify-content:flex-end;align-items:center;position:relative;z-index:20}.pills{display:flex;gap:7px;align-items:center}.pill{display:inline-flex;min-height:28px;align-items:center;justify-content:center;border:1px solid #535353;border-radius:999px;padding:5px 9px;font:10px/1 Arial,sans-serif;letter-spacing:.025em;transition:transform 1.5s var(--ease),background 1s,border-color 1s}.pill:hover{transform:translateY(-3px);background:#202020;border-color:#aaa}.music{width:28px;padding:0;font-size:14px}.music[aria-pressed=true]{color:#111;background:#eee;border-color:#eee}
+main{width:100%;min-height:calc(100svh - var(--header-height));display:flex;flex-direction:column;overflow:hidden}.cinema{width:100%;max-width:1440px;flex:none;height:min(58svh,640px,calc(100svh - var(--header-height) - 140px));margin:0 auto;background:#050505}.cinema:after{content:'';position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 -45px 40px -22px #050505,inset 0 40px 45px -30px #050505}.cinema-plate img{filter:grayscale(1)}.cinema-shade{background:radial-gradient(ellipse,transparent 28%,#05050570 90%)}.cinema-title{color:#eee}
+.entry{width:100%;min-height:140px;flex:1;display:grid;place-items:center;padding:0 24px}.entry-pill{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:116px;min-height:36px;padding:7px 22px;border:1px solid #898989;border-radius:999px;background:transparent;color:#e5e5e5;font:400 14px/1.3 Source,Georgia,serif;letter-spacing:.07em;transition:transform 2.1s var(--ease),background 1.8s ease,border-color 1.8s ease,color 1.8s ease,box-shadow 2.1s var(--ease)}.entry-pill:hover,.entry-pill:focus-visible{transform:translateY(-5px);border-color:#dedede;color:#fff;background:#ffffff07;box-shadow:0 9px 35px #ffffff08}
+/* Scale the complete perspective stage, preserving the original camera and plates. */
+html{width:100%;overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body,main{min-width:0;max-width:100%}
+.header{height:auto;min-height:var(--header-height);padding-top:max(16px,env(safe-area-inset-top));padding-right:max(18px,env(safe-area-inset-right))}
+.pills{gap:3px}.pill{position:relative;isolation:isolate;min-width:36px;min-height:44px;border:0;padding:8px;font-size:11px;background:none}
+.pill:before{content:'';position:absolute;inset:8px 2px;border:1px solid #535353;border-radius:999px;z-index:-1}
+.pill:hover{background:none}.pill:hover:before{background:#202020;border-color:#aaa}
+.music{width:36px;font-size:15px}.music[aria-pressed=true]{background:none;color:#111}.music[aria-pressed=true]:before{background:#eee;border-color:#eee}
+main{min-height:calc(100svh - var(--header-height));padding-bottom:env(safe-area-inset-bottom)}
+.cinema{height:min(58svh,640px,calc(100svh - var(--header-height) - 140px));min-height:0;touch-action:pan-y pinch-zoom}
+.cinema-space{inset:auto;left:50%;top:50%;width:1100px;height:600px;overflow:visible;perspective:1100px;transform:translate(-50%,-50%) scale(var(--scene-scale,.9)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0);transition:none}
+.cinema-world{zoom:1}
+.cinema-title{padding:0 16px;text-align:center;font-size:clamp(22px,5vw,63px);overflow-wrap:break-word}
+.entry{padding-bottom:env(safe-area-inset-bottom)}
+@media(max-width:640px){:root{--header-height:60px}.header{padding-left:max(16px,env(safe-area-inset-left));padding-bottom:8px}.cinema{height:min(46svh,400px,calc(100svh - var(--header-height) - 140px))}.cinema-space{--scene-scale:.32}.cinema-triangle{width:115px;height:115px}.entry-pill{min-width:104px;min-height:34px;font-size:13px;padding:6px 18px}}
+@media(max-height:500px) and (orientation:landscape){:root{--header-height:48px}.header{padding-top:2px;padding-bottom:2px}.cinema{height:calc(100svh - var(--header-height) - 84px)}.entry{min-height:84px}.cinema-triangle{width:90px;height:90px}}
+@media(hover:none){.pill:hover,.entry-pill:hover{transform:none}.entry-pill:active{background:#ffffff0d;border-color:#eee}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.cinema-title,.cinema-triangle{display:none}.entry-pill:hover,.entry-pill:focus-visible{transform:none}}
+
+/* Keep the smaller visible pill easy to tap. */
+.entry-pill:after{content:"";position:absolute;left:0;right:0;top:50%;height:max(100%,44px);transform:translateY(-50%)}
+
+/* Option one: restrained gallery lettering above the existing installation. */
+:root{--heading-height:clamp(76px,13svh,130px)}
+.installation-heading{width:100%;height:var(--heading-height);flex:none;display:grid;place-items:center;padding:0 max(22px,env(safe-area-inset-left));text-align:center}
+.installation-heading h1{margin:0;color:#e4e4e4;font:400 clamp(28px,3vw,44px)/1.12 Caslon,Georgia,serif;letter-spacing:-.015em}
+.cinema{height:min(52svh,600px,calc(100svh - var(--header-height) - var(--heading-height) - 140px))}
+@media(max-width:640px){.cinema{height:min(43svh,400px,calc(100svh - var(--header-height) - var(--heading-height) - 140px))}.installation-heading h1{font-size:clamp(28px,7.5vw,36px)}}
+@media(max-height:500px) and (orientation:landscape){:root{--heading-height:56px}.installation-heading h1{font-size:27px}.cinema{height:calc(100svh - var(--header-height) - var(--heading-height) - 84px)}}

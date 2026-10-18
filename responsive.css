@@ -1,0 +1,97 @@
+/* Shared device sizing for the two editorial mockups. Content stays unchanged. */
+html{width:100%;max-width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{width:100%;min-width:0;max-width:100%;overflow-wrap:break-word}
+main,section,article,figure,header,footer,nav{min-width:0}
+img,svg,video,canvas{max-width:100%}
+.site-header{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.header-pills{flex-shrink:0}.header-pills a,.header-pills button{position:relative}
+.home-selected .hero{height:calc(100svh - 88px);min-height:580px;max-width:100%}
+.home-selected .hero-title{min-width:0;width:100%}
+.home-selected .triptych{min-width:0;grid-template-columns:repeat(3,minmax(0,1fr))}
+.home-selected .triptych .door{min-width:0;min-height:0}
+.home-selected .door-label{overflow-wrap:anywhere}
+.home-selected .home-message-copy,.home-selected .home-message-title{max-width:100%}
+.home-selected .framework-era strong,.home-selected .framework-era span{max-width:100%;overflow-wrap:anywhere}
+.home-selected .home-message-actions .button{white-space:normal}
+@media(min-width:601px) and (max-width:1000px){
+  .home-selected .hero{height:auto;min-height:calc(100svh - 80px)}
+  .home-selected .triptych .door-art{aspect-ratio:3/4}
+  .home-selected .hero-title h1{font-size:clamp(40px,6vw,64px)}
+}
+@media(max-width:600px){
+  .home-selected .hero{height:calc(100svh - 80px);min-height:520px}
+  .home-selected .triptych{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(3,minmax(0,1fr))}
+  .home-selected .triptych .door{grid-template-columns:minmax(0,42fr) minmax(0,58fr)}
+  .home-selected .triptych .door-art img{width:100%;height:100%}
+  .home-selected .hero-title h1{font-size:clamp(30px,9vw,44px)}
+  .home-selected .hero-title p{max-width:100%;text-wrap:pretty}
+  .home-selected .home-screen{width:100%;padding-left:20px;padding-right:20px}
+  .home-selected .home-message-copy p{font-size:17px;line-height:1.65}
+  .home-selected .home-message-actions .button{min-height:48px}
+  .home-selected>footer{margin-top:0;padding-bottom:max(28px,env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){
+  .home-selected .site-header{gap:7px;padding-inline:12px}
+  .home-selected .site-header .brand{width:120px}
+  .home-selected .header-pills{gap:3px}
+  .home-selected .header-pill{font-size:9px;padding-inline:6px}
+  .home-selected .hero-title{padding-inline:14px}
+  .home-selected .triptych .door-label{font-size:22px;padding-inline:10px}
+}
+@media(max-height:500px) and (orientation:landscape){
+  .home-selected .hero{height:auto;min-height:0;padding-bottom:20px}
+  .home-selected .triptych{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto}
+  .home-selected .triptych .door{grid-template-columns:minmax(0,1fr);grid-template-rows:180px auto}
+  .home-selected .triptych .door-label{font-size:23px;justify-content:center;padding:12px}
+}
+@media(hover:none){
+  .home-selected .triptych .door:hover,.home-selected h1:hover,.home-selected h2:hover,.home-selected h3:hover{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-selected .hero-title,.home-selected .triptych{transform:none!important;opacity:1!important}
+}
+
+/* Device pass 2: override the early fixed-height mockup rules. */
+.home-selected{overflow-x:clip}
+.home-selected .site-header,.home-selected main,.home-selected .hero,.home-selected .triptych{width:100%;max-width:100%}
+.home-selected .hero-title h1,.home-selected .hero-title p{max-width:100%;overflow-wrap:normal;word-break:normal}
+@media(min-width:601px) and (max-width:1024px){
+  .home-selected .site-header{height:80px}
+  .home-selected .hero{height:auto!important;min-height:calc(100svh - 80px)!important;overflow:visible!important;grid-template-rows:auto auto!important;padding-bottom:28px}
+  .home-selected .hero-title{padding:34px 24px 26px}
+  .home-selected .triptych{height:auto;align-items:stretch;padding:0 24px;gap:20px}
+  .home-selected .triptych .door{grid-template-rows:auto auto}
+  .home-selected .triptych .door-art{aspect-ratio:4/5;min-height:0}
+  .home-selected .triptych .door-label{font-size:clamp(22px,3.1vw,30px);padding:14px 8px 17px}
+  .home-selected .content-section{width:100%;padding-left:clamp(28px,5vw,54px);padding-right:clamp(28px,5vw,54px)}
+  .home-selected .home-overview-heading{grid-template-columns:1fr;gap:28px;text-align:center}
+  .home-selected .home-overview-heading figure{justify-self:center;width:min(100%,820px)}
+}
+@media(max-width:600px){
+  .home-selected .site-header{height:64px;min-height:64px;padding:0 max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left));gap:8px}
+  .home-selected .site-header .brand{width:clamp(112px,34vw,136px)}
+  .home-selected .header-pills{gap:3px;min-width:0}
+  .home-selected .header-pill{min-height:30px;padding:5px 7px;font-size:9px}
+  .home-selected .audio-toggle{width:30px;min-width:30px}
+  .home-selected .hero{height:auto!important;min-height:calc(100svh - 64px)!important;overflow:visible!important;display:grid;grid-template-rows:auto auto!important;padding-bottom:18px}
+  .home-selected .hero-title{padding:24px 14px 17px}
+  .home-selected .hero-title h1{font-size:clamp(31px,10.5vw,44px);line-height:.96;letter-spacing:-.03em}
+  .home-selected .hero-title p{font-size:12px;line-height:1.4;margin-top:10px;width:min(100%,410px)}
+  .home-selected .triptych{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:none!important;height:auto;overflow:visible!important;gap:9px;padding:0 14px 10px}
+  .home-selected .triptych .door{display:grid;grid-template-columns:minmax(0,40fr) minmax(0,60fr);grid-template-rows:clamp(126px,18svh,164px);height:auto;min-height:0}
+  .home-selected .triptych .door-art{height:100%;width:100%;aspect-ratio:auto}
+  .home-selected .triptych .door-art img{width:100%;height:100%;object-fit:cover}
+  .home-selected .triptych .door-label{height:100%;min-width:0;padding:0 14px;justify-content:flex-start;text-align:left;font-size:clamp(23px,7.2vw,31px);line-height:1.02}
+  .home-selected .home-screen,.home-selected .content-section{width:100%;padding-left:20px;padding-right:20px}
+  .home-selected .home-message-title h2,.home-selected .home-overview-heading h2{overflow-wrap:normal;word-break:normal;text-wrap:balance}
+  .home-selected .home-era-details details{max-width:100%}
+  .home-selected .home-era-details summary span{min-width:0;max-width:100%}
+  .home-selected .home-era-details summary strong,.home-selected .home-era-details summary small{overflow-wrap:normal;word-break:normal}
+  .home-selected .home-message-actions .actions{width:100%}
+}
+@media(max-width:350px){
+  .home-selected .site-header .brand{width:104px}
+  .home-selected .header-pill{padding-inline:5px;font-size:8.5px}
+  .home-selected .triptych .door{grid-template-columns:minmax(0,38fr) minmax(0,62fr)}
+  .home-selected .triptych .door-label{font-size:21px;padding-inline:10px}
+}
