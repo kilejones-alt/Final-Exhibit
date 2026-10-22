@@ -10,8 +10,8 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 .entrance-controls .pill:before{inset:4px 1px;border-color:#454545}
 .entrance-controls .music{width:34px;font-size:13px}
 
-.cinema{height:min(70svh,660px,calc(100svh - 128px));max-width:1600px}
-.cinema-space{--scene-scale:inherit;transform:translate(-50%,-50%) scale(var(--scene-scale,.9)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
+.cinema{height:min(78svh,760px,calc(100svh - 96px));max-width:1680px}
+.cinema-space{--scene-scale:.96;transform:translate(-50%,-50%) scale(var(--scene-scale,.96)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
 .cinema-world{transform-style:preserve-3d}
 .cinema-plate{-webkit-backface-visibility:visible}
 .cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
@@ -24,27 +24,27 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 /* A slightly longer final hold improves legibility without changing the installation choreography. */
 @keyframes cinema-title{0%,77%,100%{opacity:0}81.5%,90%{opacity:1}94%{opacity:0}}
 
-.entry{min-height:128px;overflow:visible}
-.entry-pill{overflow:visible;border:0;animation:entry-arrival 36s linear 1 forwards}
-.entry-pill .entry-outline{position:absolute;z-index:1;inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px);pointer-events:none;overflow:visible}
+.entry{min-height:96px;overflow:visible}
+.entry-pill{min-width:88px;min-height:28px;padding:4px 15px;font-size:11.5px;letter-spacing:.08em;overflow:visible;border:0;animation:entry-arrival 36s linear 1 forwards}
+.entry-pill .entry-outline{position:absolute;z-index:1;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);pointer-events:none;overflow:visible}
 .entry-pill .entry-outline rect{fill:none;stroke:#a2a2a2;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:entry-outline-draw 36s linear 1 forwards;transition:stroke 1.8s ease}
 .entry-pill .entry-label{position:relative;z-index:2;display:inline-block;opacity:0;animation:entry-label-arrival 36s linear 1 forwards}
 .entry-pill:hover .entry-outline rect,.entry-pill:focus-visible .entry-outline rect{stroke:#dedede}
 
-@keyframes entry-arrival{0%,80%{visibility:hidden;transform:translateY(-22px)}80.01%{visibility:visible;transform:translateY(-22px)}96%,100%{visibility:visible;transform:translateY(0)}}
-@keyframes entry-outline-draw{0%,80%{opacity:0;stroke-dashoffset:1}80.01%{opacity:.2;stroke-dashoffset:1}83%{opacity:.55}96%,100%{opacity:1;stroke-dashoffset:0}}
-@keyframes entry-label-arrival{0%,94%{opacity:0;letter-spacing:.18em;transform:translateY(-2px)}98%,100%{opacity:1;letter-spacing:.09em;transform:translateY(0)}}
+@keyframes entry-arrival{0%,79%{visibility:hidden;transform:translateY(-18px)}79.01%{visibility:visible;transform:translateY(-18px)}98%,100%{visibility:visible;transform:translateY(0)}}
+@keyframes entry-outline-draw{0%,79%{opacity:0;stroke-dashoffset:1}79.01%{opacity:.16;stroke-dashoffset:1}84%{opacity:.52}98%,100%{opacity:1;stroke-dashoffset:0}}
+@keyframes entry-label-arrival{0%,95%{opacity:0;letter-spacing:.17em;transform:translateY(-2px)}99%,100%{opacity:1;letter-spacing:.08em;transform:translateY(0)}}
 
 @media(max-width:640px){
-  .cinema{--scene-scale:.275;height:min(61svh,520px,calc(100svh - 112px))}
+  .cinema{--scene-scale:.4;height:min(72svh,610px,calc(100svh - 92px))}
   .cinema-title{gap:7px;padding:18px}
   .final-title-main{font-size:clamp(36px,11.5vw,51px)}
   .final-title-sub{font-size:clamp(15px,4.5vw,20px);letter-spacing:.17em}
   .final-title-enter{font-size:10px;letter-spacing:.14em}
-  .entry{min-height:112px}
+  .entry{min-height:92px}
   .entrance-controls{padding-top:max(9px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right))}
 }
-@media(max-height:500px) and (orientation:landscape){.cinema{height:calc(100svh - 78px)}.entry{min-height:78px}.cinema-title{gap:4px}.final-title-main{font-size:34px}.final-title-sub{font-size:15px}.final-title-enter{font-size:9px}}
+@media(max-height:500px) and (orientation:landscape){.cinema{height:calc(100svh - 64px)}.entry{min-height:64px}.cinema-title{gap:4px}.final-title-main{font-size:34px}.final-title-sub{font-size:15px}.final-title-enter{font-size:9px}}
 @media(prefers-reduced-motion:reduce){
   .official-entrance .cinema-world{animation:camera 36s linear infinite!important}
   .official-entrance .cinema-triangle{display:block!important;animation:triangle 36s linear infinite!important}
