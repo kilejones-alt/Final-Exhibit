@@ -14,6 +14,75 @@ const viewer=document.getElementById('viewer');let opener;
 document.querySelectorAll('.art-open').forEach(button=>button.addEventListener('click',()=>{opener=button;const img=viewer.querySelector('img');img.src=button.dataset.image;img.alt=button.dataset.title;viewer.querySelector('p').textContent=button.dataset.title;viewer.showModal();document.body.style.overflow='hidden';}));
 if(viewer){viewer.querySelector('.close').addEventListener('click',()=>viewer.close());viewer.addEventListener('click',e=>{if(e.target===viewer)viewer.close();});viewer.addEventListener('close',()=>{document.body.style.overflow='';if(opener)opener.focus();});}
 
+/* Site-wide exhibition choreography: exact human-written copy, staged sentence by sentence. */
+if(!reduced){
+  document.documentElement.classList.add('motion-ready');
+  const main=document.querySelector('main');
+  if(main){
+    const sentenceParagraphs=[...main.querySelectorAll('p:not(.date)')].filter(paragraph=>
+      paragraph.childNodes.length===1&&paragraph.firstChild?.nodeType===Node.TEXT_NODE&&paragraph.textContent.trim().length>70
+    );
+    sentenceParagraphs.forEach(paragraph=>{
+      const original=paragraph.textContent;
+      let segments;
+      try{segments=[...new Intl.Segmenter(document.documentElement.lang||'en',{granularity:'sentence'}).segment(original)].map(item=>item.segment);}
+      catch(error){segments=original.match(/[^.!?]+(?:[.!?]+[\s\u00a0]*|$)/g)||[original];}
+      if(segments.length<2)return;
+      const fragment=document.createDocumentFragment();
+      segments.forEach((sentence,index)=>{
+        const span=document.createElement('span');
+        span.className='sentence-land';
+        span.style.setProperty('--sentence-delay',`${Math.min(index,8)*150}ms`);
+        span.textContent=sentence;
+        fragment.append(span);
+      });
+      paragraph.replaceChildren(fragment);
+    });
+
+    const revealSelector='h1,h2,h3,p,li,.artifact,.door,.libels a,.home-era-details details,.button,figure,table';
+    const revealTargets=[...main.querySelectorAll(revealSelector)].filter(element=>
+      !element.closest('dialog')&&!element.closest('[hidden]')&&!element.closest('.site-header')
+    );
+    revealTargets.forEach((element,index)=>{
+      element.dataset.museumReveal='';
+      element.style.setProperty('--museum-delay',`${(index%4)*85}ms`);
+    });
+
+    main.querySelectorAll('.artifact,.door,.libels a,.home-era-details details,.button,.era-framework,.framework-table').forEach(element=>element.classList.add('museum-lift'));
+    main.querySelectorAll('.art-open,.door-art,figure').forEach(element=>{
+      if(element.querySelector('img'))element.classList.add('museum-image-frame');
+    });
+
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        entry.target.classList.add('is-museum-visible');
+        observer.unobserve(entry.target);
+      });
+    },{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+    revealTargets.forEach(element=>observer.observe(element));
+
+    main.querySelectorAll('svg').forEach(svg=>{
+      const lines=[...svg.querySelectorAll('path,line,polyline')];
+      if(!lines.length)return;
+      svg.classList.add('museum-drawable');
+      lines.forEach((line,index)=>{
+        let length=1;
+        try{length=Math.max(1,line.getTotalLength());}catch(error){}
+        line.dataset.drawLine='';
+        line.style.setProperty('--line-length',`${length}`);
+        line.style.setProperty('--draw-delay',`${index*180}ms`);
+      });
+      const drawObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        entry.target.classList.add('is-drawn');
+        drawObserver.unobserve(entry.target);
+      }),{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+      drawObserver.observe(svg);
+    });
+  }
+}
+
 const selectedHome=document.body.classList.contains('home-selected')?document.body:null;
 if(selectedHome&&!reduced){
   document.documentElement.classList.add('js-reveal');
