@@ -15,7 +15,7 @@ document.querySelectorAll('.art-open').forEach(button=>button.addEventListener('
 if(viewer){viewer.querySelector('.close').addEventListener('click',()=>viewer.close());viewer.addEventListener('click',e=>{if(e.target===viewer)viewer.close();});viewer.addEventListener('close',()=>{document.body.style.overflow='';if(opener)opener.focus();});}
 
 /* Site-wide exhibition choreography: exact human-written copy, staged sentence by sentence. */
-if(!reduced){
+if(!reduced && 'IntersectionObserver' in window){
   document.documentElement.classList.add('motion-ready');
   const main=document.querySelector('main');
   if(main){

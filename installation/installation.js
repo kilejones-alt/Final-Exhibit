@@ -35,6 +35,12 @@ if (audio && music) {
   });
 }
 if (cinema && !reduced) {
+  // Keep the entrance reveal on the same clock as the installation when hidden.
+  const timelineElements = [...cinema.querySelectorAll('.cinema-world,.cinema-plate,.cinema-title,.cinema-triangle'),
+    ...document.querySelectorAll('.entry-pill,.entry-outline rect,.entry-label')];
+  const setTimelineState = visible => timelineElements.forEach(el => {
+    el.style.animationPlayState = visible && !document.hidden ? 'running' : 'paused';
+  });
   cinema.addEventListener('pointermove', event => {
     if (event.pointerType !== 'mouse') return;
     const rect = cinema.getBoundingClientRect();
@@ -48,17 +54,13 @@ if (cinema && !reduced) {
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       for (const entry of entries) {
-        cinema.querySelectorAll('.cinema-world,.cinema-plate,.cinema-title,.cinema-triangle').forEach(el => {
-          el.style.animationPlayState = entry.isIntersecting && !document.hidden ? 'running' : 'paused';
-        });
+        setTimelineState(entry.isIntersecting);
       }
     }, {rootMargin:'120px'}).observe(cinema);
   }
   document.addEventListener('visibilitychange', () => {
     const rect=cinema.getBoundingClientRect();
     const visible=rect.bottom>0 && rect.top<innerHeight;
-    cinema.querySelectorAll('.cinema-world,.cinema-plate,.cinema-title,.cinema-triangle').forEach(el => {
-      el.style.animationPlayState = !document.hidden && visible ? 'running' : 'paused';
-    });
+    setTimelineState(visible);
   });
 }

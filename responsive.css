@@ -95,3 +95,12 @@ img,svg,video,canvas{max-width:100%}
   .home-selected .triptych .door{grid-template-columns:minmax(0,38fr) minmax(0,62fr)}
   .home-selected .triptych .door-label{font-size:21px;padding-inline:10px}
 }
+
+/* Keep tablet image windows and labels at their natural, matched heights. */
+@media(min-width:601px) and (max-width:1024px){
+  .home-selected .hero{min-height:0!important;align-content:start}
+  .home-selected .triptych{align-items:start}
+  .home-selected .triptych .door{grid-template-rows:auto min-content}
+  .home-selected .triptych .door-label{height:auto}
+  .home-selected .home-era-details{grid-template-columns:1fr;gap:12px}
+}

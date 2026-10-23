@@ -45,10 +45,12 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
   .entrance-controls{padding-top:max(9px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right))}
 }
 @media(max-height:500px) and (orientation:landscape){.cinema{height:calc(100svh - 64px)}.entry{min-height:64px}.cinema-title{gap:4px}.final-title-main{font-size:34px}.final-title-sub{font-size:15px}.final-title-enter{font-size:9px}}
+/* Keyboard visitors can use the entrance immediately without waiting for the film. */
+.cinema-title{margin:0}
+.entry:target .entry-pill,.entry:target .entry-outline rect,.entry:target .entry-label{animation:none;visibility:visible;opacity:1;transform:none;stroke-dashoffset:0}
 @media(prefers-reduced-motion:reduce){
-  .official-entrance .cinema-world{animation:camera 36s linear infinite!important}
-  .official-entrance .cinema-triangle{display:block!important;animation:triangle 36s linear infinite!important}
-  .official-entrance .cinema-title{display:flex!important;opacity:0;animation:cinema-title 36s linear infinite!important}
-  .official-entrance .p0{animation:plate0 36s linear infinite!important}.official-entrance .p1{animation:plate1 36s linear infinite!important}.official-entrance .p2{animation:plate2 36s linear infinite!important}.official-entrance .p3{animation:plate3 36s linear infinite!important}.official-entrance .p4{animation:plate4 36s linear infinite!important}.official-entrance .p5{animation:plate5 36s linear infinite!important}.official-entrance .p6{animation:plate6 36s linear infinite!important}.official-entrance .p7{animation:plate7 36s linear infinite!important}.official-entrance .p8{animation:plate8 36s linear infinite!important}.official-entrance .p9{animation:plate9 36s linear infinite!important}.official-entrance .p10{animation:plate10 36s linear infinite!important}.official-entrance .p11{animation:plate11 36s linear infinite!important}.official-entrance .p12{animation:plate12 36s linear infinite!important}.official-entrance .p13{animation:plate13 36s linear infinite!important}.official-entrance .p14{animation:plate14 36s linear infinite!important}.official-entrance .p15{animation:plate15 36s linear infinite!important}.official-entrance .p16{animation:plate16 36s linear infinite!important}.official-entrance .p17{animation:plate17 36s linear infinite!important}.official-entrance .p18{animation:plate18 36s linear infinite!important}.official-entrance .p19{animation:plate19 36s linear infinite!important}.official-entrance .p20{animation:plate20 36s linear infinite!important}.official-entrance .p21{animation:plate21 36s linear infinite!important}.official-entrance .p22{animation:plate22 36s linear infinite!important}.official-entrance .p23{animation:plate23 36s linear infinite!important}
-  .official-entrance .entry-pill{animation:entry-arrival 36s linear 1 forwards!important}.official-entrance .entry-outline rect{animation:entry-outline-draw 36s linear 1 forwards!important}.official-entrance .entry-label{animation:entry-label-arrival 36s linear 1 forwards!important}
+  .official-entrance .cinema-title{display:flex!important;opacity:1;animation:none!important}
+  .official-entrance .cinema-world,.official-entrance .cinema-plate{animation:none!important}
+  .official-entrance .cinema-triangle{display:none!important}
+  .official-entrance .entry-pill,.official-entrance .entry-outline rect,.official-entrance .entry-label{animation:none!important;visibility:visible;opacity:1;transform:none;stroke-dashoffset:0}
 }
