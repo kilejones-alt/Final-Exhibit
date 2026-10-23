@@ -342,16 +342,17 @@ html,body{min-height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scr
 /* Site-wide museum motion system. Content stays unchanged; only its arrival and depth are staged. */
 .motion-ready [data-museum-reveal]{opacity:0;transform:translate3d(0,34px,0);filter:blur(3px);transition:opacity 1.35s ease var(--museum-delay,0ms),transform 1.8s cubic-bezier(.16,.72,.2,1) var(--museum-delay,0ms),filter 1.25s ease var(--museum-delay,0ms)}
 .motion-ready [data-museum-reveal].is-museum-visible{opacity:1;transform:translate3d(0,0,0);filter:none}
-.motion-ready .sentence-land{display:inline;opacity:0;filter:blur(2px);transition:opacity 1.2s ease var(--sentence-delay,0ms),filter 1.1s ease var(--sentence-delay,0ms)}
-.motion-ready p.is-museum-visible .sentence-land{opacity:1;filter:none}
+.motion-ready .sentence-land[data-museum-reveal]{display:inline;opacity:1;transform:none;filter:none;transition:none}
+.motion-ready .sentence-word{display:inline-block;opacity:0;translate:0 18px;transition:opacity 1.3s ease var(--sentence-delay,0ms),translate 1.8s cubic-bezier(.16,.72,.2,1) var(--sentence-delay,0ms)}
+.motion-ready .sentence-land.is-museum-visible .sentence-word{opacity:1;translate:0 0}
 .motion-ready .museum-drawable [data-draw-line]{stroke-dasharray:var(--line-length);stroke-dashoffset:var(--line-length);transition:stroke-dashoffset 3.8s cubic-bezier(.18,.62,.2,1) var(--draw-delay,0ms),opacity .8s ease var(--draw-delay,0ms)}
 .motion-ready .museum-drawable.is-drawn [data-draw-line]{stroke-dashoffset:0}
 
-.museum-lift{position:relative;will-change:transform;transition:transform 1.35s cubic-bezier(.16,.72,.2,1),filter 1.2s ease,box-shadow 1.45s ease,background-color 1.2s ease}
-.museum-image-frame img{will-change:transform,filter;transition:transform 5.5s cubic-bezier(.12,.62,.18,1),filter 1.8s ease}
+.museum-lift{position:relative;transition:transform 1.35s cubic-bezier(.16,.72,.2,1),filter 1.2s ease,box-shadow 1.45s ease,background-color 1.2s ease}
+.motion-ready main .museum-image-frame img{transition:transform 5.5s cubic-bezier(.12,.62,.18,1),filter 1.8s ease}
 @media(hover:hover) and (pointer:fine){
-  .museum-lift:hover,.museum-lift:focus-within{transform:translate3d(0,-12px,0);filter:brightness(1.08);box-shadow:0 28px 70px #000b,0 0 0 1px #ffffff1e;z-index:3}
-  .museum-image-frame:hover img,.museum-image-frame:focus-within img{transform:scale(1.07);filter:brightness(1.06) contrast(1.025)}
+  .motion-ready main .museum-lift.is-museum-visible:hover,.motion-ready main .museum-lift.is-museum-visible:focus-within{transform:translate3d(0,-12px,0);filter:brightness(1.05);box-shadow:0 28px 70px #000b,0 0 0 1px #ffffff1e;z-index:3}
+  .motion-ready main .museum-image-frame:hover img,.motion-ready main .museum-image-frame:focus-within img{transform:scale(1.07);filter:grayscale(1) brightness(1.02) contrast(1.025)}
   .artifact.museum-lift:hover{transform:translate3d(0,-9px,0)}
   .artifact.museum-lift:hover .art-open{transform:none}
 }
@@ -361,6 +362,7 @@ html,body{min-height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scr
   .museum-lift{will-change:auto}
 }
 @media(prefers-reduced-motion:reduce){
+  .motion-ready .sentence-word{opacity:1;translate:none;transition:none}
   .motion-ready [data-museum-reveal],.motion-ready .sentence-land{opacity:1;transform:none;filter:none;transition:none}
   .motion-ready .museum-drawable [data-draw-line]{stroke-dashoffset:0;transition:none}
   .museum-lift,.museum-image-frame img{transition:none;will-change:auto}

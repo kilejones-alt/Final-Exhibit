@@ -11,7 +11,7 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 .entrance-controls .music{width:34px;font-size:13px}
 
 .cinema{height:min(78svh,760px,calc(100svh - 96px));max-width:1680px}
-.cinema-space{--scene-scale:.96;transform:translate(-50%,-50%) scale(var(--scene-scale,.96)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
+.cinema-space{--scene-scale:inherit;transform:translate(-50%,-50%) scale(var(--scene-scale,.96)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
 .cinema-world{transform-style:preserve-3d}
 .cinema-plate{-webkit-backface-visibility:visible}
 .cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}

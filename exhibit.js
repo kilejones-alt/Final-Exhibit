@@ -26,22 +26,29 @@ if(!reduced){
       const original=paragraph.textContent;
       let segments;
       try{segments=[...new Intl.Segmenter(document.documentElement.lang||'en',{granularity:'sentence'}).segment(original)].map(item=>item.segment);}
-      catch(error){segments=original.match(/[^.!?]+(?:[.!?]+[\s\u00a0]*|$)/g)||[original];}
+      catch(error){segments=[original];}
       if(segments.length<2)return;
       const fragment=document.createDocumentFragment();
       segments.forEach((sentence,index)=>{
         const span=document.createElement('span');
         span.className='sentence-land';
-        span.style.setProperty('--sentence-delay',`${Math.min(index,8)*150}ms`);
-        span.textContent=sentence;
+        span.style.setProperty('--sentence-delay',`${Math.min(index,3)*120}ms`);
+        sentence.split(/(\s+)/u).forEach(part=>{
+          if(!part)return;
+          if(/^\s+$/u.test(part)){span.append(document.createTextNode(part));return;}
+          const word=document.createElement('span');
+          word.className='sentence-word';
+          word.textContent=part;
+          span.append(word);
+        });
         fragment.append(span);
       });
       paragraph.replaceChildren(fragment);
     });
 
-    const revealSelector='h1,h2,h3,p,li,.artifact,.door,.libels a,.home-era-details details,.button,figure,table';
+    const revealSelector='h1,h2,h3,p,li,.artifact,.door,.libels a,.home-era-details details,.button,figure,table,.sentence-land';
     const revealTargets=[...main.querySelectorAll(revealSelector)].filter(element=>
-      !element.closest('dialog')&&!element.closest('[hidden]')&&!element.closest('.site-header')
+      !element.closest('dialog')&&!element.closest('.site-header')&&!(element.matches('p')&&element.querySelector('.sentence-land'))
     );
     revealTargets.forEach((element,index)=>{
       element.dataset.museumReveal='';
@@ -59,16 +66,17 @@ if(!reduced){
         entry.target.classList.add('is-museum-visible');
         observer.unobserve(entry.target);
       });
-    },{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+    },{threshold:0,rootMargin:'0px 0px -6% 0px'});
     revealTargets.forEach(element=>observer.observe(element));
 
     main.querySelectorAll('svg').forEach(svg=>{
+      if(svg.closest('.era-framework'))return;
       const lines=[...svg.querySelectorAll('path,line,polyline')];
       if(!lines.length)return;
       svg.classList.add('museum-drawable');
       lines.forEach((line,index)=>{
         let length=1;
-        try{length=Math.max(1,line.getTotalLength());}catch(error){}
+        try{length=Number(line.getAttribute('pathLength'))||Math.max(1,line.getTotalLength());}catch(error){}
         line.dataset.drawLine='';
         line.style.setProperty('--line-length',`${length}`);
         line.style.setProperty('--draw-delay',`${index*180}ms`);
@@ -84,22 +92,6 @@ if(!reduced){
 }
 
 const selectedHome=document.body.classList.contains('home-selected')?document.body:null;
-if(selectedHome&&!reduced){
-  document.documentElement.classList.add('js-reveal');
-  const revealTargets=[...selectedHome.querySelectorAll('.hero-title h1,.hero-title p,.triptych .door,.home-message h2,.home-message-copy p,.home-overview-heading h2,.home-era-details details,.home-message-actions h3,.home-message-actions .button')];
-  revealTargets.forEach((element,index)=>{
-    element.dataset.reveal='';
-    element.style.setProperty('--reveal-delay',`${(index%5)*70}ms`);
-  });
-  const revealObserver=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(!entry.isIntersecting)return;
-      entry.target.classList.add('is-revealed');
-      revealObserver.unobserve(entry.target);
-    });
-  },{threshold:.14,rootMargin:'0px 0px -7% 0px'});
-  revealTargets.forEach(element=>revealObserver.observe(element));
-}
 
 /* Selected-home museum interactions: pointer depth, magnetic controls, and scroll-led staging. */
 if(selectedHome&&!reduced){
