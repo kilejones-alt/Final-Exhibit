@@ -223,3 +223,21 @@ html:not(.motion-ready) .home-selected .framework-arrow-tip{
   opacity:1;
   transition:none;
 }
+
+/* Consistent device-safe framing after the approved overview refinement. */
+.home-selected .home-overview,.home-selected .home-message,.home-selected .hero{max-width:100%;min-width:0}
+.home-selected .framework-era{min-width:0}
+.home-selected .framework-era strong,.home-selected .framework-era span{
+  max-width:100%;white-space:normal;word-break:normal;overflow-wrap:normal;
+}
+@media(max-width:600px){
+ .home-selected .home-overview{padding-inline:max(16px,env(safe-area-inset-left),env(safe-area-inset-right))}
+ .home-selected .framework-era-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .home-selected .framework-era{min-width:0}
+ .home-selected .home-era-details details{min-width:0}
+ .home-selected .home-message-actions .actions{align-items:stretch}
+}
+@media(min-width:601px) and (max-width:1024px){
+ .home-selected .home-overview{padding-inline:clamp(24px,4vw,48px)}
+ .home-selected .era-framework{max-width:100%}
+}
