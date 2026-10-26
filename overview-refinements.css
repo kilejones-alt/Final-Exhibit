@@ -200,3 +200,26 @@ html[lang="ru"] .home-selected .framework-era span{max-width:100%;line-height:1.
   .home-selected .home-era-details summary small,
   .home-selected h1,.home-selected h2,.home-selected h3{transition:none!important}
 }
+
+
+/* Progressive enhancement: only hide the framework for an entrance animation after
+   the page JS declares itself motion-ready. Without JS, retain a complete static chart. */
+html:not(.motion-ready) .home-selected .framework-inner,
+html:not(.motion-ready) .home-selected .framework-main-title,
+html:not(.motion-ready) .home-selected .framework-era strong,
+html:not(.motion-ready) .home-selected .framework-era span,
+html:not(.motion-ready) .home-selected .era-framework figcaption{
+  opacity:1;
+  transform:none;
+  clip-path:none;
+  transition:none;
+}
+html:not(.motion-ready) .home-selected .framework-branches path,
+html:not(.motion-ready) .home-selected .framework-era svg path{
+  stroke-dashoffset:0;
+  transition:none;
+}
+html:not(.motion-ready) .home-selected .framework-arrow-tip{
+  opacity:1;
+  transition:none;
+}
