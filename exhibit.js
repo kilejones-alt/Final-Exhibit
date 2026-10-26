@@ -115,8 +115,8 @@ if(selectedHome&&!reduced){
     element.addEventListener('pointermove',event=>{
       if(event.pointerType==='touch')return;
       const rect=element.getBoundingClientRect();
-      const x=((event.clientX-rect.left)/rect.width-.5)*7;
-      const y=((event.clientY-rect.top)/rect.height-.5)*5;
+      const x=((event.clientX-rect.left)/rect.width-.5)*4;
+      const y=-6+((event.clientY-rect.top)/rect.height-.5)*1.5;
       element.style.translate=`${x.toFixed(2)}px ${y.toFixed(2)}px`;
     });
     element.addEventListener('pointerleave',()=>{element.style.translate='0 0';});
