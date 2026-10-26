@@ -157,3 +157,46 @@ html[lang="ru"] .home-selected .framework-era span{max-width:100%;line-height:1.
   html[lang="he"] .home-selected .framework-era strong{font-size:clamp(12px,3.5vw,16px)}
   html[lang="he"] .home-selected .framework-era span{font-size:clamp(12px,3.4vw,14px)}
 }
+
+
+/* Reliable front-facing hover depth. Independent translate survives scroll-reveal transforms. */
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .home-selected .hero-title p,
+  .home-selected .triptych .door-label,
+  .home-selected .home-era-details summary strong,
+  .home-selected .home-era-details summary small,
+  .home-selected .framework-era strong,
+  .home-selected .framework-era span{
+    transition-property:transform,translate,opacity,filter,color;
+    transition-duration:.8s,.75s,1.15s,.65s,.65s;
+    transition-timing-function:cubic-bezier(.16,.72,.2,1);
+  }
+  .home-selected .hero-title p:hover,
+  .home-selected .triptych .door:hover .door-label,
+  .home-selected .triptych .door:focus-visible .door-label,
+  .home-selected .home-era-details summary:hover strong,
+  .home-selected .home-era-details summary:hover small,
+  .home-selected .home-era-details summary:focus-visible strong,
+  .home-selected .home-era-details summary:focus-visible small,
+  .home-selected .framework-era:hover strong,
+  .home-selected .framework-era:hover span{
+    translate:0 -5px;
+    filter:brightness(1.07);
+  }
+  .home-selected h1:hover,
+  .home-selected h2:hover,
+  .home-selected h3:hover{
+    filter:brightness(1.06);
+  }
+  /* Gentle optical camera push over 5.5 seconds. */
+  .home-selected .triptych .door-art img{
+    transition:transform 5.5s cubic-bezier(.12,.62,.18,1),filter 1.8s ease;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .home-selected .triptych .door-art img,
+  .home-selected .triptych .door-label,
+  .home-selected .home-era-details summary strong,
+  .home-selected .home-era-details summary small,
+  .home-selected h1,.home-selected h2,.home-selected h3{transition:none!important}
+}
