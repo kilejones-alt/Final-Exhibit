@@ -1,7 +1,6 @@
 // Hard release guard for future exhibit slots: no dependencies required.
 import fs from 'node:fs';
 import path from 'node:path';
-import assert from 'node:assert/strict';
 const root=process.cwd();
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const languages=[
@@ -34,6 +33,8 @@ for(const filename of expected){
     check(html.includes('name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"'),label+' missing viewport fit');
     check(html.includes('name="robots" content="noindex,nofollow"')||html.includes('data-page-state="content"'),label+' blank page must remain noindex');
     for(const asset of required)check(html.includes('href="'+asset+'"'),label+' missing shared CSS '+asset);
+    for(const language of languages){const alternate="https://stopaz-exhibition.kile-jones.chatgpt.site/"+(language.lang==="en"?"":language.lang+"/")+"pages/"+filename;check(html.includes('hreflang="'+language.lang+'" href="'+alternate+'"'),label+" missing accurate "+language.lang+" alternate");}
+    check(!html.includes("${l}"),label+" contains unresolved template variable");
     check(html.includes('src="exhibit.js?v=19"'),label+' missing shared animation JS');
     check(html.includes('class="dark home-selected exhibition-future"'),label+' wrong style inheritance');
     const state=html.match(/data-page-state="(blank|content)"/)?.[1];
