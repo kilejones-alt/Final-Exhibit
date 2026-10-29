@@ -1,0 +1,243 @@
+/* Page-two treatment only. Same layout and choreography across all language mirrors. */
+.home-selected .home-overview{
+  gap:clamp(26px,3.5vw,42px);
+  padding-top:clamp(46px,6svh,84px);
+  padding-bottom:clamp(46px,6svh,78px);
+}
+.home-selected .home-overview-heading{gap:clamp(22px,3vw,34px)}
+.home-selected .era-framework{
+  width:min(100%,940px);
+  margin-inline:auto;
+  overflow:visible;
+  color:#f2f2f2;
+}
+.home-selected .framework-inner{
+  padding:clamp(8px,1.5vw,18px) clamp(8px,2.2vw,24px) 6px;
+  transition:clip-path .85s cubic-bezier(.22,.75,.28,1),opacity .65s ease,transform .85s cubic-bezier(.22,.75,.28,1);
+}
+.home-selected .framework-main-title{
+  font-family:Caslon,Georgia,serif;
+  font-weight:400;
+  font-size:clamp(48px,8.7vw,108px);
+  line-height:.99;
+  letter-spacing:-.045em;
+  margin-bottom:clamp(12px,2vw,24px);
+  transition:opacity .55s ease .16s,transform .72s cubic-bezier(.22,.75,.28,1) .16s;
+}
+.home-selected .framework-branches{
+  height:clamp(68px,8.5vw,106px);
+  margin:0 0 clamp(8px,1.2vw,16px);
+}
+.home-selected .framework-branches path{
+  transition:stroke-dashoffset 1.85s cubic-bezier(.25,.55,.25,1) .48s;
+}
+.home-selected .framework-branches path:nth-child(1),
+.home-selected .framework-branches path:nth-child(3){transition-delay:.6s}
+.home-selected .framework-branches .framework-arrow-tip{transition:opacity .4s ease 1.98s,stroke .5s ease}
+.home-selected .framework-era-row{gap:clamp(12px,3.2vw,44px)}
+.home-selected .framework-era strong{
+  font-family:Caslon,Georgia,serif;
+  font-weight:400;
+  font-size:clamp(17px,2.45vw,29px);
+  line-height:1.08;
+  letter-spacing:-.02em;
+  transform:translateY(13px);
+  transition:opacity .55s ease .94s,transform .7s cubic-bezier(.22,.75,.28,1) .94s;
+}
+.home-selected .framework-era:nth-child(2) strong{transition-delay:1.1s}
+.home-selected .framework-era:nth-child(3) strong{transition-delay:1.26s}
+.home-selected .framework-era svg{
+  height:clamp(45px,6vw,68px);
+  width:34px;
+  margin:clamp(8px,1.3vw,14px) 0 clamp(8px,1.3vw,14px);
+}
+.home-selected .framework-era svg path{
+  transition:stroke-dashoffset 1.28s cubic-bezier(.25,.55,.25,1) 1.76s;
+}
+.home-selected .framework-era:nth-child(2) svg path{transition-delay:1.94s}
+.home-selected .framework-era:nth-child(3) svg path{transition-delay:2.12s}
+.home-selected .framework-era .framework-arrow-tip{transition:opacity .35s ease 2.93s,stroke .5s ease}
+.home-selected .framework-era:nth-child(2) .framework-arrow-tip{transition-delay:3.10s,0s}
+.home-selected .framework-era:nth-child(3) .framework-arrow-tip{transition-delay:3.27s,0s}
+.home-selected .framework-era span{
+  font-family:Source,Arial,sans-serif;
+  font-weight:400;
+  font-size:clamp(14px,1.7vw,19px);
+  line-height:1.28;
+  max-width:230px;
+  text-wrap:pretty;
+  overflow-wrap:normal;
+  word-break:normal;
+  transform:translateY(12px);
+  transition:opacity .5s ease 2.58s,transform .65s cubic-bezier(.22,.75,.28,1) 2.58s;
+}
+.home-selected .framework-era:nth-child(2) span{transition-delay:2.76s}
+.home-selected .framework-era:nth-child(3) span{transition-delay:2.94s}
+.home-selected .era-framework figcaption{
+  margin-top:clamp(17px,2.3vw,26px);
+  font:12px/1.45 Source,Arial,sans-serif;
+  transition:opacity .48s ease 3.18s;
+}
+.home-selected .home-era-details{
+  gap:clamp(13px,1.9vw,24px);
+}
+.home-selected .home-era-details details{min-width:0}
+.home-selected .home-era-details summary strong{line-height:1.13}
+.home-selected .home-era-details summary small{line-height:1.44}
+@media(min-width:601px) and (max-width:1000px){
+  .home-selected .era-framework{width:min(100%,820px)}
+  .home-selected .framework-era strong{font-size:clamp(18px,2.6vw,25px)}
+  .home-selected .framework-era span{font-size:clamp(14px,1.85vw,17px)}
+}
+@media(max-width:600px){
+  .home-selected .home-overview{
+    gap:26px;
+    padding-top:clamp(36px,5svh,54px);
+    padding-bottom:clamp(38px,5svh,56px);
+  }
+  .home-selected .home-overview-heading{gap:20px}
+  .home-selected .era-framework{width:100%}
+  .home-selected .framework-inner{padding:6px 0 2px}
+  .home-selected .framework-main-title{
+    font-size:clamp(44px,12.8vw,64px);
+    margin-bottom:14px;
+  }
+  .home-selected .framework-branches{height:56px;margin-bottom:8px}
+  .home-selected .framework-era-row{gap:5px}
+  .home-selected .framework-era strong{
+    font-size:clamp(12px,3.8vw,17px);
+    line-height:1.1;
+    letter-spacing:-.025em;
+  }
+  .home-selected .framework-era svg{height:41px;width:29px;margin:7px 0 8px}
+  .home-selected .framework-era span{font-size:clamp(11.5px,3.45vw,15px);line-height:1.28}
+  .home-selected .era-framework figcaption{font-size:10px;line-height:1.4;margin-top:20px;text-align:left}
+  .home-selected .home-era-details{grid-template-columns:1fr;gap:11px}
+  .home-selected .home-era-details details{padding-inline:16px}
+}
+@media(max-width:350px){
+  .home-selected .framework-main-title{font-size:43px}
+  .home-selected .framework-era strong{font-size:12px}
+  .home-selected .framework-era span{font-size:12.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-selected .framework-inner,
+  .home-selected .framework-main-title,
+  .home-selected .framework-era strong,
+  .home-selected .framework-era span,
+  .home-selected .era-framework figcaption{opacity:1;transform:none;clip-path:none;transition:none!important}
+  .home-selected .framework-branches path,
+  .home-selected .framework-era svg path{stroke-dashoffset:0;transition:none!important}
+  .home-selected .framework-arrow-tip{opacity:1;transition:none!important}
+}
+/* Cyrillic and Hebrew headings use local-script-capable fallbacks consistently with chart headings. */
+html[lang="ru"] .home-selected h1,html[lang="ru"] .home-selected h2,html[lang="ru"] .home-selected h3,
+html[lang="ru"] .home-selected .door-label,html[lang="ru"] .home-selected .framework-main-title,
+html[lang="ru"] .home-selected .framework-era strong{font-family:Georgia,"Times New Roman",serif}
+html[lang="he"] .home-selected h1,html[lang="he"] .home-selected h2,html[lang="he"] .home-selected h3,
+html[lang="he"] .home-selected .door-label,html[lang="he"] .home-selected .framework-main-title,
+html[lang="he"] .home-selected .framework-era strong{font-family:Arial,"Noto Sans Hebrew",sans-serif}
+html[lang="he"] .home-selected .era-framework{direction:ltr}
+html[lang="he"] .home-selected .framework-era strong,html[lang="he"] .home-selected .framework-era span,
+html[lang="he"] .home-selected .era-framework figcaption{direction:rtl}
+html[lang="he"] .home-selected .framework-era span{font-family:Arial,"Noto Sans Hebrew",sans-serif}
+html[lang="he"] .home-selected .era-framework figcaption{text-align:right}
+
+/* Long translated headings need extra width without changing the branch diagram geometry. */
+html[lang="ru"] .home-selected .framework-main-title{font-size:clamp(27px,5.4vw,70px);line-height:1.08;letter-spacing:-.04em}
+html[lang="he"] .home-selected .framework-main-title{font-size:clamp(38px,7.4vw,87px);line-height:1.12;letter-spacing:0}
+html[lang="he"] .home-selected .framework-era strong{letter-spacing:0}
+html[lang="he"] .home-selected .framework-era span,
+html[lang="ru"] .home-selected .framework-era span{max-width:100%;line-height:1.35}
+@media(max-width:600px){
+  html[lang="ru"] .home-selected .framework-main-title{font-size:clamp(25px,7.1vw,35px)}
+  html[lang="he"] .home-selected .framework-main-title{font-size:clamp(34px,10vw,46px)}
+  html[lang="ru"] .home-selected .framework-era strong{font-size:clamp(11.5px,3vw,14px)}
+  html[lang="ru"] .home-selected .framework-era span{font-size:clamp(11.5px,3.1vw,14px)}
+  html[lang="he"] .home-selected .framework-era strong{font-size:clamp(12px,3.5vw,16px)}
+  html[lang="he"] .home-selected .framework-era span{font-size:clamp(12px,3.4vw,14px)}
+}
+
+
+/* Reliable front-facing hover depth. Independent translate survives scroll-reveal transforms. */
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .home-selected .hero-title p,
+  .home-selected .triptych .door-label,
+  .home-selected .home-era-details summary strong,
+  .home-selected .home-era-details summary small,
+  .home-selected .framework-era strong,
+  .home-selected .framework-era span{
+    transition-property:transform,translate,opacity,filter,color;
+    transition-duration:.8s,.75s,1.15s,.65s,.65s;
+    transition-timing-function:cubic-bezier(.16,.72,.2,1);
+  }
+  .home-selected .hero-title p:hover,
+  .home-selected .triptych .door:hover .door-label,
+  .home-selected .triptych .door:focus-visible .door-label,
+  .home-selected .home-era-details summary:hover strong,
+  .home-selected .home-era-details summary:hover small,
+  .home-selected .home-era-details summary:focus-visible strong,
+  .home-selected .home-era-details summary:focus-visible small,
+  .home-selected .framework-era:hover strong,
+  .home-selected .framework-era:hover span{
+    translate:0 -5px;
+    filter:brightness(1.07);
+  }
+  .home-selected h1:hover,
+  .home-selected h2:hover,
+  .home-selected h3:hover{
+    filter:brightness(1.06);
+  }
+  /* Gentle optical camera push over 5.5 seconds. */
+  .home-selected .triptych .door-art img{
+    transition:transform 5.5s cubic-bezier(.12,.62,.18,1),filter 1.8s ease;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .home-selected .triptych .door-art img,
+  .home-selected .triptych .door-label,
+  .home-selected .home-era-details summary strong,
+  .home-selected .home-era-details summary small,
+  .home-selected h1,.home-selected h2,.home-selected h3{transition:none!important}
+}
+
+
+/* Progressive enhancement: only hide the framework for an entrance animation after
+   the page JS declares itself motion-ready. Without JS, retain a complete static chart. */
+html:not(.motion-ready) .home-selected .framework-inner,
+html:not(.motion-ready) .home-selected .framework-main-title,
+html:not(.motion-ready) .home-selected .framework-era strong,
+html:not(.motion-ready) .home-selected .framework-era span,
+html:not(.motion-ready) .home-selected .era-framework figcaption{
+  opacity:1;
+  transform:none;
+  clip-path:none;
+  transition:none;
+}
+html:not(.motion-ready) .home-selected .framework-branches path,
+html:not(.motion-ready) .home-selected .framework-era svg path{
+  stroke-dashoffset:0;
+  transition:none;
+}
+html:not(.motion-ready) .home-selected .framework-arrow-tip{
+  opacity:1;
+  transition:none;
+}
+
+/* Consistent device-safe framing after the approved overview refinement. */
+.home-selected .home-overview,.home-selected .home-message,.home-selected .hero{max-width:100%;min-width:0}
+.home-selected .framework-era{min-width:0}
+.home-selected .framework-era strong,.home-selected .framework-era span{
+  max-width:100%;white-space:normal;word-break:normal;overflow-wrap:normal;
+}
+@media(max-width:600px){
+ .home-selected .home-overview{padding-inline:max(16px,env(safe-area-inset-left),env(safe-area-inset-right))}
+ .home-selected .framework-era-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .home-selected .framework-era{min-width:0}
+ .home-selected .home-era-details details{min-width:0}
+ .home-selected .home-message-actions .actions{align-items:stretch}
+}
+@media(min-width:601px) and (max-width:1024px){
+ .home-selected .home-overview{padding-inline:clamp(24px,4vw,48px)}
+ .home-selected .era-framework{max-width:100%}
+}

@@ -1,7 +1,7 @@
 'use strict';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const audio=document.getElementById('page-audio');
-document.querySelectorAll('.audio-toggle').forEach(button=>button.addEventListener('click',async()=>{if(!audio)return;const label=button.querySelector('.audio-label');if(audio.paused){try{await audio.play();button.setAttribute('aria-pressed','true');if(label)label.textContent='Music on';}catch(error){button.setAttribute('aria-pressed','false');}}else{audio.pause();button.setAttribute('aria-pressed','false');if(label)label.textContent='Music';}}));
+document.querySelectorAll('.audio-toggle').forEach(button=>button.addEventListener('click',async()=>{if(!audio)return;const label=button.querySelector('.audio-label');if(audio.paused){try{await audio.play();button.setAttribute('aria-pressed','true');if(label)label.textContent=label.dataset.audioOn||'Music on';}catch(error){button.setAttribute('aria-pressed','false');}}else{audio.pause();button.setAttribute('aria-pressed','false');if(label)label.textContent=label.dataset.audioOff||'Music';}}));
 const chamber=document.querySelector('.chamber');
 if(chamber&&!reduced){let frame;chamber.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{const r=chamber.getBoundingClientRect();chamber.style.setProperty('--mx',`${e.clientX-r.left}px`);chamber.style.setProperty('--my',`${e.clientY-r.top}px`);});});}
 if(!reduced)document.querySelectorAll('.door').forEach(door=>{door.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;const art=door.querySelector('.door-art'),r=art.getBoundingClientRect();art.style.setProperty('--light-x',`${e.clientX-r.left}px`);art.style.setProperty('--light-y',`${e.clientY-r.top}px`);});});
@@ -115,8 +115,8 @@ if(selectedHome&&!reduced){
     element.addEventListener('pointermove',event=>{
       if(event.pointerType==='touch')return;
       const rect=element.getBoundingClientRect();
-      const x=((event.clientX-rect.left)/rect.width-.5)*7;
-      const y=((event.clientY-rect.top)/rect.height-.5)*5;
+      const x=((event.clientX-rect.left)/rect.width-.5)*4;
+      const y=-6+((event.clientY-rect.top)/rect.height-.5)*1.5;
       element.style.translate=`${x.toFixed(2)}px ${y.toFixed(2)}px`;
     });
     element.addEventListener('pointerleave',()=>{element.style.translate='0 0';});

@@ -24,3 +24,7 @@ Corrected inherited animation scale for phone layouts, sentence-level scroll tri
 Russian and Hebrew landing pages exist. Full internal translated mirrors remain incomplete; approved translations have not been located for the full exhibit. Existing formatted paragraphs retain paragraph-level reveals when sentence splitting would alter inline markup.
 
 Social artwork uses only the existing photographs and existing title; the favicon is a simple typographic three-stroke mark. No AI imagery was generated.
+
+## Future-page hard rule
+
+[EXHIBITION_PAGE_RULES.md](EXHIBITION_PAGE_RULES.md) is mandatory for all subsequent pages. Pages 03–22 are blank numbered shells in English, Russian and Hebrew. Keep their shared styles/scripts and pass `node tools/validate-exhibit-pages.mjs`; publishing, editorial changes, and translation approval are separate gates.
