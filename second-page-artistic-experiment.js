@@ -122,11 +122,11 @@
       ghosts.forEach(({ghost,thread},index)=>{
         const target=eras[index].getBoundingClientRect();
         const startX=(index+.5)*(innerWidth/3);
-        const startY=Math.max(76,Math.min(innerHeight*.2,145));
+        const startY=Math.max(110,Math.min(targetY-210,innerHeight*.38));
         const targetX=target.left+target.width/2;
         const targetY=target.top+Math.min(44,target.height*.18);
 
-        const startW=Math.max(66,Math.min(105,innerWidth*.072));
+        const startW=Math.max(82,Math.min(122,innerWidth*.082));
         ghost.style.left=`${startX-startW/2}px`;
         ghost.style.top=`${startY}px`;
         ghost.style.setProperty('--ghost-w',`${startW}px`);
@@ -136,9 +136,9 @@
         const delay=index*130;
         ghost.animate([
           {opacity:0,transform:'translate3d(0,-14px,0) scale(.88)',filter:'blur(1px)'},
-          {opacity:.38,offset:.14,transform:'translate3d(0,0,0) scale(1)',filter:'blur(0)'},
-          {opacity:.22,offset:.66,transform:`translate3d(${(dx*.72).toFixed(1)}px,${(dy*.72).toFixed(1)}px,0) scale(.48)`,filter:'blur(.2px)'},
-          {opacity:0,transform:`translate3d(${dx.toFixed(1)}px,${dy.toFixed(1)}px,0) scale(.08,.9)`,filter:'blur(.8px)'}
+          {opacity:.58,offset:.14,transform:'translate3d(0,0,0) scale(1)',filter:'blur(0)'},
+          {opacity:.34,offset:.66,transform:`translate3d(${(dx*.72).toFixed(1)}px,${(dy*.72).toFixed(1)}px,0) scale(.48)`,filter:'blur(.2px)'},
+          {opacity:0,transform:`translate3d(${dx.toFixed(1)}px,${dy.toFixed(1)}px,0) scale(.035,1.25)`,filter:'blur(.8px)'}
         ],{duration:1450,delay,easing:'cubic-bezier(.16,.72,.2,1)',fill:'forwards'});
 
         const threadTop=startY+startW*1.15;
@@ -149,8 +149,8 @@
         thread.style.top=`${threadTop}px`;
         thread.animate([
           {opacity:0,height:'0px',transform:`rotate(${angle.toFixed(2)}deg)`},
-          {opacity:.35,height:`${Math.hypot(tx,ty)*.44}px`,offset:.48,transform:`rotate(${angle.toFixed(2)}deg)`},
-          {opacity:.62,height:`${Math.hypot(tx,ty)}px`,offset:.78,transform:`rotate(${angle.toFixed(2)}deg)`},
+          {opacity:.42,height:`${Math.hypot(tx,ty)*.44}px`,offset:.48,transform:`rotate(${angle.toFixed(2)}deg)`},
+          {opacity:.74,height:`${Math.hypot(tx,ty)}px`,offset:.78,transform:`rotate(${angle.toFixed(2)}deg)`},
           {opacity:0,height:`${Math.hypot(tx,ty)}px`,transform:`rotate(${angle.toFixed(2)}deg)`}
         ],{duration:1500,delay:delay+80,easing:'cubic-bezier(.18,.66,.24,1)',fill:'forwards'});
       });
