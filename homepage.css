@@ -14,7 +14,8 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 .cinema-space{--scene-scale:inherit;transform:translate(-50%,-50%) scale(var(--scene-scale,.96)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
 .cinema-world{transform-style:preserve-3d}
 .cinema-plate{-webkit-backface-visibility:visible}
-.official-entrance .cinema-title{opacity:1}\n.cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
+.official-entrance .cinema-title{opacity:1}
+.cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
 .cinema-title:before{content:"";position:absolute;z-index:-1;inset:10% 4%;background:radial-gradient(ellipse at center,rgba(0,0,0,.74) 0%,rgba(0,0,0,.42) 38%,transparent 72%);filter:blur(10px);pointer-events:none}
 .cinema-title>span{position:relative;z-index:1}
 .final-title-main{font-size:clamp(40px,6.35vw,92px);letter-spacing:-.035em;color:#f5f5f5}
@@ -53,4 +54,97 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
   .official-entrance .cinema-world,.official-entrance .cinema-plate{animation:none!important}
   .official-entrance .cinema-triangle{display:none!important}
   .official-entrance .entry-pill,.official-entrance .entry-outline rect,.official-entrance .entry-label{animation:none!important;visibility:visible;opacity:1;transform:none;stroke-dashoffset:0}
+}
+
+
+/* Experimental art-direction pass — isolated review branch only. */
+
+/* Pull focus gently toward the title while preserving the original 36s choreography. */
+.cinema-world{
+  animation:camera 36s linear infinite,cinema-focus-pull 36s linear infinite;
+  will-change:transform,filter;
+}
+@keyframes cinema-focus-pull{
+  0%,78%{filter:blur(0) brightness(1)}
+  81.5%,93.0556%{filter:blur(1.15px) brightness(.84)}
+  97.7778%{filter:blur(.7px) brightness(.9)}
+  100%{filter:blur(0) brightness(1)}
+}
+
+/* Keep the final tableau alive without reading as another animation. */
+.cinema-space{
+  animation:cinema-residual-life 36s ease-in-out infinite;
+}
+@keyframes cinema-residual-life{
+  0%,81.5%{translate:0 0}
+  90%{translate:.35px -.45px}
+  97.7778%{translate:.7px -1px}
+  100%{translate:0 0}
+}
+
+/* Cursor-depth offsets are written by JS using individual translate so they compose with plate transforms. */
+.cinema-plate{
+  translate:var(--depth-x,0px) var(--depth-y,0px);
+  will-change:transform,opacity,translate;
+}
+
+/* Magnetic entrance: the outline follows slightly behind the text/body. */
+.entry-pill{
+  --magnet-x:0px;
+  --magnet-y:0px;
+  --outline-lag-x:0px;
+  --outline-lag-y:0px;
+  translate:var(--magnet-x) var(--magnet-y);
+  will-change:translate;
+}
+.entry-pill .entry-outline{
+  transform:translate(var(--outline-lag-x),var(--outline-lag-y));
+  transform-origin:center;
+  will-change:transform;
+}
+
+/* Replace a generic fade with a horizontal uncover inside the completed pill. */
+.entry-pill .entry-label{
+  clip-path:inset(0 100% 0 0);
+  will-change:clip-path,opacity,letter-spacing,transform;
+}
+@keyframes entry-label-arrival{
+  0%,95%{opacity:0;clip-path:inset(0 100% 0 0);letter-spacing:.17em;transform:translateY(-2px)}
+  96.6%{opacity:.9;clip-path:inset(0 58% 0 0);letter-spacing:.135em;transform:translateY(-1px)}
+  99%,100%{opacity:1;clip-path:inset(0 0 0 0);letter-spacing:.08em;transform:translateY(0)}
+}
+
+/* One restrained light catch as the outline finishes drawing — not a sparkle. */
+.entry-pill .entry-glint{
+  fill:none;
+  stroke:#f2f2f2;
+  stroke-width:1.05;
+  vector-effect:non-scaling-stroke;
+  stroke-dasharray:.055 .945;
+  stroke-dashoffset:1.04;
+  opacity:0;
+  filter:drop-shadow(0 0 1.2px rgba(255,255,255,.32));
+  animation:entry-glint-pass 36s linear 1 forwards;
+}
+@keyframes entry-glint-pass{
+  0%,98.05%{opacity:0;stroke-dashoffset:1.04}
+  98.2%{opacity:.18}
+  98.45%{opacity:.52}
+  98.85%{opacity:.2;stroke-dashoffset:.7}
+  99.05%,100%{opacity:0;stroke-dashoffset:.64}
+}
+
+/* Touch devices keep the cinematic sequence but never imitate magnetic hover. */
+@media(hover:none),(pointer:coarse){
+  .entry-pill{translate:0 0!important}
+  .entry-pill .entry-outline{transform:none!important}
+  .cinema-plate{translate:0 0!important}
+}
+
+/* Reduced motion rests on the intended final tableau with title and completed entrance visible. */
+@media(prefers-reduced-motion:reduce){
+  .official-entrance .cinema-world{filter:blur(1px) brightness(.86)!important}
+  .official-entrance .cinema-space{translate:0 0!important}
+  .official-entrance .entry-label{clip-path:inset(0 0 0 0)!important}
+  .official-entrance .entry-glint{display:none!important}
 }
