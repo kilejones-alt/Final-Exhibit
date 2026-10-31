@@ -20,7 +20,7 @@ async function record(name, viewport, file) {
   });
   const page = await context.newPage();
   await page.goto(`http://127.0.0.1:8767/${file}`, { waitUntil: 'domcontentloaded' });
-  await sleep(1800);
+  if (file === 'index.html') await sleep(39000); else await sleep(1800);
 
   const height = await page.evaluate(() => document.documentElement.scrollHeight);
   const step = Math.max(240, Math.floor(viewport.height * 0.55));
@@ -58,6 +58,10 @@ async function record(name, viewport, file) {
     fs.renameSync(path, `qa/review-motion/${name}.webm`);
   }
 }
+
+await record('homepage-desktop-1440x900', { width: 1440, height: 900 }, 'index.html');
+await record('homepage-tablet-768x1024', { width: 768, height: 1024 }, 'index.html');
+await record('homepage-iphone-390x844', { width: 390, height: 844 }, 'index.html');
 
 await record('entrance-desktop-1440x900', { width: 1440, height: 900 }, 'entrance.html');
 await record('entrance-iphone-390x844', { width: 390, height: 844 }, 'entrance.html');
