@@ -61,6 +61,7 @@ async function record(name, viewport, file) {
 
 await record('entrance-desktop-1440x900', { width: 1440, height: 900 }, 'entrance.html');
 await record('entrance-iphone-390x844', { width: 390, height: 844 }, 'entrance.html');
+await record('entrance-tablet-768x1024', { width: 768, height: 1024 }, 'entrance.html');
 await record('antijudaism-desktop-1440x900', { width: 1440, height: 900 }, 'antijudaism.html');
 await record('antijudaism-iphone-390x844', { width: 390, height: 844 }, 'antijudaism.html');
 
