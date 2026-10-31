@@ -22,8 +22,10 @@ async function record(name,viewport){
   }
 }
 
-await record('homepage-desktop-1440x900',{width:1440,height:900});
-await record('homepage-tablet-768x1024',{width:768,height:1024});
-await record('homepage-iphone-390x844',{width:390,height:844});
+await Promise.all([
+  record('homepage-desktop-1440x900',{width:1440,height:900}),
+  record('homepage-tablet-768x1024',{width:768,height:1024}),
+  record('homepage-iphone-390x844',{width:390,height:844}),
+]);
 await browser.close();
 server.kill();
