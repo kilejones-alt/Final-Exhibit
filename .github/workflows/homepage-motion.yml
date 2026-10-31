@@ -5,6 +5,9 @@ on:
     paths:
       - '.github/workflows/homepage-motion.yml'
       - 'tools/homepage-motion.mjs'
+      - 'homepage.css'
+      - 'index.html'
+      - 'installation/**'
   workflow_dispatch:
 
 permissions:
