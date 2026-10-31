@@ -14,7 +14,7 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 .cinema-space{--scene-scale:inherit;transform:translate(-50%,-50%) scale(var(--scene-scale,.96)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
 .cinema-world{transform-style:preserve-3d}
 .cinema-plate{-webkit-backface-visibility:visible}
-.cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
+.official-entrance .cinema-title{opacity:1}\n.cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
 .cinema-title:before{content:"";position:absolute;z-index:-1;inset:10% 4%;background:radial-gradient(ellipse at center,rgba(0,0,0,.74) 0%,rgba(0,0,0,.42) 38%,transparent 72%);filter:blur(10px);pointer-events:none}
 .cinema-title>span{position:relative;z-index:1}
 .final-title-main{font-size:clamp(40px,6.35vw,92px);letter-spacing:-.035em;color:#f5f5f5}
@@ -22,7 +22,7 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 .final-title-enter{font:400 clamp(10px,1vw,14px)/1.2 Source,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#d4d4d4;margin-top:3px}
 
 /* A slightly longer final hold improves legibility without changing the installation choreography. */
-@keyframes cinema-title{0%,77%,100%{opacity:0}81.5%,90%{opacity:1}94%{opacity:0}}
+@keyframes cinema-title{0%,77%{opacity:0}81.5%,97%{opacity:1}100%{opacity:0}}
 
 .entry{min-height:96px;overflow:visible}
 .entry-pill{min-width:88px;min-height:28px;padding:4px 15px;font-size:11.5px;letter-spacing:.08em;overflow:visible;border:0;animation:entry-arrival 36s linear 1 forwards}
