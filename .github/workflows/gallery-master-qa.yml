@@ -1,16 +1,7 @@
 name: Trilingual gallery and cinematic motion QA
+# Retired gallery-master implementation; retained for manual historical QA.
+# The active gallery uses .github/workflows/gallery-all-locales-qa.yml.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'gallery-master.js'
-      - 'gallery-master.css'
-      - 'exhibit.js'
-      - 'index.html'
-      - 'he/index.html'
-      - 'ru/index.html'
-      - 'tools/gallery-master-qa.mjs'
-      - '.github/workflows/gallery-master-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
