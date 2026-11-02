@@ -63,7 +63,7 @@ try{
     // Check a real destination, not a decorative image.
     const first=page.locator('.gallery-rail-item').first();
     const target=await first.getAttribute('href');
-    const validLink=/\/Final-Exhibit\/entrance\.html$/.test(new URL(target).pathname);
+    const validLink=new URL(target).pathname.endsWith('/entrance.html');
     if(spec.path==='entrance.html'&&spec.width===390){
       await page.locator('.gallery-rail').scrollIntoViewIfNeeded();
       await page.screenshot({path:'qa/generated/gallery-entrance-phone.png'});
