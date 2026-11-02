@@ -79,11 +79,8 @@ try{
     }
     const failures=[];
     if(data.timelineCount!==10||data.timelineImages!==9)failures.push('timeline card count');
-    if(!validLink||data.links.some(url=>!url.includes('/Final-Exhibit/')))failures.push('navigation URLs');
-    if(data.images.some(url=>!url.startsWith('http://127.0.0.1:8783/Final-Exhibit/'))) {
-      // Local runner serves the repo at site root, unlike GitHub Pages subpath.
-      if(data.images.some(url=>!url.includes('/assets/')))failures.push('image URLs');
-    }
+    if(!validLink||data.links.some(url=>!new URL(url).pathname.match(/\\/(?:entrance|antijudaism|antisemitism|exhibition|colonialism|apartheid|genocide)\\.html(?:$|#)/)))failures.push('navigation URLs');
+    if(data.images.some(url=>!url.includes('/assets/')))failures.push('image URLs');
     if(data.scrollWidth>spec.width+1)failures.push('horizontal overflow');
     if(data.audioPresent&&data.audioDisplay==='none')failures.push('music hidden');
     if(data.blankShell&&!data.blankMain)failures.push('reserved page no longer blank');
