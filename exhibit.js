@@ -143,29 +143,3 @@ if(selectedHome&&!reduced){
   addEventListener('resize',requestMuseumUpdate);
   updateMuseumScene();
 }
-
-/* GALLERY MASTER BOOTSTRAP — all substantive English, Hebrew, Russian,
-   and reserved exhibition pages share the exact same performance/motion rules.
-   The original, user-controlled music is preserved. */
-(() => {
-  const current=document.currentScript;
-  const root=new URL('.',current?.src || document.baseURI);
-  if(document.querySelector('link[data-gallery-master]'))return;
-  const stylesheet=document.createElement('link');
-  stylesheet.rel='stylesheet';
-  stylesheet.href=new URL('gallery-master.css?v=4',root).href;
-  stylesheet.dataset.galleryMaster='style-v4';
-  let started=false;
-  const load=()=>{
-    if(started)return;
-    started=true;
-    const script=document.createElement('script');
-    script.src=new URL('gallery-master.js?v=4',root).href;
-    script.dataset.galleryMaster='script-v4';
-    script.async=true;
-    document.head.append(script);
-  };
-  stylesheet.addEventListener('load',load,{once:true});
-  stylesheet.addEventListener('error',load,{once:true});
-  document.head.append(stylesheet);
-})();
