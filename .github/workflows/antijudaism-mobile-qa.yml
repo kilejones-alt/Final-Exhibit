@@ -1,0 +1,30 @@
+name: Anti-Judaism iPhone visual QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'antijudaism.html'
+      - 'antijudaism-editorial-v2.css'
+      - 'tools/antijudaism-mobile-qa.mjs'
+      - '.github/workflows/antijudaism-mobile-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium
+      - run: mkdir -p qa/generated && node tools/antijudaism-mobile-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: antijudaism-iphone-and-desktop-screenshots
+          path: qa/generated/aj-*.png
+          retention-days: 7
