@@ -1,14 +1,25 @@
 /* The Three Eras exhibition: permanent pinned image-index and editorial interactions.
    Only text labels already used on live pages are exposed; no historical prose added.
-   The initial cinema opening remains free of overlays until the visitor enters. */
+   The initial cinema opening remains visually uninterrupted; the timeline follows it. */
 (() => {
   'use strict';
   const root = document.documentElement;
   const body = document.body;
-  if (!body || body.dataset.pageState === 'blank' || document.querySelector('.gallery-rail')) return;
+  if (!body || document.querySelector('.gallery-rail')) return;
   const lang = (root.lang || 'en').toLowerCase();
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const movieEntrance = body.classList.contains('official-entrance');
+  const assetRoot = new URL('.', document.currentScript?.src || document.baseURI);
+  const abs = relative => new URL(relative,assetRoot).href;
+  const localeLabels = lang==='he' ? [
+    'שלוש תקופות של שנאת יהודים','אנטי־יהדות','דחיית ישו ובהריגתו',
+    'שימוש בדמם','הרעלת בארות','אנטישמיות','אנטי־ציונות',
+    'קולוניאליזם','אפרטהייד','רצח עם'
+  ] : lang==='ru' ? [
+    'Три эпохи ненависти к евреям','Антииудаизм','убийстве Христа',
+    'убийстве христианских детей','отравлении колодцев',
+    'Антисемитизм','Антисионизм','колониализм','апартеид','геноцид'
+  ] : null;
   const items = [
     {href:'entrance.html',img:'assets/door-antijudaism-kile.jpg',index:'00',name:'The Three Eras'},
     {href:'antijudaism.html',img:'assets/antijudaism-1.jpg',index:'I',name:'Anti-Judaism'},
@@ -19,7 +30,7 @@
     {href:'exhibition.html',img:'assets/door-antizionism-naya-source.jpg',index:'III',name:'Antizionism'},
     {href:'colonialism.html',img:'assets/naya-sayegh-1965.webp',index:'04',name:'Colonialism'},
     {href:'apartheid.html',img:'assets/naya-efimovsky-zionism-racism-1976.webp',index:'05',name:'Apartheid'},
-    {href:'genocide.html',img:'assets/timeline-unga-3379-1975.jpg',index:'06',name:'Genocide'}
+    {href:'genocide.html',img:null,index:'06',name:'Genocide'}
   ];
   const el=(tag,className)=>{
     const result=document.createElement(tag);
@@ -27,7 +38,7 @@
     return result;
   };
   const rail=el('nav','gallery-rail');
-  rail.setAttribute('aria-label','Exhibition illustrated timeline');
+  rail.setAttribute('aria-label',lang==='he'?'שלוש תקופות של שנאת יהודים':lang==='ru'?'Три эпохи ненависти к евреям':'The Three Eras of Jew-Hatred');
   rail.dataset.galleryRail='v1';
   if(lang==='he')rail.dir='rtl';
   if(lang!=='en')rail.classList.add('gallery-rail-compact');
@@ -35,26 +46,33 @@
   rail.appendChild(track);
 
   const links=[];
-  for(const item of items){
+  for(const [i,item] of items.entries()){
+    const name=localeLabels?.[i] || item.name;
     const link=el('a','gallery-rail-item');
     // All URLs are local and derived from existing exhibition routes and objects.
-    link.href=item.href;
-    link.title=item.name;
-    link.setAttribute('aria-label',item.name);
+    link.href=abs(item.href);
+    link.title=name;
+    link.lang=lang;
+    link.setAttribute('aria-label',name);
     link.dataset.galleryTarget=item.href;
     const pic=el('span','gallery-rail-picture');
-    const img=document.createElement('img');
-    img.src=item.img;
-    img.alt='';
-    img.width=36;img.height=51;
-    img.decoding='async';
-    img.loading='lazy';
-    pic.appendChild(img);
+    if(item.img){
+      const img=document.createElement('img');
+      img.src=abs(item.img);
+      img.alt='';
+      img.width=36;img.height=51;
+      img.decoding='async';
+      img.loading='lazy';
+      pic.appendChild(img);
+    } else {
+      pic.classList.add('no-object');
+      // No unrelated archival image is assigned to a historical category.
+    }
     const label=el('span','gallery-rail-label');
     const num=el('span','gallery-rail-index');
     num.textContent=item.index;
     const title=el('span','gallery-rail-title');
-    title.textContent=item.name;
+    title.textContent=name;
     label.append(num,title);
     link.append(pic,label);
     track.appendChild(link);
@@ -136,7 +154,7 @@
     if(!parent?.id)continue;
     const target=el('a','gallery-libel-title-link');
     target.href='#'+parent.id;
-    target.setAttribute('aria-label','Jump to '+title.textContent);
+    target.setAttribute('aria-label',title.textContent);
     while(title.firstChild)target.appendChild(title.firstChild);
     title.appendChild(target);
   }
