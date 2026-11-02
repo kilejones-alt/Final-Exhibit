@@ -159,3 +159,21 @@ img{height:auto}
  .gallery-rail-picture img{filter:grayscale(.6) brightness(.95)}
 }
 @media(prefers-reduced-motion:reduce){.gallery-rail{backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* One cinematic 5.7s arrival on touch — equivalent to a desktop hover.
+   This only starts as a real object enters view, never autoplaying indefinitely. */
+@media(hover:none),(pointer:coarse){
+ main :is(.door-art,.art-open,.aj-object,figure){overflow:hidden}
+ main :is(.door-art,.art-open,.aj-object,figure) img{
+   transform:scale(1);
+   transform-origin:center center;
+   transition:transform 5.7s cubic-bezier(.15,.7,.19,1),filter 1.8s ease!important
+ }
+ main :is(.door-art,.art-open,.aj-object,figure).gallery-mobile-arrived img{
+   transform:scale(1.052);
+   filter:brightness(1.07)
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ main .gallery-mobile-arrived img{transform:none!important;filter:none!important}
+}
