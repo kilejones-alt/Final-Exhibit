@@ -55,12 +55,15 @@ function draw(n){
  if(n===current)return;
  current=n;
  const s=S[n];
- const image=images[1-active];
+ const isFirst=current===0&&!draw.hasDrawn;
+ const image=isFirst?images[active]:images[1-active];
  image.style.transform='translate3d(0,0,0) scale(1.006)';
  image.src=s.photo;
+ image.alt=s.title+' — historical archival artwork';
  image.classList.add('visible');
- images[active].classList.remove('visible');
- active=1-active;
+ if(!isFirst){images[active].classList.remove('visible');active=1-active}
+ draw.hasDrawn=true;
+ $('interlude').setAttribute('aria-hidden',n===8?'false':'true');
  art.style.setProperty('--museum-art','url("'+s.photo+'")');
  halo.src=s.photo;
  theater.classList.toggle('is-typographic',n===8);
