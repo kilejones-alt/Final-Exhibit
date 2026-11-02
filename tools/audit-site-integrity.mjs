@@ -24,7 +24,7 @@ for (const file of htmlFiles) {
   const base = source.match(/<base\s+href=["']([^"']+)["']/i)?.[1] ?? './';
   for (const match of source.matchAll(/\b(?:src|href|poster)=["']([^"']+)["']/gi)) {
     const value = match[1].trim();
-    if (!value || value.startsWith('#') || isExternal(value)) continue;
+    if (!value || value.startsWith('#') || isExternal(value) || /^(?:\.{1,2}\/)+$/.test(value)) continue;
     const target = resolve(file,base,value);
     if (target && !files.has(target) && !files.has(target.replace(/\/$/,'') + '/index.html') && ![...files].some(p => p.startsWith(target.replace(/\/$/,'')+'/'))) {
       problems.push(file + ': missing ' + value + ' -> ' + target);
