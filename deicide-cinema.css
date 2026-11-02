@@ -74,3 +74,9 @@
  .deicide-screen,.deicide-frame,.deicide-progress span,.deicide-nav,.deicide-sound{transition:none!important;animation:none!important;}
  .deicide-frame img{transform:none!important;}
 }
+
+/* Museum caption transitions: text appears at the pace of each historical frame. */
+@keyframes deicide-caption-reveal{0%{opacity:0;transform:translate3d(0,9px,0);filter:blur(2px)}100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}}
+.deicide-caption.is-revealing .deicide-caption-date,.deicide-caption.is-revealing strong{animation:deicide-caption-reveal .9s cubic-bezier(.22,.72,.22,1) both}
+.deicide-caption.is-revealing strong{animation-delay:.11s}
+@media(prefers-reduced-motion:reduce){.deicide-caption.is-revealing .deicide-caption-date,.deicide-caption.is-revealing strong{animation:none!important}}
