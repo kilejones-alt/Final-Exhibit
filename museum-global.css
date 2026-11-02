@@ -313,3 +313,17 @@ html:has(body.museum-gallery-enabled:not(.official-entrance)){
  }
 }
 @media(max-height:500px) and (orientation:landscape){:root{--museum-pinned-height:96px}}
+
+/* Mobile soundtrack control hit area. Match the 44px cinematic landing target,
+   without widening other pills or changing historic navigation text. */
+@media(hover:none),(pointer:coarse){
+ body:not(.official-entrance) .site-header .audio-toggle{
+  min-width:44px!important;width:44px!important;
+  min-height:44px!important;height:44px!important;
+  flex:0 0 44px!important;
+  display:inline-flex!important;align-items:center;justify-content:center;
+  padding:0!important;
+  border-radius:999px;
+  touch-action:manipulation
+ }
+}
