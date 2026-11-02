@@ -39,6 +39,19 @@
  const pad=t=>String(Math.floor(t)).padStart(2,'0');
  const fmt=s=>pad(Math.floor(s/60))+':'+pad(Math.floor(s%60));
  const DUR_FULL=438,DUR_SHORT=133;
+ // Download the short cut once so seeking never depends on static-host byte ranges.
+ let quickReady=null;
+ function prepareQuickAudio(){
+   if(shortAudio.src.startsWith('blob:'))return Promise.resolve();
+   if(!quickReady){
+     quickReady=fetch(new URL('assets/deicide-cinema/deicide_quick_ambient.m4a',document.baseURI))
+       .then(r=>{if(!r.ok)throw Error('Short score unavailable');return r.arrayBuffer();})
+       .then(buffer=>{shortAudio.src=URL.createObjectURL(new Blob([buffer],{type:'audio/mp4'}));shortAudio.load();})
+       .catch(err=>{quickReady=null;throw err;});
+   }
+   return quickReady;
+ }
+
  // Reassemble the unchanged AAC source from lossless binary parts. Splitting only
  // keeps each immutable GitHub Pages asset under the connector upload limit.
  let fullAudioReady=null;
@@ -158,6 +171,7 @@
        start.textContent='BEGIN NARRATED SCREENING';
        if(!opened)return;
      }
+     if(nextMode==='quick'&&!noAudio)await prepareQuickAudio();
      if(!noAudio)await activeAudio.play();
      startRequested=false;updateSound();
      clock.textContent='00:00 / '+fmt(nextMode==='quick'?DUR_SHORT:DUR_FULL);

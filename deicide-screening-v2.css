@@ -76,3 +76,7 @@ body.deicide-modal-open{overflow:hidden!important}
  .deicide-cinema *, .deicide-cinema *:before,.deicide-cinema *:after{transition-duration:.01ms!important;animation-duration:.01ms!important}
  .deicide-cinema .deicide-frame img{transform:none!important}
 }
+
+/* After a screening ends, leave a genuinely clickable replay invitation. */
+.deicide-cinema.is-dismissed:not(.is-open) .deicide-screening-gate{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.deicide-cinema.is-dismissed:not(.is-open) .deicide-screening-replay:not([hidden]){z-index:24;display:block}
