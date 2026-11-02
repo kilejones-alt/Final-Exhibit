@@ -122,9 +122,9 @@
       ghosts.forEach(({ghost,thread},index)=>{
         const target=eras[index].getBoundingClientRect();
         const startX=(index+.5)*(innerWidth/3);
-        const startY=Math.max(110,Math.min(targetY-210,innerHeight*.38));
         const targetX=target.left+target.width/2;
         const targetY=target.top+Math.min(44,target.height*.18);
+        const startY=Math.max(110,Math.min(targetY-210,innerHeight*.38));
 
         const startW=Math.max(82,Math.min(122,innerWidth*.082));
         ghost.style.left=`${startX-startW/2}px`;
