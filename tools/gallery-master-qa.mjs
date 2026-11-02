@@ -79,7 +79,7 @@ try{
     }
     const failures=[];
     if(data.timelineCount!==10||data.timelineImages!==9)failures.push('timeline card count');
-    if(!validLink||data.links.some(url=>!new URL(url).pathname.match(/\\/(?:entrance|antijudaism|antisemitism|exhibition|colonialism|apartheid|genocide)\\.html(?:$|#)/)))failures.push('navigation URLs');
+    if(!validLink||data.links.some(url=>!['entrance.html','antijudaism.html','antisemitism.html','exhibition.html','colonialism.html','apartheid.html','genocide.html'].some(name=>new URL(url).pathname.endsWith('/'+name))))failures.push('navigation URLs');
     if(data.images.some(url=>!url.includes('/assets/')))failures.push('image URLs');
     if(data.scrollWidth>spec.width+1)failures.push('horizontal overflow');
     if(data.audioPresent&&data.audioDisplay==='none')failures.push('music hidden');
