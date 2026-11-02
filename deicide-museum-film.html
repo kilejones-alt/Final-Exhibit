@@ -1,184 +1,57 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#000000"><title>Deicide — Historical Film</title><style>
-:root{color-scheme:dark;--black:#030304;--ivory:#f0ece8;--muted:#b0a7a5;--garnet:#a8797b}
-*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;overflow:hidden;background:#000;color:var(--ivory)}
-body{font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
-button{font-family:Arial,Helvetica,sans-serif}button:focus-visible{outline:2px solid #f2e9e4;outline-offset:4px}
-.theater{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:400px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
-.theater::before{content:"";position:absolute;inset:0;z-index:-5;background:radial-gradient(ellipse at 43% 45%,#191416 0%,#070608 55%,#000 86%);opacity:0;transition:opacity 2.6s ease}
-.theater.open::before{opacity:1}
-.halo{position:absolute;z-index:-3;inset:-15%;width:130%;height:130%;object-fit:cover;opacity:0;filter:blur(100px) brightness(.14) grayscale(.85);transform:scale(1.12);transition:opacity 2s ease,transform 12s ease;pointer-events:none}
-.theater.open .halo{opacity:.40;transform:scale(1.03)}
-.darkness{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 40% 41%,transparent 5%,rgba(0,0,0,.62) 70%,#000 96%);pointer-events:none;opacity:0;transition:opacity 2s ease}
-.theater.open .darkness{opacity:1}
-.stage{position:relative;width:min(1640px,95vw);height:min(83svh,890px);min-height:0;display:grid;grid-template-columns:minmax(0,1.34fr) minmax(280px,.66fr);align-items:center;gap:clamp(32px,5vw,94px);opacity:0;transform:scale(.85) translateY(18px);transition:transform 2.6s cubic-bezier(.16,.77,.2,1),opacity 2s ease}
-.theater.open .stage{opacity:1;transform:scale(1) translateY(0)}
-.image-hold{position:relative;display:grid;place-items:center;height:auto;aspect-ratio:1040/547;max-height:min(70svh,760px);min-height:0;width:100%;overflow:hidden;background:#0b0a0b;box-shadow:0 40px 120px rgba(0,0,0,.94),0 0 0 1px rgba(233,220,217,.13);}
-.image-hold:before{content:"";position:absolute;inset:0;z-index:4;box-shadow:inset 0 0 28px 5px rgba(0,0,0,.17);pointer-events:none}
-.image-hold:after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.13),transparent 24%,transparent 76%,rgba(0,0,0,.2));}
-.image{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;will-change:transform,opacity;transition:opacity 1.65s cubic-bezier(.2,.68,.25,1);filter:grayscale(1) contrast(1.045) brightness(.94)}
-.image.visible{opacity:1}
-.interlude{display:none;position:absolute;z-index:9;inset:7%;align-items:center;justify-content:center;text-align:center;color:#e8e0dc;font:400 clamp(25px,2.6vw,44px)/1.45 Georgia,serif;letter-spacing:-.025em;text-wrap:balance}
-.theater.is-typographic .image{opacity:0!important}.theater.is-typographic .interlude{display:flex}
-.theater.is-credits .image{object-fit:contain!important;filter:grayscale(1) contrast(1.05)}
-.copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;min-height:170px;padding:20px 1vw 20px 0;position:relative}
-.copy>.chapter{font:600 clamp(10px,.9vw,12px)/1.3 Arial,Helvetica,sans-serif;letter-spacing:.23em;color:var(--garnet);text-transform:uppercase;margin:0 0 clamp(21px,3.3vh,44px)}
-.copy>.title{font:400 clamp(31px,3.8vw,65px)/1.09 Georgia,"Times New Roman",serif;letter-spacing:-.042em;color:var(--ivory);max-width:600px;margin:0 0 clamp(20px,3.4vh,40px);text-wrap:balance}
-.copy>.quote{font:400 clamp(16px,1.38vw,21px)/1.5 Georgia,"Times New Roman",serif;max-width:560px;color:var(--muted);margin:0;text-wrap:pretty}
-.copy> *{opacity:0;filter:blur(6px);transform:translateY(16px);transition:opacity 1.15s ease,filter 1.15s ease,transform 1.15s ease}
-.copy.is-shown>*{opacity:1;filter:blur(0);transform:translateY(0)}
-.copy.is-shown>.title{transition-delay:.18s}.copy.is-shown>.quote{transition-delay:.31s}
-.controls{position:absolute;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));z-index:15;display:flex;gap:8px;opacity:.6;transition:opacity .25s ease}
-.controls:hover,.controls:focus-within{opacity:1}
-.control{border:1px solid rgba(239,225,221,.38);border-radius:999px;min-height:39px;background:rgba(4,4,5,.54);color:#e9e3df;padding:10px 17px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s}
-.control:hover{border-color:rgba(255,252,251,.85);background:rgba(35,25,28,.58)}
-.bottom-control{position:absolute;z-index:15;bottom:max(18px,env(safe-area-inset-bottom));right:max(22px,env(safe-area-inset-right));opacity:.56;transition:opacity .25s}
-.bottom-control:hover,.bottom-control:focus-within{opacity:1}
-.bottom-control .control{min-height:35px;padding:9px 15px}
-.status{position:absolute;top:70px;right:20px;max-width:260px;font:400 11px/1.45 Arial,Helvetica,sans-serif;letter-spacing:.025em;color:#d8c7c6;text-align:right;z-index:20;pointer-events:none}
-.spotlight{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;background:linear-gradient(95deg,rgba(0,0,0,.20),transparent 40%,rgba(0,0,0,.45));transition:opacity 2s}
-.theater.open .spotlight{opacity:1}
-@media(max-width:850px){
-.stage{width:94vw;height:auto;max-height:calc(100svh - 125px);grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;gap:clamp(20px,4vh,42px);margin-top:10px}
-.image-hold{height:min(48svh,430px);aspect-ratio:auto;max-height:none;min-height:0;width:100%}.image{object-fit:cover;object-position:center}
-.copy{align-items:center;text-align:center;padding:1vh 2vw 4px;justify-content:flex-start;min-height:0}
-.interlude{font-size:clamp(21px,4.3vw,36px);padding:18px}
-.copy>.chapter{font-size:11px;margin:0 0 clamp(12px,2vh,22px)}
-.copy>.title{font-size:clamp(28px,5.6vw,43px);margin-bottom:clamp(10px,1.6vh,20px)}
-.copy>.quote{font-size:clamp(14px,2.5vw,18px);line-height:1.38}
-.controls{top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));gap:6px;opacity:.86}
-.control{font-size:9px;padding:9px 12px;min-height:35px}
-.bottom-control{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}
-}
-@media(max-width:420px){
-.stage{height:auto;width:94vw;grid-template-rows:auto auto;gap:clamp(24px,4vh,40px);margin-top:20px}
-.image-hold{height:min(48svh,425px);max-height:none}
-.copy>.chapter{font-size:9px;margin-bottom:11px;letter-spacing:.16em}
-.copy>.title{font-size:clamp(28px,7vw,34px);margin-bottom:12px;line-height:1.08}
-.copy>.quote{font-size:14px;line-height:1.4;max-width:95%}
-}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition-duration:.01ms!important}.image{transform:none!important}.stage{transform:none!important}}
-
-/* Exhibition-grade image fit: never sacrifice historical art to a viewport crop. */
-.image-hold{isolation:isolate;transition:box-shadow 2.2s ease}
-.image-hold::before{content:"";position:absolute;inset:-12%;z-index:0;background-image:var(--museum-art);background-position:center;background-size:cover;filter:blur(38px) brightness(.25) grayscale(1);opacity:.72;transform:scale(1.16)}
-.image{z-index:2;backface-visibility:hidden;-webkit-backface-visibility:hidden;object-fit:contain!important;object-position:center!important}
-.image-hold::after{z-index:4}
-.copy>.title,.interlude{font-family:"Iowan Old Style",Baskerville,"Palatino Linotype",Georgia,serif}
-.theater.is-typographic .interlude{padding:clamp(22px,4vw,60px)}
-@media(max-width:850px){
-  .image-hold{height:min(46svh,430px)!important}
-  .image-hold .image{object-fit:contain!important}
-  .image-hold::before{filter:blur(42px) brightness(.24) grayscale(1)}
-}
-@media(max-width:420px){
-  .image-hold{height:min(46svh,395px)!important}
-  .stage{gap:clamp(13px,2vh,26px)!important}
-  .copy>.title{font-size:clamp(26px,6.8vw,34px)!important}
-}
-
-/* Full-frame, source-preserving cinema: archival objects remain uncropped. */
-.theater{background:#010102}
-.stage{
-  width:100vw!important;height:100svh!important;max-width:none!important;
-  max-height:none!important;margin:0!important;display:block!important;gap:0!important;
-  overflow:hidden;transform:scale(.86) translateY(12px);
-  transition:transform 2.8s cubic-bezier(.16,.77,.2,1),opacity 2.15s ease
-}
-.theater.open .stage{transform:scale(1) translateY(0)}
-.image-hold{
-  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
-  max-height:none!important;min-height:0!important;aspect-ratio:auto!important;
-  border:0;box-shadow:none;display:block
-}
-.image-hold::before{
-  inset:-16%;z-index:0;filter:blur(94px) brightness(.23) saturate(1.3);
-  opacity:.83;transform:scale(1.06)
-}
-.image-hold::after{
-  z-index:4;background:linear-gradient(0deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.77) 13%,rgba(0,0,0,.18) 38%,transparent 65%),
-   linear-gradient(90deg,rgba(0,0,0,.3),transparent 38%,rgba(0,0,0,.16))
-}
-.image{
-  z-index:2;object-fit:contain!important;object-position:center center!important;
-  filter:contrast(1.16) brightness(1.07) sepia(.07)!important
-}
-.theater.is-credits .image{filter:contrast(1.09) brightness(1.03)!important}
-.copy{
-  position:absolute;z-index:8;left:clamp(22px,6vw,110px);
-  bottom:clamp(66px,9svh,134px);width:min(680px,60vw);max-width:none;
-  min-height:0;display:flex;align-items:flex-start;justify-content:flex-end;
-  padding:0 14px 0 0;text-align:left;pointer-events:none;
-  text-shadow:0 2px 22px #000,0 6px 40px #000
-}
-.copy>.chapter{font-size:clamp(10px,.85vw,12px);margin:0 0 12px;color:#d7afa8}
-.copy>.title{font-size:clamp(29px,3.45vw,56px);line-height:1.09;margin:0 0 14px}
-.copy>.quote{font-size:clamp(15px,1.32vw,19px);line-height:1.47;color:#eee7e1}
-.interlude{inset:15%;font-size:clamp(25px,3.1vw,50px)}
-.controls{opacity:.85;top:max(17px,env(safe-area-inset-top));right:max(17px,env(safe-area-inset-right))}
-.bottom-control{opacity:.82}
-@media(max-width:850px){
-  .stage{width:100vw!important;height:100svh!important;max-height:none!important;display:block!important}
-  .image-hold{height:100%!important;max-height:none!important}
-  .image{object-fit:contain!important;object-position:50% 38%!important}
-  .copy{
-    position:absolute;left:clamp(19px,5vw,35px);right:clamp(19px,5vw,35px);
-    bottom:clamp(68px,9svh,110px);width:auto;max-width:none;display:flex;
-    align-items:flex-start;text-align:left;justify-content:flex-end;padding:0
-  }
-  .copy>.chapter{font-size:10px;margin-bottom:11px}
-  .copy>.title{font-size:clamp(26px,5.5vw,43px)!important;margin-bottom:10px}
-  .copy>.quote{font-size:clamp(14px,2.4vw,18px);line-height:1.45;max-width:580px}
-  .interlude{inset:18% 10%;font-size:clamp(22px,4.2vw,36px)}
-}
-@media(max-width:420px){
-  .stage{width:100vw!important;height:100svh!important;max-height:none!important;margin:0!important}
-  .image-hold{height:100%!important}
-  .copy{left:19px;right:19px;bottom:max(74px,env(safe-area-inset-bottom) + 62px)}
-  .copy>.title{font-size:clamp(27px,6.6vw,34px)!important}
-  .copy>.quote{font-size:14px;line-height:1.42;max-width:100%}
-  .copy>.chapter{font-size:10px;margin-bottom:9px}
-  .image-hold::after{background:linear-gradient(0deg,#000 0%,rgba(0,0,0,.94) 8%,rgba(0,0,0,.55) 30%,transparent 63%)}
-  .controls{right:12px;top:max(12px,env(safe-area-inset-top))}
-}
-@media(prefers-reduced-motion:reduce){.stage{transform:none!important;transition:none!important}}
-</style></head><body><div class="theater" id="theater"><img class="halo" id="halo" alt="" aria-hidden="true"><div class="darkness"></div><div class="spotlight"></div><nav class="controls" aria-label="Film controls"><button id="narrate" class="control" aria-pressed="false">Play music</button><button id="exit" class="control">Exit ×</button></nav><div class="stage" id="stage"><div class="image-hold" id="image-hold"><div class="interlude" id="interlude">Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.</div><img class="image visible" id="image-a" alt="Historical archival artwork"><img class="image" id="image-b" alt="Historical archival artwork"></div><section class="copy" id="copy" aria-live="off"><p id="date" class="chapter"></p><h1 class="title" id="title"></h1><p class="quote" id="quote"></p></section></div><div class="bottom-control"><button id="pause" class="control" aria-label="Pause film">Pause</button></div><audio id="voice" preload="auto"></audio><div id="status" class="status" role="status"></div></div><script>const SCENES=[{"title":"THE EVOLUTION OF THE DEICIDE LIBEL","sub":"It developed over four centuries.","date":"PROLOGUE","duration":9,"move":"ascend","photo":"assets/deicide-cinema/scene_01.webp","source_time":16},{"title":"THE CRUCIFIXION","sub":"Jesus was crucified under Pontius Pilate. Crucifixion was a Roman punishment, ordered and performed under Roman authority.","date":"c. 30 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_02.webp","source_time":48},{"title":"THE SECOND TEMPLE","sub":"In 70 CE, Rome destroyed Jerusalem and the Second Temple.","date":"70 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_03.webp","source_time":97},{"title":"THE GOSPEL ACCOUNTS","sub":"“His blood be on us and on our children.”","date":"c. 85 CE","duration":9,"move":"close","photo":"assets/deicide-cinema/scene_04.webp","source_time":115},{"title":"IGNATIUS OF ANTIOCH","sub":"Around 110 CE, Ignatius of Antioch attacked Christians who continued Jewish observances.","date":"c. 110 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_05.webp","source_time":160},{"title":"HADRIAN · THE BAR KOKHBA REVOLT","sub":"After suppressing the revolt, Emperor Hadrian rebuilt Jerusalem as Aelia Capitolina and excluded Jews from the city.","date":"135 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_06.webp","source_time":190},{"title":"JUSTIN MARTYR","sub":"Justin Martyr told his Jewish interlocutor that “you had crucified him.” He also presented Christians as the “true spiritual Israel.”","date":"c. 150 CE","duration":10,"move":"close","photo":"assets/deicide-cinema/scene_07.webp","source_time":254},{"title":"MELITO OF SARDIS","sub":"Around 165, Melito of Sardis supplied one of the clearest formulations: “God has been murdered.”","date":"c. 165 CE","duration":10,"move":"ascend","photo":"assets/deicide-cinema/scene_08.webp","source_time":268},{"title":"ORIGEN","sub":"Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.","date":"c. 240 CE","duration":11,"move":"still","photo":"assets/deicide-cinema/scene_09.webp","source_time":291},{"title":"CONSTANTINE · NICAEA","sub":"The ancient libel now spoke with the voice of an emperor.","date":"325 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_10.webp","source_time":307},{"title":"THEODOSIUS I","sub":"In 380, Emperor Theodosius established Nicene Christianity as the authorized orthodoxy of the Roman Empire.","date":"380 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_11.webp","source_time":353},{"title":"JOHN CHRYSOSTOM","sub":"He called Jews “the slayers of Christ” and denounced the synagogue as a place of evil.","date":"c. 387 CE","duration":10,"move":"close","photo":"assets/deicide-cinema/scene_12.webp","source_time":364},{"title":"FROM DISPUTE TO DOCTRINE","sub":"The deicide libel had therefore completed its transformation: from local theological dispute, to collective accusation, to imperial doctrine and social policy.","date":"440 CE","duration":11,"move":"ascend","photo":"assets/deicide-cinema/scene_13.webp","source_time":411},{"title":"THE DEICIDE LIBEL","sub":"Research · Natasha H. Pein     Design · Kile Jones","date":"CREDITS","duration":8,"move":"still","photo":"assets/deicide-cinema/deicide_carousel_14.webp","source_time":null}];
-
-const S=SCENES;
-const $=id=>document.getElementById(id);
-const stage=$('stage'),theater=$('theater'),art=$('image-hold'),img=[$('image-a'),$('image-b')],halo=$('halo'),txt=$('copy'),date=$('date'),ttl=$('title'),quote=$('quote'),aud=$('voice'),sound=$('narrate'),pause=$('pause'),status=$('status');
-let offsets=[0];S.forEach(x=>offsets.push(offsets.at(-1)+x.duration));const TOTAL=offsets.at(-1);
-const hosted = new URLSearchParams(window.location.search).get('embedded') === '1';
-let time=0,last=0,current=-1,active=0,playing=!hosted,sounding=false,finishing=false,raf=0;
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function message(s){status.textContent=s;clearTimeout(message.timer);message.timer=setTimeout(()=>status.textContent='',3700)}
-function idxAt(t){for(let n=0;n<S.length;n++)if(t<offsets[n+1])return n;return S.length-1}
-function draw(n){if(n===current)return;current=n;const s=S[n];theater.classList.toggle('is-typographic',n===8);theater.classList.toggle('is-credits',n===13);let next=img[1-active],previous=img[active];next.style.transform='translate3d(0,0,0) scale(1.005)';next.src=s.photo;next.classList.add('visible');previous.classList.remove('visible');active=1-active;art.style.setProperty('--museum-art','url(\"'+s.photo+'\")');halo.src=s.photo;txt.classList.remove('is-shown');date.textContent=s.date;ttl.textContent=s.title;quote.textContent=s.sub;requestAnimationFrame(()=>{requestAnimationFrame(()=>txt.classList.add('is-shown'))})}
-function camera(n,p){if(reduced)return;const s=S[n],even=n%2===0?1:-1;let x=0,y=0,zoom=1.005;
- switch(s.move){case 'slow':zoom=1.008+p*.042;x=even*p*7;y=-p*3;break;
- case 'close':zoom=1.018+p*.056;x=even*p*6;y=p*2;break;
- case 'glide':zoom=1.005+p*.038;x=even*p*12;y=-p*3;break;
- case 'ascend':zoom=1.011+p*.038;x=-even*p*5;y=-p*11;break;
- case 'still':zoom=1.002+p*.014;x=even*p*2;break;
- default:zoom=1.01+p*.04}
- const el=img[active];el.style.transform=`translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) scale(${zoom.toFixed(4)})`;
-}
-function tick(now){if(!last)last=now;const diff=Math.max(0,Math.min(.15,(now-last)/1000));last=now;if(playing){time=sounding&&!aud.paused?Math.max(0,Math.min(TOTAL,aud.currentTime)):Math.min(TOTAL,time+diff)}if(sounding&&!aud.paused){const fadeIn=Math.min(1,Math.max(.02,aud.currentTime/2.7));const fadeOut=Math.min(1,Math.max(0,(132.8-aud.currentTime)/5.3));aud.volume=.66*fadeIn*fadeOut;}let n=idxAt(time);draw(n);camera(n,(time-offsets[n])/S[n].duration);
-if(time>=TOTAL&&!finishing){finishing=true;playing=false;sounding=false;aud.pause();pause.textContent='Replay';sound.textContent='Play music';if(window.parent!==window)window.parent.postMessage({type:'deicide-film-finished'},window.location.origin)}raf=requestAnimationFrame(tick)}
-function pauseToggle(){if(finishing){time=0;finishing=false;current=-1;playing=true;aud.currentTime=0;if(sounding)aud.play().catch(()=>{});pause.textContent='Pause';return}playing=!playing;pause.textContent=playing?'Pause':'Resume';if(sounding){if(playing)aud.play().catch(()=>{});else aud.pause()}last=0}
-async function scoreToggle(){if(sounding){sounding=false;aud.pause();sound.textContent='Play music';sound.setAttribute('aria-pressed','false');message('Music off');return}try{aud.currentTime=Math.max(0,Math.min(time,132.8));aud.volume=.2;await aud.play();sounding=true;playing=true;pause.textContent='Pause';sound.textContent='Music on';sound.setAttribute('aria-pressed','true');message('Music on')}catch(e){message('Tap Play music to enable sound')}}
-function closeFilm(){playing=false;aud.pause();if(window.parent!==window){window.parent.postMessage({type:'deicide-film-exit'},window.location.origin)}else{window.location.href='antijudaism.html#libel-02'}}
-sound.onclick=scoreToggle;pause.onclick=pauseToggle;$('exit').onclick=closeFilm;art.addEventListener('click',()=>{if(!sounding && !finishing)scoreToggle()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeFilm()}else if(e.code==='Space'&&!e.target.closest('button')){e.preventDefault();pauseToggle()}else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){time=offsets[Math.max(0,Math.min(13,idxAt(time)+(e.key==='ArrowRight'?1:-1)))]+.01;current=-1;if(sounding)aud.currentTime=time}});
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){pauseToggle()}});
-aud.addEventListener('ended',()=>{sounding=false;sound.textContent='Play music';sound.setAttribute('aria-pressed','false')});
-img.forEach((el,i)=>{el.src=S[i].photo;});S.forEach(s=>{const image=new Image();image.decoding='async';image.src=s.photo;});
-aud.src='assets/deicide-cinema/deicide_quick_ambient.m4a?edition=cinema-verbatim';aud.preload='auto';aud.load();aud.volume=0;
-window.addEventListener('message', event => {
-  if (event.origin !== window.location.origin || event.source !== window.parent) return;
-  if (event.data?.type === 'deicide-film-start' && !finishing) {
-    playing = true;
-    last = 0;
-  }
-});
-requestAnimationFrame(()=>{theater.classList.add('open');requestAnimationFrame(tick)});
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#010101">
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="The Evolution of the Deicide Libel — archival film from the Three Eras exhibition.">
+<title>The Evolution of the Deicide Libel — Historical Museum Film</title>
+<link rel="stylesheet" href="deicide-cinema-master.css?v=1">
+</head>
+<body>
+<div class="theater" id="theater" role="region" aria-label="The Evolution of the Deicide Libel historical film">
+  <img class="halo" id="halo" alt="" aria-hidden="true">
+  <div class="darkness" aria-hidden="true"></div>
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="stage" id="stage">
+    <div class="image-hold" id="image-hold" aria-label="Historical archival artwork">
+      <img class="image visible" id="image-a" alt="Historical archival artwork">
+      <img class="image" id="image-b" alt="Historical archival artwork">
+    </div>
+    <div class="interlude" id="interlude" aria-hidden="true">
+      <span class="interlude-kicker">c. 240 CE · ORIGEN</span>
+      <span class="interlude-copy">Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.</span>
+    </div>
+    <section class="copy" id="copy" aria-live="off">
+      <p class="chapter" id="date"></p>
+      <h1 class="title" id="title"></h1>
+      <p class="quote" id="quote"></p>
+    </section>
+  </div>
+  <div id="film-hud" aria-hidden="true">
+    <span class="hud-label">THE EVOLUTION OF THE DEICIDE LIBEL</span>
+    <span class="hud-rule"></span>
+    <span class="hud-counter" id="hud-counter">01 / 14</span>
+  </div>
+  <nav class="controls" aria-label="Film controls">
+    <button type="button" id="narrate" class="control" aria-pressed="false">Play music</button>
+    <button type="button" id="exit" class="control">Exit ×</button>
+  </nav>
+  <div id="transport" role="group" aria-label="Film transport">
+    <button type="button" class="transport-button" id="previous" aria-label="Previous historical card">‹</button>
+    <button type="button" class="transport-button" id="pause" aria-label="Pause film">Pause</button>
+    <div class="transport-center">
+      <div class="transport-details" aria-hidden="true"><span id="scene-name">PROLOGUE</span><span id="time-display">00:00 / 02:18</span></div>
+      <input id="progress" type="range" min="0" max="138" step="0.1" value="0" aria-label="Seek through historical film">
+    </div>
+    <button type="button" class="transport-button" id="next" aria-label="Next historical card">›</button>
+  </div>
+  <audio id="voice" preload="auto"></audio>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+</div>
+<!-- Original curated 14-scene historical titles, dates, captions, objects and order are unmodified. -->
+<script>const SCENES=[{"title":"THE EVOLUTION OF THE DEICIDE LIBEL","sub":"It developed over four centuries.","date":"PROLOGUE","duration":9,"move":"ascend","photo":"assets/deicide-cinema/scene_01.webp","source_time":16},{"title":"THE CRUCIFIXION","sub":"Jesus was crucified under Pontius Pilate. Crucifixion was a Roman punishment, ordered and performed under Roman authority.","date":"c. 30 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_02.webp","source_time":48},{"title":"THE SECOND TEMPLE","sub":"In 70 CE, Rome destroyed Jerusalem and the Second Temple.","date":"70 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_03.webp","source_time":97},{"title":"THE GOSPEL ACCOUNTS","sub":"“His blood be on us and on our children.”","date":"c. 85 CE","duration":9,"move":"close","photo":"assets/deicide-cinema/scene_04.webp","source_time":115},{"title":"IGNATIUS OF ANTIOCH","sub":"Around 110 CE, Ignatius of Antioch attacked Christians who continued Jewish observances.","date":"c. 110 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_05.webp","source_time":160},{"title":"HADRIAN · THE BAR KOKHBA REVOLT","sub":"After suppressing the revolt, Emperor Hadrian rebuilt Jerusalem as Aelia Capitolina and excluded Jews from the city.","date":"135 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_06.webp","source_time":190},{"title":"JUSTIN MARTYR","sub":"Justin Martyr told his Jewish interlocutor that “you had crucified him.” He also presented Christians as the “true spiritual Israel.”","date":"c. 150 CE","duration":10,"move":"close","photo":"assets/deicide-cinema/scene_07.webp","source_time":254},{"title":"MELITO OF SARDIS","sub":"Around 165, Melito of Sardis supplied one of the clearest formulations: “God has been murdered.”","date":"c. 165 CE","duration":10,"move":"ascend","photo":"assets/deicide-cinema/scene_08.webp","source_time":268},{"title":"ORIGEN","sub":"Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.","date":"c. 240 CE","duration":11,"move":"still","photo":"assets/deicide-cinema/scene_09.webp","source_time":291},{"title":"CONSTANTINE · NICAEA","sub":"The ancient libel now spoke with the voice of an emperor.","date":"325 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_10.webp","source_time":307},{"title":"THEODOSIUS I","sub":"In 380, Emperor Theodosius established Nicene Christianity as the authorized orthodoxy of the Roman Empire.","date":"380 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_11.webp","source_time":353},{"title":"JOHN CHRYSOSTOM","sub":"He called Jews “the slayers of Christ” and denounced the synagogue as a place of evil.","date":"c. 387 CE","duration":10,"move":"close","photo":"assets/deicide-cinema/scene_12.webp","source_time":364},{"title":"FROM DISPUTE TO DOCTRINE","sub":"The deicide libel had therefore completed its transformation: from local theological dispute, to collective accusation, to imperial doctrine and social policy.","date":"440 CE","duration":11,"move":"ascend","photo":"assets/deicide-cinema/scene_13.webp","source_time":411},{"title":"THE DEICIDE LIBEL","sub":"Research · Natasha H. Pein     Design · Kile Jones","date":"CREDITS","duration":8,"move":"still","photo":"assets/deicide-cinema/deicide_carousel_14.webp","source_time":null}];</script>
+<script src="deicide-cinema-master.js?v=1"></script>
+</body>
+</html>
