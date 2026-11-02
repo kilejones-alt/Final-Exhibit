@@ -9,6 +9,7 @@ on:
       - 'tools/second-page-browser-qa.mjs'
       - 'second-page-artistic-experiment.js'
       - 'tools/deicide-browser-smoke.mjs'
+      - 'tools/locale-browser-smoke.mjs'
       - '.github/workflows/exhibition-review-visual-qa.yml'
   workflow_dispatch:
 permissions:
@@ -28,6 +29,7 @@ jobs:
       - name: Fail on overflow, missing zoom, or JavaScript exceptions
         run: node -e 'const r=require("./qa/generated/report.json");const bad=r.filter(x=>x.initial.scrollWidth>x.width||x.after.scrollWidth>x.width||x.errors.length||!x.hover?.changed);if(bad.length){console.error(JSON.stringify(bad,null,2));process.exit(1)}'
       - run: node tools/deicide-browser-smoke.mjs
+      - run: node tools/locale-browser-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
