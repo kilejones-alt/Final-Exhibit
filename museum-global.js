@@ -131,24 +131,29 @@
     spacer.className = 'museum-gallery-spacer';
     spacer.setAttribute('aria-hidden','true');
     rail.insertAdjacentElement('afterend',spacer);
-    let pinFrame = 0;
+    let pinned = false;
+    let railHeight = Math.ceil(rail.getBoundingClientRect().height);
     const pin = () => {
-      pinFrame = 0;
       const shouldPin = window.scrollY > Math.max(0,header.offsetHeight-1);
+      // Change layout only when the header boundary is crossed. A synchronous
+      // scroll listener avoids throttled requestAnimationFrame in iOS Safari.
+      if (shouldPin === pinned) return;
+      pinned = shouldPin;
       if (shouldPin) {
-        const height = Math.ceil(rail.getBoundingClientRect().height);
-        spacer.style.height = height + 'px';
+        railHeight = Math.max(railHeight,Math.ceil(rail.getBoundingClientRect().height));
+        spacer.style.height = railHeight + 'px';
         rail.classList.add('is-pinned');
       } else {
         rail.classList.remove('is-pinned');
         spacer.style.height = '0px';
       }
     };
-    const requestPin = () => {
-      if (!pinFrame) pinFrame = requestAnimationFrame(pin);
-    };
-    window.addEventListener('scroll',requestPin,{passive:true});
-    window.addEventListener('resize',requestPin,{passive:true});
+    window.addEventListener('scroll',pin,{passive:true});
+    window.addEventListener('resize',()=>{
+      railHeight = Math.ceil(rail.getBoundingClientRect().height);
+      if(pinned)spacer.style.height=railHeight+'px';
+      pin();
+    },{passive:true});
     pin();
     requestAnimationFrame(pin);
   }
