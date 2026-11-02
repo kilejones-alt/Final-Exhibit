@@ -1,0 +1,37 @@
+name: Second page artistic transformation preview
+on:
+  push:
+    branches: [second-page-artistic-transformation-review]
+    paths:
+      - '.github/workflows/second-page-artistic-preview.yml'
+      - 'tools/second-page-artistic-preview.mjs'
+      - 'entrance.html'
+      - 'second-page-artistic-experiment.css'
+      - 'second-page-artistic-experiment.js'
+      - 'exhibit.css'
+      - 'responsive.css'
+      - 'overview-refinements.css'
+      - 'exhibit.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/second-page-artistic-preview.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: second-page-artistic-transformation-preview
+          path: qa/second-page-artistic-preview/
+          retention-days: 7
