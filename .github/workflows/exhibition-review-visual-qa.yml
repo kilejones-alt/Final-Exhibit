@@ -1,0 +1,38 @@
+name: Exhibition review visual QA
+on:
+  pull_request:
+    paths:
+      - 'entrance.html'
+      - 'he/entrance.html'
+      - 'ru/entrance.html'
+      - 'editorial-reading-review.css'
+      - 'tools/second-page-browser-qa.mjs'
+      - 'second-page-artistic-experiment.js'
+      - 'tools/deicide-browser-smoke.mjs'
+      - 'tools/locale-browser-smoke.mjs'
+      - '.github/workflows/exhibition-review-visual-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium
+      - run: mkdir -p qa/generated && node tools/second-page-browser-qa.mjs
+      - name: Fail on overflow, missing zoom, or JavaScript exceptions
+        run: node -e 'const r=require("./qa/generated/report.json");const bad=r.filter(x=>x.initial.scrollWidth>x.width||x.after.scrollWidth>x.width||x.errors.length||!x.hover?.changed);if(bad.length){console.error(JSON.stringify(bad,null,2));process.exit(1)}'
+      - run: node tools/deicide-browser-smoke.mjs
+      - run: node tools/locale-browser-smoke.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: exhibition-reading-review-viewport-qa
+          path: qa/generated/
+          retention-days: 7

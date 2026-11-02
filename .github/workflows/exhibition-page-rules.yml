@@ -15,3 +15,6 @@ jobs:
           node-version: '22'
       - name: Validate all 20 multilingual page shells
         run: node tools/validate-exhibit-pages.mjs
+
+      - name: Audit site-wide links, anchors, and Deicide assets
+        run: node tools/audit-site-integrity.mjs
