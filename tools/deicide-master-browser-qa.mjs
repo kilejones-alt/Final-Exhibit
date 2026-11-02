@@ -30,6 +30,12 @@ async function one(name,width){
    for(let i=0;i<str.length;i+=3000)console.log('FILM_PHONE_JPG '+str.slice(i,i+3000));
    console.log('FILM_PHONE_END');
   }
+  await sleep(2200);
+  const settled=await page.evaluate(()=>({frameWidth:document.querySelector('.stage').getBoundingClientRect().width,opacity:parseFloat(getComputedStyle(document.querySelector('.stage')).opacity),artVisible:[...document.querySelectorAll('.image.visible')].some(x=>parseFloat(getComputedStyle(x).opacity)>.95)}));
+  if(name==='webkit'&&width===390){
+    const b=await page.screenshot({type:'jpeg',quality:67});const str=b.toString('base64');
+    console.log('FILM_SETTLED_BEGIN');for(let i=0;i<str.length;i+=3000)console.log('FILM_SETTLED_JPG '+str.slice(i,i+3000));console.log('FILM_SETTLED_END');
+  }
   await page.locator('#pause').click();
   const pauseStart=await page.evaluate(()=>time);
   await sleep(500);
@@ -58,6 +64,7 @@ async function one(name,width){
    el.value=String(offsets[8]+.2);
    el.dispatchEvent(new Event('change',{bubbles:true}));
   });
+  await sleep(1200);
   const interlude=await page.evaluate(()=>({
     title:document.querySelector('#title').textContent,
     classOn:document.querySelector('#theater').classList.contains('is-typographic'),
@@ -83,7 +90,7 @@ async function one(name,width){
     image:[...document.querySelectorAll('.image.visible')].at(-1)?.src,
     loaded:[...document.querySelectorAll('.image.visible')].some(x=>x.complete&&x.naturalWidth>0)
   }));
-  const result={name,width,opening,pauseStart,pauseEnd,jump,music,before,interlude,credits,errors};
+  const result={name,width,opening,settled,pauseStart,pauseEnd,jump,music,before,interlude,credits,errors};
   report.push(result);
   await page.close();
  }finally{await browser.close()}
@@ -93,7 +100,7 @@ try{
 }finally{server.kill()}
 fs.writeFileSync('qa/generated/deicide-master-report.json',JSON.stringify(report,null,2));
 console.log('FILM_REPORT '+JSON.stringify(report));
-const failures=report.filter(r=>r.errors.length||r.opening.scrollWidth>r.width||r.opening.frameWidth<r.width*.99||!r.opening.imageLoaded||Math.abs(r.pauseStart-r.pauseEnd)>.15||
+const failures=report.filter(r=>r.errors.length||r.opening.scrollWidth>r.width||r.opening.frameWidth<r.width*.80||r.settled.frameWidth<r.width*.99||r.settled.opacity<.98||!r.settled.artVisible||!r.opening.imageLoaded||Math.abs(r.pauseStart-r.pauseEnd)>.15||
  !r.jump.title.includes('JUSTIN MARTYR')||!r.jump.art?.includes('scene_07')||
  Math.abs(r.music.time-r.before)>1.8||r.music.paused||!r.music.source.includes('deicide_quick_ambient')||
  !r.interlude.classOn||r.interlude.displayed==='none'||!r.credits.classOn||!r.credits.loaded||r.credits.copyDisplay!=='none');
