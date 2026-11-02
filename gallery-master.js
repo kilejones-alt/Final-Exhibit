@@ -165,4 +165,22 @@
     img.decoding='async';
     if(index>2&&!img.hasAttribute('fetchpriority'))img.loading='lazy';
   });
+
+  // On touch devices there is no hover. A photograph begins one restrained
+  // 5.7s camera-in when its actual gallery frame first enters the viewport.
+  // Never animate the 36s 3D opening or the dedicated full-screen film.
+  if(!reduced && 'IntersectionObserver' in window &&
+     matchMedia('(hover:none), (pointer:coarse)').matches){
+    const frames=[...document.querySelectorAll(
+      'main .door-art, main .art-open, main .aj-object, main .artifact figure, main .editorial-art figure, main figure'
+    )].filter(frame=>frame.querySelector('img')&&!frame.closest('.cinema,.gallery-rail,.deicide-film-host'));
+    const watcher=new IntersectionObserver(entries=>{
+      for(const entry of entries){
+        if(!entry.isIntersecting)continue;
+        entry.target.classList.add('gallery-mobile-arrived');
+        watcher.unobserve(entry.target);
+      }
+    },{threshold:0,rootMargin:'0px 0px -18% 0px'});
+    frames.forEach(frame=>watcher.observe(frame));
+  }
 })();
