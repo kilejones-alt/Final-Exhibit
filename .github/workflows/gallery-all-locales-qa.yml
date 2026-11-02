@@ -18,6 +18,8 @@ on:
       - 'he/entrance.html'
       - 'ru/entrance.html'
       - 'tools/gallery-all-locales-qa.mjs'
+      - 'tools/gallery-music-qa.mjs'
+      - 'homepage.css'
       - '.github/workflows/gallery-all-locales-qa.yml'
   workflow_dispatch:
 permissions:
@@ -37,6 +39,8 @@ jobs:
         run: npx playwright install --with-deps chromium webkit
       - name: Test 21 artwork stops across all language entrances and screen sizes
         run: node tools/gallery-all-locales-qa.mjs
+      - name: Verify opt-in music in English Hebrew and Russian
+        run: node tools/gallery-music-qa.mjs
       - name: Save visual screenshots and findings
         uses: actions/upload-artifact@v4
         if: always()
