@@ -15,7 +15,8 @@ for(const width of [320,390,768,1440]){
   await page.goto('http://127.0.0.1:8766/antijudaism.html',{waitUntil:'domcontentloaded'});
   const button=page.locator('#deicide-film-watch');
   await button.scrollIntoViewIfNeeded();
-  await button.click();
+  await sleep(650);
+  if(await page.locator('.deicide-film-host iframe').count()===0) await button.click();
   await page.waitForSelector('.deicide-film-host iframe',{timeout:10000});
   const frame=page.frameLocator('.deicide-film-host iframe');
   await frame.locator('#theater').waitFor({state:'visible'});
