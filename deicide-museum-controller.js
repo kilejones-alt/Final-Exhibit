@@ -3,7 +3,7 @@
   'use strict';
   const section = document.getElementById('deicide-cinema');
   if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261102-v6';
+  const source = 'deicide-museum-film.html?edition=20261102-cinema-verbatim';
   const next = document.getElementById('libel-02');
   const siteAudio = document.getElementById('page-audio');
   let overlay = null, opened = false, dismissed = false, wasPlaying = false, lastFocus = null;
