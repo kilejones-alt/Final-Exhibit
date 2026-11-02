@@ -142,3 +142,13 @@
 @media(prefers-reduced-motion:reduce){
  .aj-page .aj-object img,.aj-page .aj-next-actions a{transition:none!important;transform:none!important}
 }
+
+
+/* Present the first historical object early on a phone, then continue the exact manuscript. */
+.aj-page .aj-intro-continuation{width:min(100%,800px);margin:clamp(38px,5vw,74px) 0 0;max-width:100%}
+.aj-page .aj-intro-continuation p{font:400 clamp(17px,1.27vw,19px)/1.8 Source,Georgia,serif;letter-spacing:.003em;color:#d7d2cf;max-width:69ch;margin:0 0 23px;overflow-wrap:break-word}
+.aj-page .aj-intro-continuation p:last-child{margin-bottom:0}
+@media(max-width:600px){
+ .aj-page .aj-intro-continuation{margin-top:38px}
+ .aj-page .aj-intro-continuation p{font-size:17px;line-height:1.74;margin-bottom:21px}
+}
