@@ -1,0 +1,46 @@
+name: Three-language gallery / device visual QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'museum-global.js'
+      - 'museum-global.css'
+      - 'index.html'
+      - 'entrance.html'
+      - 'antijudaism.html'
+      - 'antisemitism.html'
+      - 'exhibition.html'
+      - 'colonialism.html'
+      - 'apartheid.html'
+      - 'genocide.html'
+      - 'he/index.html'
+      - 'ru/index.html'
+      - 'he/entrance.html'
+      - 'ru/entrance.html'
+      - 'tools/gallery-all-locales-qa.mjs'
+      - '.github/workflows/gallery-all-locales-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install test runner
+        run: npm install --no-save playwright
+      - name: Install Chrome and Safari engines
+        run: npx playwright install --with-deps chromium webkit
+      - name: Test 21 artwork stops across all language entrances and screen sizes
+        run: node tools/gallery-all-locales-qa.mjs
+      - name: Save visual screenshots and findings
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: museum-gallery-en-he-ru-device-previews
+          path: qa/generated/
+          retention-days: 7
