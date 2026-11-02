@@ -32,6 +32,21 @@ try{
     const errors=[];
     page.on('pageerror',error=>errors.push(String(error)));
     await page.goto('http://127.0.0.1:8783/'+spec.path,{waitUntil:'domcontentloaded',timeout:30000});
+    if(spec.path.includes('/page-03.html')){
+      await wait(350);
+      const blank=await page.evaluate(()=>({
+        blankMain:document.querySelector('main')?.children.length===0,
+        noTimeline:document.querySelectorAll('.gallery-rail').length===0,
+        noBodyText:document.body.innerText.trim().length===0,
+        scrollWidth:document.documentElement.scrollWidth
+      }));
+      const failures=[];
+      if(!blank.blankMain||!blank.noTimeline||!blank.noBodyText)failures.push('reserved shell acquired visible content');
+      if(blank.scrollWidth>spec.width+1)failures.push('reserved shell overflow');
+      report.push({...spec,data:{lang:document.documentElement.lang, timelineCount:0, timelineImages:0,scrollWidth:blank.scrollWidth,timelineZoom:'not applicable: blank shell'},validLink:true,failures,errors});
+      await page.close();
+      continue;
+    }
     await page.locator('.gallery-rail').waitFor({state:'attached',timeout:12000});
     await wait(260);
     const data=await page.evaluate(()=>{
