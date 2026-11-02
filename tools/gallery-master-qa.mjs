@@ -43,7 +43,7 @@ try{
       const failures=[];
       if(!blank.blankMain||!blank.noTimeline||!blank.noBodyText)failures.push('reserved shell acquired visible content');
       if(blank.scrollWidth>spec.width+1)failures.push('reserved shell overflow');
-      report.push({...spec,data:{lang:document.documentElement.lang, timelineCount:0, timelineImages:0,scrollWidth:blank.scrollWidth,timelineZoom:'not applicable: blank shell'},validLink:true,failures,errors});
+      report.push({...spec,data:{lang:spec.path.startsWith('he/')?'he':spec.path.startsWith('ru/')?'ru':'en', timelineCount:0, timelineImages:0,scrollWidth:blank.scrollWidth,timelineZoom:'not applicable: blank shell'},validLink:true,failures,errors});
       await page.close();
       continue;
     }
