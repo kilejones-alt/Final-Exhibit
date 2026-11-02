@@ -90,6 +90,8 @@ opacity:0;transition:opacity 2.5s ease}
   .interlude-copy{font-size:clamp(27px,5.6vw,41px);line-height:1.27}
 }
 @media(max-width:420px){
+  #film-hud .hud-label,#film-hud .hud-rule{display:none}
+  #film-hud .hud-counter{font-size:11px;letter-spacing:.18em}
   #film-hud .hud-label{max-width:96px}
   .control{min-height:38px;font-size:10px;padding-inline:9px}
   .image{object-position:center 26%}
