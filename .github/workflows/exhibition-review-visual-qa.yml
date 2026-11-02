@@ -1,5 +1,12 @@
 name: Exhibition review visual QA
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'deicide-museum-film.html'
+      - 'deicide-museum-controller.js'
+      - 'tools/deicide-browser-smoke.mjs'
+      - '.github/workflows/exhibition-review-visual-qa.yml'
   pull_request:
     paths:
       - 'entrance.html'
