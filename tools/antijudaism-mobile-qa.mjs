@@ -47,4 +47,4 @@ try{
 }
 fs.writeFileSync('qa/generated/antijudaism-mobile-report.json',JSON.stringify(output,null,2));
 console.log('AJ_REPORT_BEGIN '+JSON.stringify(output)+' AJ_REPORT_END');
-if(output.some(x=>x.metrics.scrollWidth>x.width+.5||x.metrics.headingCount!==1||x.metrics.figures!==5||x.metrics.libels!==3||x.metrics.cycleSteps!==6||x.metrics.faqs!==3||x.failedChecks.length||x.badRects.length||x.errors.length))process.exitCode=1;
+if(output.some(x=>x.metrics.scrollWidth>x.width+.5||x.metrics.headingCount!==1||x.metrics.figures!==6||x.metrics.libels!==3||x.metrics.cycleSteps!==6||x.metrics.faqs!==3||x.failedChecks.length||x.badRects.length||x.errors.length))process.exitCode=1;
