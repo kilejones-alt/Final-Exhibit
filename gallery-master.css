@@ -133,5 +133,29 @@ img{height:auto}
  }
  .motion-ready [data-museum-reveal],.motion-ready .sentence-word{opacity:1!important;transform:none!important;translate:none!important;filter:none!important}
 }
-/* No sound controls, playback, or soundtrack anywhere in the exhibition. */
-.audio-toggle,#page-audio, .gallery-music-control{display:none!important}
+/* Visitor-controlled soundtrack remains available, including in all locales. */
+
+/* Final gallery polish — photographic timeline remains source-grounded. */
+.gallery-rail-picture{overflow:hidden;border-radius:2px}
+.gallery-rail-picture img{will-change:auto}
+.gallery-rail-item:is(:hover,:focus-visible) .gallery-rail-picture img{transform:scale(1.17)}
+.gallery-rail[dir="rtl"] .gallery-rail-track{direction:rtl}
+.gallery-rail-compact .gallery-rail-label{display:flex;max-width:130px}
+.gallery-rail-compact .gallery-rail-item{grid-template-columns:38px minmax(0,auto)}
+.gallery-rail-compact .gallery-rail-title{font-size:clamp(11px,.92vw,14px);line-height:1.25}
+.gallery-rail-picture.no-object{display:grid;place-items:center;color:#c8a99f}
+.gallery-rail-picture.no-object::after{content:"";width:5px;height:5px;border-radius:50%;background:#c8a99f;box-shadow:0 0 0 7px rgba(203,171,160,.08)}
+.gallery-libel-title-link,.gallery-heading-link{color:inherit!important;text-decoration:none}
+.gallery-libel-title-link:hover,.gallery-heading-link:hover{color:#fff!important}
+.gallery-libel-title-link:focus-visible,.gallery-heading-link:focus-visible{outline:1px solid #d8bcb2;outline-offset:5px}
+@media(max-width:640px){
+ .gallery-rail-compact .gallery-rail-label{display:none}
+ .gallery-rail-compact .gallery-rail-item{grid-template-columns:30px}
+ .gallery-rail-picture.no-object{width:30px;height:42px}
+ .gallery-rail{background:rgba(5,5,6,.97);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px)}
+}
+@media(hover:none),(pointer:coarse){
+ main :is(.door,.artifact,.aj-libel,figure,.art-open){will-change:auto}
+ .gallery-rail-picture img{filter:grayscale(.6) brightness(.95)}
+}
+@media(prefers-reduced-motion:reduce){.gallery-rail{backdrop-filter:none;-webkit-backdrop-filter:none}}
