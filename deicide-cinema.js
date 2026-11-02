@@ -13,6 +13,7 @@
  const forward=section.querySelector("#deicide-next");
  const sound=section.querySelector("#deicide-sound");
  const screen=section.querySelector("#deicide-screen");
+ const caption=section.querySelector(".deicide-caption");
  const reduced=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
  const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
  const audio=document.querySelector("#page-audio");
@@ -36,6 +37,7 @@
    activeIndex=index;frames[index].classList.add("is-active");frames[index].setAttribute("aria-hidden","false");
    currentEl.textContent=String(index+1).padStart(2,"0");
    titleEl.textContent=slides[index][0];dateEl.textContent=slides[index][1];
+   if(!reduced){caption.classList.remove("is-revealing");void caption.offsetWidth;caption.classList.add("is-revealing");}
    progressEl.style.transform="scaleX("+((index+1)/frames.length).toFixed(5)+")";
    back.disabled=index===0;forward.disabled=index===frames.length-1;
  }
@@ -53,7 +55,7 @@
  });
  async function toggleSound(){
    if(!audio)return;
-   if(audioStartedHere&&!audio.paused){
+   if(!audio.paused){
      sound.setAttribute("aria-pressed","false");sound.querySelector("span").textContent="Enable score";
      fadeAudio(0,()=>{audio.pause();audioStartedHere=false;audio.volume=.5;});
      return;
@@ -68,7 +70,26 @@
      sound.querySelector("span").textContent="Sound unavailable";
    }
  }
+ function syncSoundButtons(){
+   if(!audio)return;
+   const playing=!audio.paused&&audio.volume>.02;
+   sound.setAttribute("aria-pressed",String(playing));
+   sound.querySelector("span").textContent=playing?"Sound on":"Enable score";
+   if(!audio.paused){
+     // Keep the visitor's music toggle and the screening control visually consistent.
+     document.querySelectorAll(".audio-toggle").forEach(button=>{
+       button.setAttribute("aria-pressed","true");
+       const label=button.querySelector(".audio-label");if(label)label.textContent=label.dataset.audioOn||"Music on";
+     });
+   }else{
+     document.querySelectorAll(".audio-toggle").forEach(button=>{
+       button.setAttribute("aria-pressed","false");
+       const label=button.querySelector(".audio-label");if(label)label.textContent=label.dataset.audioOff||"Music";
+     });
+   }
+ }
  sound.addEventListener("click",toggleSound);
+ if(audio){["play","pause","volumechange","ended"].forEach(name=>audio.addEventListener(name,syncSoundButtons));syncSoundButtons();}
  if(!audio){sound.disabled=true;sound.querySelector("span").textContent="No audio available";}
  function update(){
    raf=0;
