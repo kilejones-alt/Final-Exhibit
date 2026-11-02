@@ -29,6 +29,7 @@ for(const width of [320,390,768,1440]){
   await frame.locator('#pause').click();
   const paused=await frame.locator('#pause').innerText();
   await frame.locator('#exit').click();
+  await page.locator('.deicide-film-host').waitFor({state:'detached',timeout:3500}).catch(()=>{});
   const closed=await page.locator('.deicide-film-host').count()===0;
   results.push({width,info,paused,closed,errors});
   await page.close();
