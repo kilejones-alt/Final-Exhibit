@@ -5,7 +5,7 @@
   'use strict';
   const section = document.getElementById('deicide-cinema');
   if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261102-theatrical-entry-v1&embedded=1';
+  const source = 'deicide-museum-film.html?edition=20261102-museum-master-v1&embedded=1';
   const next = document.getElementById('libel-02');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
