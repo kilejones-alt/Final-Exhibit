@@ -123,6 +123,36 @@
   else (document.querySelector('.skip') || body.firstElementChild)?.insertAdjacentElement('afterend',rail);
   body.classList.add('museum-gallery-enabled');
 
+  // Some exhibition layouts have ancestor overflow rules that disable
+  // CSS position:sticky on iOS. Pin by switching to fixed and reserve the
+  // original rail height so the reading layout never jumps.
+  if (header && !selectedEntrance) {
+    const spacer = document.createElement('div');
+    spacer.className = 'museum-gallery-spacer';
+    spacer.setAttribute('aria-hidden','true');
+    rail.insertAdjacentElement('afterend',spacer);
+    let pinFrame = 0;
+    const pin = () => {
+      pinFrame = 0;
+      const shouldPin = window.scrollY > Math.max(0,header.offsetHeight-1);
+      if (shouldPin) {
+        const height = Math.ceil(rail.getBoundingClientRect().height);
+        spacer.style.height = height + 'px';
+        rail.classList.add('is-pinned');
+      } else {
+        rail.classList.remove('is-pinned');
+        spacer.style.height = '0px';
+      }
+    };
+    const requestPin = () => {
+      if (!pinFrame) pinFrame = requestAnimationFrame(pin);
+    };
+    window.addEventListener('scroll',requestPin,{passive:true});
+    window.addEventListener('resize',requestPin,{passive:true});
+    pin();
+    requestAnimationFrame(pin);
+  }
+
   const scrollImage = (img) => {
     if (!img || img.src || !img.dataset.src) return;
     img.src = img.dataset.src;
