@@ -123,40 +123,8 @@
   else (document.querySelector('.skip') || body.firstElementChild)?.insertAdjacentElement('afterend',rail);
   body.classList.add('museum-gallery-enabled');
 
-  // Some exhibition layouts have ancestor overflow rules that disable
-  // CSS position:sticky on iOS. Pin by switching to fixed and reserve the
-  // original rail height so the reading layout never jumps.
-  if (header && !selectedEntrance) {
-    const spacer = document.createElement('div');
-    spacer.className = 'museum-gallery-spacer';
-    spacer.setAttribute('aria-hidden','true');
-    rail.insertAdjacentElement('afterend',spacer);
-    let pinned = false;
-    let railHeight = Math.ceil(rail.getBoundingClientRect().height);
-    const pin = () => {
-      const shouldPin = window.scrollY > Math.max(0,header.offsetHeight-1);
-      // Change layout only when the header boundary is crossed. A synchronous
-      // scroll listener avoids throttled requestAnimationFrame in iOS Safari.
-      if (shouldPin === pinned) return;
-      pinned = shouldPin;
-      if (shouldPin) {
-        railHeight = Math.max(railHeight,Math.ceil(rail.getBoundingClientRect().height));
-        spacer.style.height = railHeight + 'px';
-        rail.classList.add('is-pinned');
-      } else {
-        rail.classList.remove('is-pinned');
-        spacer.style.height = '0px';
-      }
-    };
-    window.addEventListener('scroll',pin,{passive:true});
-    window.addEventListener('resize',()=>{
-      railHeight = Math.ceil(rail.getBoundingClientRect().height);
-      if(pinned)spacer.style.height=railHeight+'px';
-      pin();
-    },{passive:true});
-    pin();
-    requestAnimationFrame(pin);
-  }
+  // Fixed timeline CSS is authoritative. No scroll-dependent pinning,
+  // layout spacers or frame loops: faster, and stable on mobile Safari.
 
   const scrollImage = (img) => {
     if (!img || img.src || !img.dataset.src) return;
