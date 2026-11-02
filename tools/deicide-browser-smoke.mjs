@@ -23,19 +23,22 @@ for(const width of [320,390,768,1440]){
   await sleep(1700);
   const info=await frame.locator('body').evaluate(()=>{
     const images=[...document.querySelectorAll('.image')];
-    return {controls:[...document.querySelectorAll('button')].map(e=>e.id),imageLoaded:images.some(e=>e.complete&&e.naturalWidth>0),scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,sceneCount:SCENES.length};
+    return {controls:[...document.querySelectorAll('button')].map(e=>e.id),imageLoaded:images.some(e=>e.complete&&e.naturalWidth>0),scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,sceneCount:SCENES.length,sourceCaption:SCENES[1].sub,creditsAsset:SCENES[13].photo,scoreSource:document.getElementById('voice')?.getAttribute('src')};
   });
   await page.screenshot({path:'qa/generated/deicide-'+width+'.png',fullPage:false});
+  await frame.locator('#narrate').click();
+  await sleep(900);
+  const score=await frame.locator('#voice').evaluate(a=>({playing:!a.paused,source:a.currentSrc,duration:a.duration,time:a.currentTime,readyState:a.readyState}));
   await frame.locator('#pause').click();
   const paused=await frame.locator('#pause').innerText();
   await frame.locator('#exit').click();
   await page.locator('.deicide-film-host').waitFor({state:'detached',timeout:3500}).catch(()=>{});
   const closed=await page.locator('.deicide-film-host').count()===0;
-  results.push({width,info,paused,closed,errors});
+  results.push({width,info,score,paused,closed,errors});
   await page.close();
 }
 await browser.close();
 server.kill();
 fs.writeFileSync('qa/generated/deicide-smoke.json',JSON.stringify(results,null,2));
 console.log(JSON.stringify(results,null,2));
-if(results.some(r=>r.errors.length||!r.info.imageLoaded||r.info.scrollWidth>r.info.viewport||r.info.sceneCount!==14||!r.closed))process.exitCode=1;
+if(results.some(r=>r.errors.length||!r.info.imageLoaded||r.info.scrollWidth>r.info.viewport||r.info.sceneCount!==14||!r.closed||!r.score.source.includes('deicide_quick_ambient.m4a')||!r.score.playing||!r.info.creditsAsset.endsWith('deicide_carousel_14.webp')||r.info.scoreSource.includes('narration-v6')))process.exitCode=1;
