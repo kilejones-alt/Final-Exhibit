@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stopaz-exhibition.kile-jones.chatgpt.site/sitemap.xml
+Sitemap: https://kilejones-alt.github.io/Final-Exhibit/sitemap.xml
