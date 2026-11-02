@@ -159,8 +159,9 @@
     title.appendChild(target);
   }
 
-  // Image decoding and lazy loading: keep the first image in view eager.
-  const images=[...document.querySelectorAll('main img')].filter(image=>!image.closest('.gallery-rail'));
+  // The 36-second 3D opening keeps every planned frame eagerly eligible.
+  // For regular gallery pages, lazy-load only artwork lower in the document.
+  const images=[...document.querySelectorAll('main img')].filter(image=>!image.closest('.gallery-rail,.cinema'));
   images.forEach((img,index)=>{
     img.decoding='async';
     if(index>2&&!img.hasAttribute('fetchpriority'))img.loading='lazy';
