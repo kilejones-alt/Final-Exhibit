@@ -5,7 +5,7 @@
   'use strict';
   const root = document.documentElement;
   const body = document.body;
-  if (!body || document.querySelector('.gallery-rail')) return;
+  if (!body || body.dataset.pageState === 'blank' || document.querySelector('.gallery-rail')) return;
   const lang = (root.lang || 'en').toLowerCase();
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const movieEntrance = body.classList.contains('official-entrance');
