@@ -46,6 +46,7 @@ async function check(engine,pagePath,width){
    const img=await page.screenshot({type:'jpeg',quality:68});
    const str=img.toString('base64');
    const prefix=pagePath.replace(/\W+/g,'_').toUpperCase();
+   fs.writeFileSync('qa/generated/gallery-'+prefix+'-'+(engine===webkit?'webkit':'chromium')+'-'+width+'.jpg',img);
    console.log('GALLERY_SHOT_BEGIN '+prefix);
    for(let i=0;i<str.length;i+=3500)console.log('GALLERY_SHOT_'+prefix+' '+str.slice(i,i+3500));
    console.log('GALLERY_SHOT_END '+prefix);
