@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'deicide-museum-film.html'
+      - 'deicide-cinema-master.css'
+      - 'deicide-cinema-master.js'
+      - 'tools/deicide-master-browser-qa.mjs'
       - 'antijudaism.html'
       - 'antijudaism-editorial-v2.css'
       - 'tools/antijudaism-mobile-qa.mjs'
@@ -36,11 +39,12 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-save playwright
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: mkdir -p qa/generated && node tools/second-page-browser-qa.mjs
       - name: Fail on overflow, missing zoom, or JavaScript exceptions
         run: node -e 'const r=require("./qa/generated/report.json");const bad=r.filter(x=>x.initial.scrollWidth>x.width||x.after.scrollWidth>x.width||x.errors.length||!x.hover?.changed);if(bad.length){console.error(JSON.stringify(bad,null,2));process.exit(1)}'
       - run: node tools/deicide-browser-smoke.mjs
+      - run: node tools/deicide-master-browser-qa.mjs
       - run: node tools/deicide-theatrical-entrance-qa.mjs
       - run: node tools/antijudaism-mobile-qa.mjs
       - run: node tools/locale-browser-smoke.mjs
