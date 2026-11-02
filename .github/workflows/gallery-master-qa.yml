@@ -1,0 +1,36 @@
+name: Trilingual gallery and cinematic motion QA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'gallery-master.js'
+      - 'gallery-master.css'
+      - 'exhibit.js'
+      - 'index.html'
+      - 'he/index.html'
+      - 'ru/index.html'
+      - 'tools/gallery-master-qa.mjs'
+      - '.github/workflows/gallery-master-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gallery-mobile-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node tools/gallery-master-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trilingual-gallery-safari-and-chromium
+          path: |
+            qa/generated/gallery-master-report.json
+            qa/generated/gallery-*.png
+          retention-days: 7
