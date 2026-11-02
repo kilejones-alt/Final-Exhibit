@@ -13,7 +13,7 @@ const hosted=new URLSearchParams(location.search).get('embedded')==='1';
 const offsets=[0];
 S.forEach(s=>offsets.push(offsets[offsets.length-1]+s.duration));
 const TOTAL=offsets[offsets.length-1];
-const SCORE_END=133;
+const SCORE_END=Math.min(133,TOTAL);
 const sceneCache=new Map();
 let time=0,last=0,current=-1,active=0,playing=!hosted,sounding=false,finishing=false,raf=0;
 let begun=!hosted,fadeTimer=null,finishTimer=null,seekDragging=false;
