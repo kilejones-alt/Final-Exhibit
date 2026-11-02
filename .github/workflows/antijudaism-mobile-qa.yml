@@ -6,6 +6,7 @@ on:
       - 'antijudaism.html'
       - 'antijudaism-editorial-v2.css'
       - 'tools/antijudaism-mobile-qa.mjs'
+      - 'tools/antijudaism-webkit-qa.mjs'
       - '.github/workflows/antijudaism-mobile-qa.yml'
   workflow_dispatch:
 permissions:
@@ -20,8 +21,9 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-save playwright
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium webkit
       - run: mkdir -p qa/generated && node tools/antijudaism-mobile-qa.mjs
+      - run: node tools/antijudaism-webkit-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
