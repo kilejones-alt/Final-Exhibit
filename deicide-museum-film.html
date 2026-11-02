@@ -1,169 +1,110 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="color-scheme" content="dark"><title>Deicide | Archival Film</title>
-<style>
-@font-face {font-family:'bask';src:local('Baskerville');font-display:swap}
-:root{--ivory:#ede8e0;--faint:#9b908c;--rose:#a36b64;--back:#080808;--font:Georgia,'Times New Roman',serif}
-*{box-sizing:border-box}html,body{margin:0;background:#050505;color:var(--ivory);height:100%;overflow:hidden}button{font:inherit}button:focus-visible{outline:1px solid #fff;outline-offset:4px}.screen{position:relative;width:100vw;height:100dvh;overflow:hidden;background:#050505;display:flex;align-items:center;justify-content:center;isolation:isolate}.screen::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 32% 50%,#22201e 0%,#0b0b0b 43%,#000 84%);z-index:-2}.aurora{position:absolute;inset:-9%;width:118%;height:118%;filter:blur(120px) brightness(.18) saturate(.5);opacity:.28;object-fit:cover;transform:scale(1.25);z-index:-1;transition:opacity 2s ease}.grain{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:.11;background-image:url('data:image/svg+xml,%3Csvg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity=".1"/%3E%3C/svg%3E')}.topline{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,#745655 42%,#745655 59%,transparent);opacity:.5;z-index:20}.meta{position:absolute;top:clamp(20px,4vh,42px);left:clamp(22px,5vw,82px);right:clamp(22px,5vw,82px);display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:30}.brand{display:flex;align-items:center;gap:16px;min-width:0}.mark{font-family:var(--font);font-size:24px;letter-spacing:-.1em;color:#dcd2c8}.brandline{width:1px;height:25px;background:#74645d}.eyebrow{font:500 9px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.29em;color:#c2b4af;text-transform:uppercase}.stamp{font:500 9px/1.2 Arial,sans-serif;letter-spacing:.16em;color:#857d76}.pill{font:500 10px/1 Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;background:rgba(2,2,2,.36);color:#e8e0d9;padding:12px 20px;border:1px solid #5c5250;border-radius:30px;cursor:pointer;transition:border-color .35s,color .35s,background .35s}.pill:hover{background:rgba(139,103,95,.13);border-color:#bca49b}.chapter-line{position:absolute;z-index:5;left:clamp(24px,5.4vw,95px);top:clamp(93px,16vh,145px);font:500 10px/1.3 Arial,sans-serif;letter-spacing:.32em;color:#998882;display:flex;align-items:center;gap:14px}.chapter-line::before{content:"";display:block;width:33px;height:1px;background:#965f5b}.mainframe{position:relative;z-index:8;width:min(1420px,91vw);height:min(69vh,700px);display:grid;grid-template-columns:minmax(0,1.08fr) minmax(310px,.92fr);align-items:center;gap:clamp(32px,5vw,96px);margin-top:0;perspective:1600px}.art-window{position:relative;width:100%;height:100%;max-height:680px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 20px 120px #000;border:1px solid rgba(240,218,199,.12);background:#101010;transform:scale(.82);transition:transform 4s cubic-bezier(.2,.7,.2,1),border-color 2s}.screen.in .art-window{transform:scale(1)}.art-window::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.14),transparent 15%,transparent 76%,rgba(0,0,0,.15)),linear-gradient(0deg,#090909 0%,rgba(0,0,0,0) 20%,rgba(0,0,0,0) 80%,rgba(0,0,0,.1) 100%)}.art{position:absolute;inset:-7%;width:114%;height:114%;object-fit:cover;opacity:0;transform:scale(1.03);filter:contrast(1.04) grayscale(1);transition:opacity 1.5s ease}.art.on{opacity:1}.art.right{object-position:65% center}.art.left{object-position:30% center}.art-window .darkcorner{position:absolute;inset:0;box-shadow:inset 0 0 100px 20px #060606;z-index:1;pointer-events:none;opacity:.35}.side{position:relative;z-index:10;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:620px;transform:translateY(12px);opacity:0;transition:opacity 1.5s,transform 1.5s}.side.on{opacity:1;transform:translateY(0)}.big-date{font:400 clamp(16px,2.5vw,30px)/1 Arial,sans-serif;letter-spacing:.11em;color:#98645c;margin-bottom:clamp(20px,4vh,43px)}.side-title{font:400 clamp(34px,4.15vw,68px)/1.12 var(--font);color:#e9e3dc;letter-spacing:-.047em;margin:0 0 32px}.rule{width:65px;height:1px;background:#9b5b57;margin-bottom:24px}.side-body{font:400 clamp(15px,1.35vw,20px)/1.62 var(--font);max-width:530px;color:#a9a09b;margin:0;min-height:30px}.side-foot{font:500 9px/1.35 Arial,sans-serif;letter-spacing:.2em;color:#77706b;margin-top:clamp(38px,7vh,95px);text-transform:uppercase;display:flex;gap:25px}.big-index{position:absolute;z-index:0;left:-4vw;bottom:-23vh;font:400 min(50vw,600px)/.9 var(--font);color:rgba(248,235,224,.025);pointer-events:none;user-select:none;letter-spacing:-.14em}.lowline{position:absolute;bottom:clamp(18px,4vh,37px);left:clamp(22px,5vw,82px);right:clamp(22px,5vw,82px);height:48px;z-index:30;display:flex;align-items:end;justify-content:space-between;gap:20px}.timeline{position:absolute;bottom:0;left:0;width:100%;height:1px;background:#3a3331;overflow:hidden}.fill{height:100%;background:#b99587;transform:scaleX(0);transform-origin:left;will-change:transform}.footer-number{font:500 10px/1 Arial,sans-serif;letter-spacing:.19em;color:#d0c4bd}.footer-center{font:500 10px/1 Arial,sans-serif;letter-spacing:.2em;color:#6d6260;text-transform:uppercase}.tools{display:flex;align-items:center;gap:8px}.minipill{border:0;color:#c3b9b2;background:transparent;font:500 10px Arial,sans-serif;letter-spacing:.08em;cursor:pointer;padding:12px 6px}.minipill:hover{color:#fff}.sound-btn{border:1px solid #6a5d59;padding:8px 12px;border-radius:18px;color:#ddd0c9}.pause{width:25px}.overlay{position:absolute;z-index:75;inset:0;background:rgba(0,0,0,.91);backdrop-filter:blur(15px);display:none;align-items:center;justify-content:center;padding:50px}.overlay.open{display:flex}.original{max-height:83vh;max-width:min(75vw,620px);object-fit:contain;box-shadow:0 40px 80px #000}.source-back{position:absolute;top:20px;right:20px}.intro{position:absolute;z-index:4;bottom:14vh;left:8vw;color:#958a81;letter-spacing:.17em;font:500 10px Arial,sans-serif;opacity:0;transition:opacity 2s}.intro.visible{opacity:.75}.sound-notice{position:absolute;z-index:45;top:82px;right:5vw;font:500 10px Arial;color:#baa89e;letter-spacing:.03em}.hidden{display:none!important}
-@media(max-width:850px){.mainframe{width:min(95vw,700px);grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1.2fr) minmax(0,.8fr);height:min(77vh,750px);gap:10px;margin-top:16px}.chapter-line{top:85px;font-size:9px}.art-window{height:100%;max-height:45vh}.side{align-items:center;text-align:center;max-width:98%;justify-self:center}.big-date{font-size:16px;margin-bottom:9px}.side-title{font-size:clamp(27px,5vw,39px);margin-bottom:13px}.rule{margin-bottom:11px;width:40px}.side-body{font-size:clamp(13px,2.2vw,17px);line-height:1.4;min-height:24px}.side-foot{margin-top:13px;font-size:8px}.meta{left:16px;right:16px;top:15px}.lowline{bottom:17px;left:16px;right:16px}.footer-center{display:none}.eyebrow{font-size:8px}.mark{font-size:20px}.stamp{display:none}.pill{padding:10px 12px;font-size:9px}.chapter-line{left:18px}.big-index{bottom:-17vh}.art-window{transform:scale(.9)}.art-window .darkcorner{box-shadow:inset 0 0 60px 5px #050505}.intro{display:none}}
-@media(max-width:550px){.mainframe{height:79vh;grid-template-rows:minmax(0,1.3fr) minmax(0,.76fr);gap:10px;width:92vw;margin-top:12px}.art-window{max-height:48vh}.side-title{font-size:30px}.side-body{font-size:13px}.side-foot{font-size:8px;margin-top:8px}.big-date{font-size:14px}.chapter-line{font-size:8px}.footer-number,.minipill{font-size:9px}.footer-center{display:none}.original{max-width:94vw}.source-back{top:10px;right:10px}.sound-notice{top:50px;right:15px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.art-window{transform:none!important}.art{transform:none!important}}
-</style><style>
-@media(max-width:850px){.meta{gap:8px}.meta .brand{gap:9px}.meta .eyebrow{letter-spacing:.14em}.meta .stamp{font-size:7px;letter-spacing:.06em}.meta .pill{font-size:8px;letter-spacing:.07em;padding:10px 12px}.meta >div:last-child{gap:6px!important}.lowline #sound{display:none}}
-@media(max-width:390px){.meta .brand{min-width:82px}.meta .mark{font-size:18px}.meta .eyebrow{font-size:7px}}
-</style>
-<style>
-/* Directed exhibition: only the artwork, historical text and three essential controls. */
-.mainframe{width:min(1540px,94vw);height:min(84dvh,900px);grid-template-columns:minmax(0,1.12fr) minmax(280px,.88fr);gap:clamp(25px,5vw,100px);margin:0}
-.art-window{max-height:81dvh}
-.side{max-width:690px}
-.side-title{margin-bottom:18px}
-.side-body{max-width:545px}
-.film-actions{position:fixed;z-index:70;top:max(15px,env(safe-area-inset-top));right:max(17px,env(safe-area-inset-right));display:flex;align-items:center;gap:9px;opacity:.67;transition:opacity .3s}
-.film-actions:hover,.film-actions:focus-within{opacity:1}
-.film-actions .pill{padding:11px 15px;background:rgba(5,5,5,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-color:rgba(237,222,210,.31);font-size:9px;letter-spacing:.09em}
-.film-footer{position:fixed;z-index:70;bottom:max(14px,env(safe-area-inset-bottom));right:max(18px,env(safe-area-inset-right));opacity:.55;transition:opacity .3s}
-.film-footer:hover,.film-footer:focus-within{opacity:1}
-.film-footer .minipill{font-size:10px;letter-spacing:.06em;padding:10px 12px;border:1px solid rgba(237,222,210,.28);background:rgba(5,5,5,.5);border-radius:30px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.sound-notice{top:64px;right:20px;max-width:250px;text-align:right}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#000000"><title>Deicide — Historical Film</title><style>
+:root{color-scheme:dark;--black:#030304;--ivory:#f0ece8;--muted:#b0a7a5;--garnet:#a8797b}
+*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;overflow:hidden;background:#000;color:var(--ivory)}
+body{font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
+button{font-family:Arial,Helvetica,sans-serif}button:focus-visible{outline:2px solid #f2e9e4;outline-offset:4px}
+.theater{position:relative;isolation:isolate;width:100vw;height:100svh;min-height:400px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+.theater::before{content:"";position:absolute;inset:0;z-index:-5;background:radial-gradient(ellipse at 43% 45%,#191416 0%,#070608 55%,#000 86%);opacity:0;transition:opacity 2.6s ease}
+.theater.open::before{opacity:1}
+.halo{position:absolute;z-index:-3;inset:-15%;width:130%;height:130%;object-fit:cover;opacity:0;filter:blur(100px) brightness(.14) grayscale(.85);transform:scale(1.12);transition:opacity 2s ease,transform 12s ease;pointer-events:none}
+.theater.open .halo{opacity:.40;transform:scale(1.03)}
+.darkness{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 40% 41%,transparent 5%,rgba(0,0,0,.62) 70%,#000 96%);pointer-events:none;opacity:0;transition:opacity 2s ease}
+.theater.open .darkness{opacity:1}
+.stage{position:relative;width:min(1640px,95vw);height:min(83svh,890px);min-height:0;display:grid;grid-template-columns:minmax(0,1.34fr) minmax(280px,.66fr);align-items:center;gap:clamp(32px,5vw,94px);opacity:0;transform:scale(.85) translateY(18px);transition:transform 2.6s cubic-bezier(.16,.77,.2,1),opacity 2s ease}
+.theater.open .stage{opacity:1;transform:scale(1) translateY(0)}
+.image-hold{position:relative;display:grid;place-items:center;height:auto;aspect-ratio:1040/547;max-height:min(70svh,760px);min-height:0;width:100%;overflow:hidden;background:#0b0a0b;box-shadow:0 40px 120px rgba(0,0,0,.94),0 0 0 1px rgba(233,220,217,.13);}
+.image-hold:before{content:"";position:absolute;inset:0;z-index:4;box-shadow:inset 0 0 28px 5px rgba(0,0,0,.17);pointer-events:none}
+.image-hold:after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.13),transparent 24%,transparent 76%,rgba(0,0,0,.2));}
+.image{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;will-change:transform,opacity;transition:opacity 1.65s cubic-bezier(.2,.68,.25,1);filter:grayscale(1) contrast(1.045) brightness(.94)}
+.image.visible{opacity:1}
+.interlude{display:none;position:absolute;z-index:9;inset:7%;align-items:center;justify-content:center;text-align:center;color:#e8e0dc;font:400 clamp(25px,2.6vw,44px)/1.45 Georgia,serif;letter-spacing:-.025em;text-wrap:balance}
+.theater.is-typographic .image{opacity:0!important}.theater.is-typographic .interlude{display:flex}
+.theater.is-credits .image{object-fit:contain!important;filter:grayscale(1) contrast(1.05)}
+.copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;min-height:170px;padding:20px 1vw 20px 0;position:relative}
+.copy>.chapter{font:600 clamp(10px,.9vw,12px)/1.3 Arial,Helvetica,sans-serif;letter-spacing:.23em;color:var(--garnet);text-transform:uppercase;margin:0 0 clamp(21px,3.3vh,44px)}
+.copy>.title{font:400 clamp(31px,3.8vw,65px)/1.09 Georgia,"Times New Roman",serif;letter-spacing:-.042em;color:var(--ivory);max-width:600px;margin:0 0 clamp(20px,3.4vh,40px);text-wrap:balance}
+.copy>.quote{font:400 clamp(16px,1.38vw,21px)/1.5 Georgia,"Times New Roman",serif;max-width:560px;color:var(--muted);margin:0;text-wrap:pretty}
+.copy> *{opacity:0;filter:blur(6px);transform:translateY(16px);transition:opacity 1.15s ease,filter 1.15s ease,transform 1.15s ease}
+.copy.is-shown>*{opacity:1;filter:blur(0);transform:translateY(0)}
+.copy.is-shown>.title{transition-delay:.18s}.copy.is-shown>.quote{transition-delay:.31s}
+.controls{position:absolute;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));z-index:15;display:flex;gap:8px;opacity:.6;transition:opacity .25s ease}
+.controls:hover,.controls:focus-within{opacity:1}
+.control{border:1px solid rgba(239,225,221,.38);border-radius:999px;min-height:39px;background:rgba(4,4,5,.54);color:#e9e3df;padding:10px 17px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s}
+.control:hover{border-color:rgba(255,252,251,.85);background:rgba(35,25,28,.58)}
+.bottom-control{position:absolute;z-index:15;bottom:max(18px,env(safe-area-inset-bottom));right:max(22px,env(safe-area-inset-right));opacity:.56;transition:opacity .25s}
+.bottom-control:hover,.bottom-control:focus-within{opacity:1}
+.bottom-control .control{min-height:35px;padding:9px 15px}
+.status{position:absolute;top:70px;right:20px;max-width:260px;font:400 11px/1.45 Arial,Helvetica,sans-serif;letter-spacing:.025em;color:#d8c7c6;text-align:right;z-index:20;pointer-events:none}
+.spotlight{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;background:linear-gradient(95deg,rgba(0,0,0,.20),transparent 40%,rgba(0,0,0,.45));transition:opacity 2s}
+.theater.open .spotlight{opacity:1}
 @media(max-width:850px){
- .mainframe{width:min(94vw,710px);height:min(85dvh,820px);grid-template-columns:1fr;grid-template-rows:minmax(0,1.24fr) minmax(0,.76fr);gap:12px;margin:22px 0 0}
- .art-window{max-height:50dvh}
- .side-title{margin-bottom:11px}
- .sound-notice{top:57px;right:15px}
+.stage{width:94vw;height:auto;max-height:calc(100svh - 125px);grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;gap:clamp(20px,4vh,42px);margin-top:10px}
+.image-hold{height:min(48svh,430px);aspect-ratio:auto;max-height:none;min-height:0;width:100%}.image{object-fit:cover;object-position:center}
+.copy{align-items:center;text-align:center;padding:1vh 2vw 4px;justify-content:flex-start;min-height:0}
+.interlude{font-size:clamp(21px,4.3vw,36px);padding:18px}
+.copy>.chapter{font-size:11px;margin:0 0 clamp(12px,2vh,22px)}
+.copy>.title{font-size:clamp(28px,5.6vw,43px);margin-bottom:clamp(10px,1.6vh,20px)}
+.copy>.quote{font-size:clamp(14px,2.5vw,18px);line-height:1.38}
+.controls{top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));gap:6px;opacity:.86}
+.control{font-size:9px;padding:9px 12px;min-height:35px}
+.bottom-control{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}
 }
-@media(max-width:550px){
- .mainframe{height:84dvh;width:93vw;grid-template-rows:minmax(0,1.3fr) minmax(0,.7fr);gap:12px;margin-top:28px}
- .art-window{max-height:53dvh}
- .side-title{font-size:clamp(27px,7vw,36px)}
- .side-body{font-size:13px}
- .film-actions{gap:6px;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right))}
- .film-actions .pill{padding:10px 12px;font-size:9px}
- .film-footer{right:max(11px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom))}
+@media(max-width:420px){
+.stage{height:auto;width:94vw;grid-template-rows:auto auto;gap:clamp(24px,4vh,40px);margin-top:20px}
+.image-hold{height:min(48svh,425px);max-height:none}
+.copy>.chapter{font-size:9px;margin-bottom:11px;letter-spacing:.16em}
+.copy>.title{font-size:clamp(28px,7vw,34px);margin-bottom:12px;line-height:1.08}
+.copy>.quote{font-size:14px;line-height:1.4;max-width:95%}
 }
-@media(prefers-reduced-motion:reduce){.film-actions,.film-footer{transition:none}}
-</style></head><body><div class="screen" id="screen">
-  <img class="aurora" id="aurora" alt="" aria-hidden="true">
-  <div class="grain" aria-hidden="true"></div>
-  <nav class="film-actions" aria-label="Film controls">
-    <button type="button" class="pill" id="soundTop" aria-label="Hear narration" aria-pressed="false">Hear narration</button>
-    <button type="button" class="pill" id="exit">Exit ×</button>
-  </nav>
-  <main class="mainframe">
-    <div class="art-window">
-      <img class="art on" id="artA" alt="Historical archival artwork">
-      <img class="art" id="artB" alt="Historical archival artwork">
-      <div class="darkcorner" aria-hidden="true"></div>
-    </div>
-    <section class="side" id="side" aria-live="off">
-      <div class="big-date" id="date"></div>
-      <h1 class="side-title" id="title"></h1>
-      <p class="side-body" id="body"></p>
-    </section>
-  </main>
-  <div class="film-footer"><button type="button" class="minipill" id="pause" aria-label="Pause film">Pause</button></div>
-  <audio id="voice" preload="auto"></audio>
-  <div class="sound-notice" id="notice" role="status" aria-live="polite"></div>
-</div>
-<script>
-const scenes=[{"year":"c. 30 CE","eyebrow":"THE DEICIDE LIBEL","title":"The evolution of the deicide libel","body":"From a Roman execution to an accusation against a people.","chapter":"PROLOGUE","duration":10,"kind":"close","accent":"01","art":"assets/deicide-cinema/artwork_01.webp","card":"assets/deicide-cinema/deicide_carousel_01.webp"},{"year":"c. 30 CE","eyebrow":"THE CRUCIFIXION","title":"Under Roman authority","body":"Jesus was crucified under Pontius Pilate.","chapter":"LOCAL BLAME","duration":8,"kind":"pan","accent":"02","art":"assets/deicide-cinema/artwork_02.webp","card":"assets/deicide-cinema/deicide_carousel_02.webp"},{"year":"70 CE","eyebrow":"THE SECOND TEMPLE","title":"Jerusalem, destroyed","body":"Rome destroyed Jerusalem and the Second Temple.","chapter":"LOCAL BLAME","duration":9,"kind":"slow","accent":"03","art":"assets/deicide-cinema/artwork_03.webp","card":"assets/deicide-cinema/deicide_carousel_03.webp"},{"year":"c. 85 CE","eyebrow":"THE GOSPEL ACCOUNTS","title":"“His blood be on us and on our children.”","body":"","chapter":"LOCAL BLAME","duration":9,"kind":"macro","accent":"04","art":"assets/deicide-cinema/artwork_04.webp","card":"assets/deicide-cinema/deicide_carousel_04.webp"},{"year":"c. 110 CE","eyebrow":"IGNATIUS OF ANTIOCH","title":"A changing accusation","body":"“It is absurd to profess Christ Jesus and to Judaize.”","chapter":"POLITICAL PROJECTION","duration":8,"kind":"still","accent":"05","art":"assets/deicide-cinema/artwork_05.webp","card":"assets/deicide-cinema/deicide_carousel_05.webp"},{"year":"135 CE","eyebrow":"HADRIAN · BAR KOKHBA REVOLT","title":"Aelia Capitolina","body":"Jerusalem was rebuilt; Jews were excluded.","chapter":"POLITICAL PROJECTION","duration":8,"kind":"orbit","accent":"06","art":"assets/deicide-cinema/artwork_06.webp","card":"assets/deicide-cinema/deicide_carousel_06.webp"},{"year":"c. 150 CE","eyebrow":"JUSTIN MARTYR","title":"“You had crucified him.”","body":"Christians presented as the “true spiritual Israel.”","chapter":"UNIVERSALIZED & CODIFIED","duration":10,"kind":"macro","accent":"07","art":"assets/deicide-cinema/artwork_07.webp","card":"assets/deicide-cinema/deicide_carousel_07.webp"},{"year":"c. 165 CE","eyebrow":"MELITO OF SARDIS","title":"“God has been murdered.”","body":"The accusation enters Christian polemic.","chapter":"UNIVERSALIZED & CODIFIED","duration":10,"kind":"pan","accent":"08","art":"assets/deicide-cinema/artwork_08.webp","card":"assets/deicide-cinema/deicide_carousel_08.webp"},{"year":"c. 240 CE","eyebrow":"ORIGEN","title":"Displacement interpreted","body":"As divine punishment.","chapter":"UNIVERSALIZED & CODIFIED","duration":8,"kind":"still","accent":"09","art":"assets/deicide-cinema/artwork_09.webp","card":"assets/deicide-cinema/deicide_carousel_09.webp"},{"year":"325 CE","eyebrow":"CONSTANTINE · NICAEA","title":"The voice of an emperor","body":"The ancient libel spoke with the voice of an emperor.","chapter":"UNIVERSALIZED & CODIFIED","duration":9,"kind":"slow","accent":"10","art":"assets/deicide-cinema/artwork_10.webp","card":"assets/deicide-cinema/deicide_carousel_10.webp"},{"year":"380 CE","eyebrow":"THEODOSIUS I","title":"Imperial orthodoxy","body":"Nicene Christianity became the authorized orthodoxy of the Roman Empire.","chapter":"UNIVERSALIZED & CODIFIED","duration":9,"kind":"orbit","accent":"11","art":"assets/deicide-cinema/artwork_11.webp","card":"assets/deicide-cinema/deicide_carousel_11.webp"},{"year":"c. 387 CE","eyebrow":"JOHN CHRYSOSTOM","title":"“The slayers of Christ.”","body":"","chapter":"UNIVERSALIZED & CODIFIED","duration":9,"kind":"close","accent":"12","art":"assets/deicide-cinema/artwork_12.webp","card":"assets/deicide-cinema/deicide_carousel_12.webp"},{"year":"440 CE","eyebrow":"FROM DISPUTE TO DOCTRINE","title":"The libel, complete","body":"From local theological dispute, to collective accusation, to imperial doctrine and social policy.","chapter":"THE LIBEL, COMPLETE","duration":10,"kind":"slow","accent":"13","art":"assets/deicide-cinema/artwork_13.webp","card":"assets/deicide-cinema/deicide_carousel_13.webp"},{"year":"THE HISTORICAL RECORD","eyebrow":"ACKNOWLEDGMENTS","title":"The Deicide Libel","body":"Natasha H. Pein  ·  Kile Jones","chapter":"CREDITS","duration":7,"kind":"still","accent":"14","art":"assets/deicide-cinema/artwork_14.webp","card":"assets/deicide-cinema/deicide_carousel_14.webp"}];
-const soundData='assets/deicide-cinema/selected-narration.m4a?mix=2';
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition-duration:.01ms!important}.image{transform:none!important}.stage{transform:none!important}}
+
+/* Exhibition-grade image fit: never sacrifice historical art to a viewport crop. */
+.image-hold{isolation:isolate;transition:box-shadow 2.2s ease}
+.image-hold::before{content:"";position:absolute;inset:-12%;z-index:0;background-image:var(--museum-art);background-position:center;background-size:cover;filter:blur(38px) brightness(.25) grayscale(1);opacity:.72;transform:scale(1.16)}
+.image{z-index:2;backface-visibility:hidden;-webkit-backface-visibility:hidden;object-fit:contain!important;object-position:center!important}
+.image-hold::after{z-index:4}
+.copy>.title,.interlude{font-family:"Iowan Old Style",Baskerville,"Palatino Linotype",Georgia,serif}
+.theater.is-typographic .interlude{padding:clamp(22px,4vw,60px)}
+@media(max-width:850px){
+  .image-hold{height:min(46svh,430px)!important}
+  .image-hold .image{object-fit:contain!important}
+  .image-hold::before{filter:blur(42px) brightness(.24) grayscale(1)}
+}
+@media(max-width:420px){
+  .image-hold{height:min(46svh,395px)!important}
+  .stage{gap:clamp(13px,2vh,26px)!important}
+  .copy>.title{font-size:clamp(26px,6.8vw,34px)!important}
+}
+</style></head><body><div class="theater" id="theater"><img class="halo" id="halo" alt="" aria-hidden="true"><div class="darkness"></div><div class="spotlight"></div><nav class="controls" aria-label="Film controls"><button id="narrate" class="control" aria-pressed="false">Hear narration</button><button id="exit" class="control">Exit ×</button></nav><div class="stage" id="stage"><div class="image-hold" id="image-hold"><div class="interlude" id="interlude">Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.</div><img class="image visible" id="image-a" alt="Historical archival artwork"><img class="image" id="image-b" alt="Historical archival artwork"></div><section class="copy" id="copy" aria-live="off"><p id="date" class="chapter"></p><h1 class="title" id="title"></h1><p class="quote" id="quote"></p></section></div><div class="bottom-control"><button id="pause" class="control" aria-label="Pause film">Pause</button></div><audio id="voice" preload="auto"></audio><div id="status" class="status" role="status"></div></div><script>const SCENES=[{"title":"THE EVOLUTION OF THE DEICIDE LIBEL","sub":"From a Roman execution to an accusation against a people.","date":"PROLOGUE","duration":9,"move":"ascend","photo":"assets/deicide-cinema/scene_01.webp","source_time":16},{"title":"THE CRUCIFIXION","sub":"Jesus was crucified under Pontius Pilate, by Roman authority.","date":"c. 30 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_02.webp","source_time":48},{"title":"THE SECOND TEMPLE","sub":"Rome destroyed Jerusalem and the Second Temple.","date":"70 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_03.webp","source_time":97},{"title":"THE GOSPEL ACCOUNTS","sub":"“His blood be on us and on our children.”","date":"c. 85 CE","duration":9,"move":"close","photo":"assets/deicide-cinema/scene_04.webp","source_time":115},{"title":"IGNATIUS OF ANTIOCH","sub":"“It is absurd to profess Christ Jesus and to Judaize.”","date":"c. 110 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_05.webp","source_time":160},{"title":"HADRIAN · THE BAR KOKHBA REVOLT","sub":"Jerusalem was rebuilt as Aelia Capitolina; Jews were excluded.","date":"135 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_06.webp","source_time":190},{"title":"JUSTIN MARTYR","sub":"“You had crucified him.”","date":"c. 150 CE","duration":10,"move":"close","photo":"assets/deicide-cinema/scene_07.webp","source_time":254},{"title":"MELITO OF SARDIS","sub":"“God has been murdered.”","date":"c. 165 CE","duration":10,"move":"ascend","photo":"assets/deicide-cinema/scene_08.webp","source_time":268},{"title":"ORIGEN","sub":"","date":"c. 240 CE","duration":11,"move":"still","photo":"assets/deicide-cinema/scene_09.webp","source_time":291},{"title":"CONSTANTINE · NICAEA","sub":"The ancient libel spoke with the voice of an emperor.","date":"325 CE","duration":10,"move":"glide","photo":"assets/deicide-cinema/scene_10.webp","source_time":307},{"title":"THEODOSIUS I","sub":"Nicene Christianity established as imperial orthodoxy.","date":"380 CE","duration":10,"move":"slow","photo":"assets/deicide-cinema/scene_11.webp","source_time":353},{"title":"JOHN CHRYSOSTOM","sub":"“The slayers of Christ.”","date":"c. 387 CE","duration":10,"move":"close","photo":"assets/deicide-cinema/scene_12.webp","source_time":364},{"title":"FROM DISPUTE TO DOCTRINE","sub":"Collective accusation became imperial doctrine and social policy.","date":"440 CE","duration":11,"move":"ascend","photo":"assets/deicide-cinema/scene_13.webp","source_time":411},{"title":"THE DEICIDE LIBEL","sub":"Research · Natasha H. Pein     Design · Kile Jones","date":"CREDITS","duration":8,"move":"still","photo":"assets/deicide-cinema/scene_14.webp","source_time":null}];
+
+const S=SCENES;
 const $=id=>document.getElementById(id);
-const el=['screen','artA','artB','date','title','body','aurora','side','voice','notice'].reduce((obj,id)=>(obj[id]=$(id),obj),{});
-const durations=scenes.map(s=>s.duration),cumulative=[0];
-durations.forEach(d=>cumulative.push(cumulative[cumulative.length-1]+d));
-const total=cumulative[cumulative.length-1];
-const reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-let running=true,current=-1,activeArt=0,startedAt=null,elapsed=0,hasAudio=false,lastSoundTimer=0,transitionToken=0;
-function sceneAt(t){for(let j=0;j<durations.length;j++){if(t<cumulative[j+1])return j;}return durations.length-1;}
-function notice(m){el.notice.textContent=m;clearTimeout(lastSoundTimer);lastSoundTimer=setTimeout(()=>{el.notice.textContent='';},3200);}
-function draw(i){
- if(i===current)return;
- current=i;
- const scene=scenes[i];
- const next=activeArt?el.artA:el.artB;
- const prev=activeArt?el.artB:el.artA;
- next.src=scene.art;
- next.className='art on';
- prev.className='art';
- activeArt=1-activeArt;
- el.aurora.src=scene.art;
- el.side.classList.remove('on');
- const token=++transitionToken;
- setTimeout(()=>{
-  if(token!==transitionToken)return;
-  el.date.textContent=scene.year;
-  el.title.textContent=scene.title;
-  el.body.textContent=scene.body;
-  el.side.classList.add('on');
- },i===0?150:510);
+const stage=$('stage'),theater=$('theater'),art=$('image-hold'),img=[$('image-a'),$('image-b')],halo=$('halo'),txt=$('copy'),date=$('date'),ttl=$('title'),quote=$('quote'),aud=$('voice'),sound=$('narrate'),pause=$('pause'),status=$('status');
+let offsets=[0];S.forEach(x=>offsets.push(offsets.at(-1)+x.duration));const TOTAL=offsets.at(-1);
+let time=0,last=0,current=-1,active=0,playing=true,sounding=false,finishing=false,raf=0;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function message(s){status.textContent=s;clearTimeout(message.timer);message.timer=setTimeout(()=>status.textContent='',3700)}
+function idxAt(t){for(let n=0;n<S.length;n++)if(t<offsets[n+1])return n;return S.length-1}
+function draw(n){if(n===current)return;current=n;const s=S[n];theater.classList.toggle('is-typographic',n===8);theater.classList.toggle('is-credits',n===13);let next=img[1-active],previous=img[active];next.style.transform='translate3d(0,0,0) scale(1.005)';next.src=s.photo;next.classList.add('visible');previous.classList.remove('visible');active=1-active;art.style.setProperty('--museum-art','url(\"'+s.photo+'\")');halo.src=s.photo;txt.classList.remove('is-shown');date.textContent=s.date;ttl.textContent=s.title;quote.textContent=s.sub;requestAnimationFrame(()=>{requestAnimationFrame(()=>txt.classList.add('is-shown'))})}
+function camera(n,p){if(reduced)return;const s=S[n],even=n%2===0?1:-1;let x=0,y=0,zoom=1.005;
+ switch(s.move){case 'slow':zoom=1.008+p*.042;x=even*p*7;y=-p*3;break;
+ case 'close':zoom=1.018+p*.056;x=even*p*6;y=p*2;break;
+ case 'glide':zoom=1.005+p*.038;x=even*p*12;y=-p*3;break;
+ case 'ascend':zoom=1.011+p*.038;x=-even*p*5;y=-p*11;break;
+ case 'still':zoom=1.002+p*.014;x=even*p*2;break;
+ default:zoom=1.01+p*.04}
+ const el=img[active];el.style.transform=`translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) scale(${zoom.toFixed(4)})`;
 }
-function loop(now){
- if(startedAt===null)startedAt=now;
- const delta=Math.max(0,(now-startedAt)/1000);
- startedAt=now;
- if(running){
-  elapsed+=Math.min(.09,delta);
-  if(elapsed>=total){
-   elapsed=total;running=false;el.voice.pause();$('pause').textContent='Replay';
-   $('pause').setAttribute('aria-label','Replay film');
-   if(window.parent!==window)window.parent.postMessage({type:'deicide-film-finished'},window.location.origin);
-  }
- }
- const i=sceneAt(elapsed);draw(i);
- const scene=scenes[i],p=Math.max(0,Math.min(1,(elapsed-cumulative[i])/scene.duration));
- const art=activeArt?el.artB:el.artA;
- if(!reduced){
-  const flip=i%2===0?1:-1;
-  let x=flip*p*17,y=(i%3===0?-1:1)*p*10,z=1.05+p*(i%3===0?.11:.065);
-  if(scene.kind==='still'){x=p*4;y=0;z=1.04+p*.027;}
-  if(scene.kind==='macro'){z=1.1+p*.18;x=flip*p*8;}
-  if(scene.kind==='orbit'){x=flip*p*26;z=1.085+p*.1;}
-  art.style.transform='scale('+z+') translate('+x+'px,'+y+'px)';
- }
- requestAnimationFrame(loop);
-}
-async function toggleNarration(){
- const button=$('soundTop');
- if(hasAudio){
-  hasAudio=false;el.voice.pause();button.textContent='Hear narration';button.setAttribute('aria-pressed','false');
-  notice('Narration off');return;
- }
- try{
-  el.voice.currentTime=Math.max(0,Math.min(elapsed,Math.max(0,el.voice.duration||total)-.1));
-  if(!running){running=true;$('pause').textContent='Pause';}
-  await el.voice.play();
-  hasAudio=true;button.textContent='Narration on';button.setAttribute('aria-pressed','true');
-  notice('Narration on');
- }catch(e){notice('Tap Hear narration again to enable audio');}
-}
-function togglePause(){
- if(elapsed>=total){
-  elapsed=0;current=-1;el.voice.currentTime=0;running=true;
-  $('pause').textContent='Pause';
-  if(hasAudio)el.voice.play().catch(()=>{});
-  return;
- }
- running=!running;$('pause').textContent=running?'Pause':'Resume';
- $('pause').setAttribute('aria-label',running?'Pause film':'Resume film');
- if(hasAudio){if(running)el.voice.play().catch(()=>{});else el.voice.pause();}
-}
-function exit(){
- running=false;el.voice.pause();
- if(window.parent!==window){window.parent.postMessage({type:'deicide-film-exit'},window.location.origin);return;}
- window.location.href='antijudaism.html#libel-02';
-}
-$('soundTop').addEventListener('click',toggleNarration);
-$('pause').addEventListener('click',togglePause);
-$('exit').addEventListener('click',exit);
-document.addEventListener('keydown',e=>{
- if(e.key==='Escape'){e.preventDefault();exit();}
- else if(e.code==='Space'&&!e.target.closest('button')){e.preventDefault();togglePause();}
- else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
-  const i=sceneAt(elapsed);const n=Math.max(0,Math.min(13,i+(e.key==='ArrowRight'?1:-1)));
-  elapsed=cumulative[n]+.01;current=-1;
-  if(hasAudio){try{el.voice.currentTime=elapsed;}catch(e){}}
- }
-});
-el.voice.src=soundData;el.voice.load();
-requestAnimationFrame(loop);
-setTimeout(()=>el.screen.classList.add('in'),140);
+function tick(now){if(!last)last=now;const diff=Math.max(0,Math.min(.15,(now-last)/1000));last=now;if(playing){time=sounding&&!aud.paused?Math.max(0,Math.min(TOTAL,aud.currentTime)):Math.min(TOTAL,time+diff)}let n=idxAt(time);draw(n);camera(n,(time-offsets[n])/S[n].duration);
+if(time>=TOTAL&&!finishing){finishing=true;playing=false;aud.pause();pause.textContent='Replay';if(window.parent!==window)window.parent.postMessage({type:'deicide-film-finished'},window.location.origin)}raf=requestAnimationFrame(tick)}
+function pauseToggle(){if(finishing){time=0;finishing=false;current=-1;playing=true;aud.currentTime=0;if(sounding)aud.play().catch(()=>{});pause.textContent='Pause';return}playing=!playing;pause.textContent=playing?'Pause':'Resume';if(sounding){if(playing)aud.play().catch(()=>{});else aud.pause()}last=0}
+async function narrateToggle(){if(sounding){sounding=false;aud.pause();sound.textContent='Hear narration';sound.setAttribute('aria-pressed','false');message('Narration off');return}try{aud.currentTime=Math.max(0,Math.min(time,TOTAL-.15));await aud.play();sounding=true;playing=true;pause.textContent='Pause';sound.textContent='Narration on';sound.setAttribute('aria-pressed','true');message('Narration on')}catch(e){message('Tap Hear narration again to enable your audio')}}
+function closeFilm(){playing=false;aud.pause();if(window.parent!==window){window.parent.postMessage({type:'deicide-film-exit'},window.location.origin)}else{window.location.href='antijudaism.html#libel-02'}}
+sound.onclick=narrateToggle;pause.onclick=pauseToggle;$('exit').onclick=closeFilm;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeFilm()}else if(e.code==='Space'&&!e.target.closest('button')){e.preventDefault();pauseToggle()}else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){time=offsets[Math.max(0,Math.min(13,idxAt(time)+(e.key==='ArrowRight'?1:-1)))]+.01;current=-1;if(sounding)aud.currentTime=time}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing){pauseToggle()}});
+aud.addEventListener('ended',()=>{if(!finishing){time=TOTAL;aud.pause()}});
+img.forEach((el,i)=>{el.src=S[i].photo;});S.forEach(s=>{const image=new Image();image.decoding='async';image.src=s.photo;});
+aud.src='assets/deicide-cinema/narration-v6.m4a?edition=production3';aud.preload='auto';aud.load();
+requestAnimationFrame(()=>{theater.classList.add('open');requestAnimationFrame(tick)});
 </script></body></html>
