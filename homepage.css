@@ -148,3 +148,26 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
   .official-entrance .entry-label{clip-path:inset(0 0 0 0)!important}
   .official-entrance .entry-glint{display:none!important}
 }
+
+/* Discreet 44px touch target for visitor-initiated music in all three entrances.
+   Keep the original 36-second animation and framing intact. */
+.official-entrance .entrance-controls .music{
+ width:44px!important;min-width:44px;min-height:44px;
+ display:inline-grid;place-items:center;
+ padding:0!important;
+ font-size:17px!important;
+ color:#f0e7e2;
+ background:rgba(12,9,12,.55);
+ border:1px solid rgba(243,222,215,.24);
+ border-radius:22px;
+ backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);
+ transition:transform .65s cubic-bezier(.17,.7,.2,1),background .65s ease,border-color .65s ease;
+}
+.official-entrance .entrance-controls .music:is(:hover,:focus-visible){
+ transform:translateY(-3px);
+ background:rgba(51,36,49,.75);
+ border-color:rgba(247,222,214,.62);
+}
+@media(prefers-reduced-motion:reduce){
+ .official-entrance .entrance-controls .music{transition:none}
+}
