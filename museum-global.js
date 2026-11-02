@@ -238,5 +238,35 @@
       },{threshold:0,rootMargin:'0px 0px -6% 0px'});
       targets.forEach(el=>arrival.observe(el));
     }
+
+  // Make human-written libel subtitles link to their existing room sections.
+  if (base && !selectedEntrance) {
+    base.querySelectorAll('.aj-libel-head h3').forEach(heading => {
+      if (heading.querySelector('a')) return;
+      const section = heading.closest('.aj-libel');
+      if (!section?.id) return;
+      const link = document.createElement('a');
+      link.className = 'museum-libel-heading-link';
+      link.href = '#' + section.id;
+      link.setAttribute('aria-label',heading.textContent);
+      while (heading.firstChild) link.append(heading.firstChild);
+      heading.append(link);
+    });
+    // Touch screens have no hover. Begin the same 5.5 second, subtle camera push
+    // as each original artwork frame enters the viewport.
+    if (!reduced && 'IntersectionObserver' in window &&
+        matchMedia('(hover:none), (pointer:coarse)').matches) {
+      const frames = [...base.querySelectorAll('.museum-global-artframe')]
+        .filter(el => !el.closest('.deicide-museum-passage,.cinema,.museum-gallery-rail'));
+      const touchObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('museum-mobile-arrived');
+          touchObserver.unobserve(entry.target);
+        }
+      }, {threshold:0,rootMargin:'0px 0px -18% 0px'});
+      frames.forEach(el=>touchObserver.observe(el));
+    }
+  }
   }
 })();
