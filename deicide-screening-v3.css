@@ -83,3 +83,6 @@ body.deicide-modal-open{overflow:hidden!important}
  .deicide-cinema .deicide-frame,.deicide-cinema .deicide-screen,.deicide-cinema .deicide-caption>*{animation:none!important;transition:none!important}
  .deicide-cinema .deicide-frame img{transform:none!important}
 }
+
+/* Preserve the cinematic push-in over the older screening theme's open-state rule. */
+.deicide-cinema.is-open:not(.curtain-open) .deicide-screen{transform:perspective(1700px) rotateX(.6deg) scale(.72)!important}
