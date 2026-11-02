@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'deicide-museum-film.html'
+      - 'antijudaism.html'
+      - 'antijudaism-editorial-v2.css'
+      - 'tools/antijudaism-mobile-qa.mjs'
       - 'deicide-museum-controller.js'
       - 'deicide-museum-controller.css'
       - 'tools/deicide-theatrical-entrance-qa.mjs'
@@ -39,6 +42,7 @@ jobs:
         run: node -e 'const r=require("./qa/generated/report.json");const bad=r.filter(x=>x.initial.scrollWidth>x.width||x.after.scrollWidth>x.width||x.errors.length||!x.hover?.changed);if(bad.length){console.error(JSON.stringify(bad,null,2));process.exit(1)}'
       - run: node tools/deicide-browser-smoke.mjs
       - run: node tools/deicide-theatrical-entrance-qa.mjs
+      - run: node tools/antijudaism-mobile-qa.mjs
       - run: node tools/locale-browser-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
