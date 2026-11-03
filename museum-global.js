@@ -249,6 +249,31 @@
     if(!preview.contains(event.target) && !viewport.contains(event.target))closePreview();
   },{passive:true});
 
+  // The gallery's dots respond quietly before the pointer reaches them.
+  // The only large image remains the single user-selected archival preview.
+  if (finePointer && !reduced) {
+    let proximityFrame = 0, px = 0, py = 0;
+    const clearProximity = () => {
+      if (proximityFrame) cancelAnimationFrame(proximityFrame);
+      proximityFrame = 0;
+      anchors.forEach(link => link.style.removeProperty('--museum-proximity-scale'));
+    };
+    const paintProximity = () => {
+      proximityFrame = 0;
+      for (const link of anchors) {
+        const r = link.getBoundingClientRect();
+        const distance = Math.hypot(px - (r.left+r.right)/2, py - (r.top+r.bottom)/2);
+        const fraction = Math.max(0, 1-distance/105);
+        link.style.setProperty('--museum-proximity-scale', (1+.6*fraction*fraction).toFixed(3));
+      }
+    };
+    viewport.addEventListener('pointermove', event => {
+      px = event.clientX; py = event.clientY;
+      if (!proximityFrame) proximityFrame = requestAnimationFrame(paintProximity);
+    }, {passive:true});
+    viewport.addEventListener('pointerleave', clearProximity, {passive:true});
+  }
+
   if (finePointer && !reduced){
     tabs.querySelectorAll('.museum-rail-tab').forEach(tab=>{
       tab.addEventListener('pointermove',event=>{
