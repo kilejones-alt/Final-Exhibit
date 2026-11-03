@@ -64,3 +64,20 @@ body:not(.official-entrance) .theater {
   body.gallery-polished .museum-global-artframe img,
   body.gallery-polished .door-art img{transition:none!important}
 }
+
+/* Final mobile-reading pass: keep existing art, wording and choreography intact. */
+@media (max-width:700px){
+  body.gallery-polished .object-credit,
+  body.gallery-polished .caption-date{
+    font-size:13px!important;
+    line-height:1.45!important;
+  }
+  body.gallery-polished.geo-home .hero.geo-doors .hero-title .geo-hero-tagline,
+  html:is([lang="ru"],[lang="he"]) body.home-selected .hero .hero-title > p{
+    font-size:13.25px!important;
+    line-height:1.48!important;
+  }
+  html[lang="ru"] body.home-selected .hero .hero-title{
+    padding-bottom:12px!important;
+  }
+}
