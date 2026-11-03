@@ -122,7 +122,10 @@
 
       ghosts.forEach(({ghost,thread},index)=>{
         const target=eras[index].getBoundingClientRect();
-        const startX=(index+.5)*(innerWidth/3);
+        // Start at the real door centre, not an assumed LTR column:
+        // Hebrew and responsive layouts may reverse or reflow the order.
+        const source=doors[index].getBoundingClientRect();
+        const startX=source.left+source.width/2;
         const targetX=target.left+target.width/2;
         const targetY=target.top+Math.min(44,target.height*.18);
         const startY=Math.max(110,Math.min(targetY-210,innerHeight*.38));
