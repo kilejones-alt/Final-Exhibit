@@ -1,0 +1,29 @@
+name: Review-only exhibition source snapshot
+on:
+  push:
+    branches:
+      - review/nov03-exhaustive-qa
+    paths:
+      - .github/workflows/exhaustive-qa-source-snapshot.yml
+permissions:
+  contents: read
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact review source
+        uses: actions/checkout@v4
+      - name: Run non-destructive source validators
+        run: |
+          cd newer
+          node tools/validate-exhibit-pages.mjs
+          node tools/audit-site-integrity.mjs
+      - name: Package exact static site for browser audit
+        run: tar -czf exhibition-review-site.tar.gz newer
+      - name: Upload review snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: exact-exhibition-review-site
+          path: exhibition-review-site.tar.gz
+          retention-days: 2
