@@ -343,3 +343,35 @@
   }
   }
 })();
+
+
+/* 2026-11-03 localised arrow illuminations, no changes to historical wording. */
+(() => {
+ 'use strict';
+ const frame=document.querySelector('.home-selected .era-framework');
+ if(!frame||frame.classList.contains('chromatic-framework')||frame.classList.contains('museum-three-flow'))return;
+ frame.classList.add('museum-three-flow');
+ const ns='http://www.w3.org/2000/svg', branches=frame.querySelector('.framework-branches');
+ if(branches){
+  const tip=branches.querySelector('polyline');
+  [...branches.querySelectorAll(':scope > path')].slice(0,3).forEach(line=>{
+   const p=document.createElementNS(ns,'path');
+   p.setAttribute('class','museum-current-stroke');
+   p.setAttribute('d',line.getAttribute('d'));
+   p.setAttribute('pathLength','100');
+   p.setAttribute('aria-hidden','true');
+   branches.insertBefore(p,tip);
+  });
+ }
+ frame.querySelectorAll('.framework-era svg').forEach(svg=>{
+  const line=svg.querySelector('path:not(.museum-current-stroke)');
+  if(!line)return;
+  const p=document.createElementNS(ns,'path');
+  p.setAttribute('class','museum-current-stroke');
+  p.setAttribute('d',line.getAttribute('d'));
+  p.setAttribute('pathLength','100');
+  p.setAttribute('aria-hidden','true');
+  svg.insertBefore(p,svg.querySelector('polyline'));
+ });
+})();
+

@@ -149,3 +149,22 @@ body.gallery-polished .museum-reading-graph span{padding:0;color:#bbb;font-size:
  body.gallery-polished .aj-source-main .src-stage p{grid-column:2;font-size:14px!important}
 }
 @media(prefers-reduced-motion:reduce){body.gallery-polished .aj-source-main .src-stage,body.gallery-polished .libels a::before{transition:none;transform:none!important}}
+
+
+/* 2026-11-03 archival room finish: no source image or copy changes. */
+body.gallery-polished:not(.geo-home){background-color:#050505!important;background-image:radial-gradient(ellipse 72% 36% at 50% 21%,rgba(32,28,34,.28),transparent 82%),linear-gradient(180deg,#050505 0%,#080809 55%,#050505 100%)!important;background-attachment:scroll!important}
+body.gallery-polished:not(.geo-home) main{position:relative;isolation:isolate}
+body.gallery-polished:not(.geo-home) :is(.room-intro h1,.aj-source-main h1){text-shadow:0 12px 48px rgba(0,0,0,.38)}
+body.gallery-polished:not(.geo-home) main article.artifact{transition:background-color 1.25s ease,border-color 1.25s ease!important}
+body.gallery-polished:not(.geo-home) main article.artifact:is(:hover,:focus-within){background-color:#0d0c0e!important}
+body.gallery-polished:not(.geo-home) :is(.art-open,.aj-object .aj-inspect){transform:translate3d(0,0,0)!important;translate:0 0!important;filter:none!important;transition:transform 1s cubic-bezier(.16,.72,.22,1),box-shadow 1.2s ease,border-color .9s ease!important}
+body.gallery-polished:not(.geo-home) :is(.art-open,.aj-object .aj-inspect):is(:hover,:focus-visible){transform:translate3d(0,-9px,0)!important;box-shadow:0 24px 70px rgba(0,0,0,.52)!important}
+body.gallery-polished:not(.geo-home) :is(.art-open,.aj-object .aj-inspect):focus-visible{outline:2px solid rgba(247,239,244,.9)!important;outline-offset:5px!important}
+@media(hover:hover) and (pointer:fine){
+body.gallery-polished:not(.geo-home) :is(.art-open,.aj-object .aj-inspect) img{transform:scale(1)!important;filter:none!important;transition:transform 5.8s cubic-bezier(.16,.7,.2,1),filter 1.2s ease!important;transform-origin:50% 50%}
+body.gallery-polished:not(.geo-home) :is(.art-open,.aj-object .aj-inspect):is(:hover,:focus-visible) img{transform:scale(1.018)!important;filter:brightness(1.035)!important}
+body.gallery-polished:not(.geo-home) :is(.artifact-copy h2,.source-narrative h2,.src-artifact h3){transition:translate 1.1s cubic-bezier(.16,.72,.22,1),color .85s ease!important}
+body.gallery-polished:not(.geo-home) article:is(:hover,:focus-within) :is(.artifact-copy h2,.source-narrative h2,.src-artifact h3){translate:0 -3px!important}}
+@media(max-width:700px){body.gallery-polished:not(.geo-home) :is(.art-open,.aj-object .aj-inspect):active{transform:translate3d(0,-3px,0)!important}}
+@media(prefers-reduced-motion:reduce){body.gallery-polished :is(.art-open,.aj-object .aj-inspect,.art-open img,.aj-object .aj-inspect img){transition:none!important;transform:none!important;translate:none!important;filter:none!important}}
+

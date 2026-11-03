@@ -252,3 +252,16 @@ addEventListener('touchmove',event=>{
 addEventListener('keydown',event=>{
  if(hosted&&['ArrowUp','PageUp'].includes(event.key)){event.preventDefault();returnUp()}
 });
+
+
+/* Previously bundled exhibition ambience: opt-in and time-follows-original-cards. */
+(() => {
+ 'use strict';
+ const music=document.getElementById('narrate'),audio=document.getElementById('voice');
+ if(!music||!audio||typeof toggleMusic!=='function')return;
+ music.addEventListener('click',()=>{
+  if(!audio.getAttribute('src')){audio.setAttribute('src','assets/deicide-cinema/deicide_quick_ambient.m4a');audio.preload='metadata'}
+  toggleMusic();
+ });
+})();
+

@@ -239,3 +239,31 @@ opacity:0;transition:opacity 2.5s ease}
 @media(prefers-reduced-motion:reduce){
   .theater .image{transform:none!important}
 }
+
+
+/* 2026-11-03 Deicide cinema controls in letterbox space, original frames untouched. */
+:root{--dm-ink:#f6f1ed;--dm-ui:rgba(15,14,17,.82)}
+.theater{width:100%!important;max-width:100%!important;background:radial-gradient(ellipse at 50% 47%,#171315 0%,#060507 54%,#010101 94%)!important}
+.theater .film-grain{opacity:.028!important}.theater .image-hold::before{opacity:.23!important;filter:blur(110px) brightness(.22) saturate(.32)!important}
+.theater #film-hud{display:none!important}
+.theater #transport{display:flex!important;align-items:center;justify-content:flex-start;position:absolute!important;z-index:26!important;bottom:max(20px,env(safe-area-inset-bottom) + 10px)!important;left:max(18px,env(safe-area-inset-left) + 10px)!important;right:auto!important;width:min(275px,calc(100vw - 36px))!important;max-width:275px!important;height:48px!important;gap:12px!important;margin:0!important;padding:3px!important;border:none!important;background:var(--dm-ui)!important;border-radius:999px;box-shadow:0 7px 26px rgba(0,0,0,.36)!important;backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);opacity:.83;transition:opacity .35s ease,background .35s ease!important}
+.theater #transport:is(:hover,:focus-within){opacity:1}
+.theater #transport #previous,.theater #transport #next{display:none!important}
+.theater #transport #pause{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 86px!important;height:42px!important;min-height:42px!important;border:1px solid rgba(230,225,225,.31)!important;border-radius:999px!important;background:rgba(16,14,18,.72)!important;color:var(--dm-ink)!important;font:500 11px/1.2 DeicideSource,Arial,sans-serif!important;letter-spacing:.035em!important}
+.theater #transport .transport-center{display:flex!important;flex:1!important;align-items:center!important;min-width:0!important;padding-right:10px!important}
+.theater #transport .transport-details{display:none!important}
+.theater #transport #progress{display:block!important;min-width:0!important;height:26px!important;touch-action:pan-y!important}
+.theater #transport #progress::-webkit-slider-runnable-track{height:2px!important;background:linear-gradient(90deg,#e9dce1 0%,#e9dce1 var(--progress),rgba(239,231,231,.27) var(--progress),rgba(239,231,231,.27) 100%)!important}
+.theater #transport #progress::-webkit-slider-thumb{width:12px!important;height:12px!important;margin-top:-5px!important;background:#f2e7ea!important;border:2px solid #1a131a!important;box-shadow:0 0 0 2px rgba(237,225,231,.29)!important}
+.theater #narrate{display:inline-flex!important;align-items:center;justify-content:center;min-width:94px;min-height:44px}
+.theater .controls{left:max(20px,env(safe-area-inset-left) + 12px)!important;right:max(20px,env(safe-area-inset-right) + 12px)!important;top:max(16px,env(safe-area-inset-top) + 9px)!important;justify-content:space-between!important;opacity:.85!important}
+.theater .control{background:rgba(9,8,10,.35)!important;color:var(--dm-ink)!important;border-color:rgba(239,230,225,.28)!important;backdrop-filter:blur(9px)}
+.theater .control:is(:hover,:focus-visible){background:rgba(36,30,38,.85)!important;border-color:#eee4eb!important;transform:translateY(-2px)}
+.theater :is(.control,#pause,#progress):focus-visible{outline:2px solid #f3e7ed!important;outline-offset:3px!important}
+.theater #status{display:block!important;top:max(72px,env(safe-area-inset-top) + 58px)!important;font:400 11px/1.4 DeicideSource,Arial,sans-serif!important;color:#f0e5ec!important}
+@media(min-width:820px){.theater #transport{bottom:max(28px,env(safe-area-inset-bottom) + 10px)!important}.theater .controls{opacity:.7!important}.theater .controls:is(:hover,:focus-within){opacity:1!important}}
+@media(max-width:700px){.theater #transport{left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:max(20px,env(safe-area-inset-bottom) + 10px)!important;opacity:.92!important}.theater .controls{left:15px!important;right:15px!important}.theater #narrate{min-height:44px!important;min-width:94px!important}.theater .control#exit{min-height:44px!important;min-width:82px!important}}
+@media(max-height:540px) and (orientation:landscape){.theater #transport{width:210px!important;max-width:210px!important;bottom:10px!important;left:12px!important;transform:none!important}.theater .controls{top:10px!important}}
+@media(prefers-reduced-motion:reduce){.theater #transport,.theater .controls,.theater .control{transition:none!important;transform:none!important}}
+@media(prefers-reduced-motion:reduce) and (max-width:700px){.theater #transport{transform:translateX(-50%)!important}}
+
