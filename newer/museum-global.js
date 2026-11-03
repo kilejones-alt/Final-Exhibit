@@ -113,10 +113,9 @@
   const full = document.createElement('img');
   full.alt = '';
   full.decoding = 'async';
-  full.loading = 'lazy';
-  const line = document.createElement('span');
-  line.className = 'museum-rail-preview-title';
-  preview.append(full,line);
+  // The archive image itself is the presentation: no panel, caption or frame.
+  full.loading = 'eager';
+  preview.append(full);
   body.append(preview);
   let chosen = null, hideTimer = 0, scrollFrame = 0;
   let userScrolledTimeline = false;
@@ -127,6 +126,7 @@
     chosen = null;touchSelected=false;
     preview.classList.remove('is-open');
     preview.setAttribute('aria-hidden','true');
+    rail.classList.remove('is-thread-active');
   };
   const reveal = (link, fromTouch=false) => {
     if(!link)return;
@@ -135,6 +135,7 @@
     const changed = chosen !== link;
     chosen=link;touchSelected=fromTouch;
     link.classList.add('is-revealed');
+    rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
     const vw=Math.min(finePointer?275:225,innerWidth-28);
     const vh=Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
@@ -156,7 +157,6 @@
       preview.classList.remove('is-open');
       void preview.offsetWidth;
     }
-    line.textContent=link.title;
     preview.classList.add('is-open');
     preview.setAttribute('aria-hidden','false');
   };
@@ -171,6 +171,8 @@
     });
     preview.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
     preview.addEventListener('pointerleave',closePreview);
+    // The expanded archival object remains a route to its original room.
+    preview.addEventListener('click',()=>{if(chosen)location.href=chosen.href});
   }else{
     // On tap, preview first and navigate on the second tap.
     anchors.forEach(link=>{
@@ -224,15 +226,22 @@
     const clearProximity = () => {
       if (proximityFrame) cancelAnimationFrame(proximityFrame);
       proximityFrame = 0;
-      anchors.forEach(link => link.style.removeProperty('--museum-proximity-scale'));
+      anchors.forEach(link => {
+        link.style.removeProperty('--museum-proximity-scale');
+        link.style.removeProperty('--thread-shift-x');
+      });
     };
     const paintProximity = () => {
       proximityFrame = 0;
       for (const link of anchors) {
         const r = link.getBoundingClientRect();
-        const distance = Math.hypot(px - (r.left+r.right)/2, py - (r.top+r.bottom)/2);
-        const fraction = Math.max(0, 1-distance/105);
-        link.style.setProperty('--museum-proximity-scale', (1+.6*fraction*fraction).toFixed(3));
+        const dx = px-(r.left+r.right)/2;
+        const distance = Math.hypot(dx,py-(r.top+r.bottom)/2);
+        const fraction = Math.max(0,1-distance/96);
+        // Two quiet gestures: a subtle magnetic drift and a physical point of focus.
+        const shift = Math.sign(dx)*2.6*fraction*fraction;
+        link.style.setProperty('--thread-shift-x',shift.toFixed(2)+'px');
+        link.style.setProperty('--museum-proximity-scale',(1+.68*fraction*fraction).toFixed(3));
       }
     };
     viewport.addEventListener('pointermove', event => {
