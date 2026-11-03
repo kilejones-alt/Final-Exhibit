@@ -1,5 +1,9 @@
 # Final Exhibit
 
+**[Open the live exhibition](https://kilejones-alt.github.io/Final-Exhibit/newer/)**
+
+[Go directly to the three eras](https://kilejones-alt.github.io/Final-Exhibit/newer/entrance.html)
+
 Official working repository for the exhibition website.
 
 The root entrance uses the approved third mock-up: the existing 36-second image installation, the ending title “The Third Era” with “Exhibition” and “Enter Below,” a slowly drawn ENTER pill, and compact Russian, Hebrew, and music controls.
