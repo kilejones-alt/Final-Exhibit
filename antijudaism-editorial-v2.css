@@ -13,8 +13,8 @@
 .aj-page .aj-hero-copy p,.aj-page .aj-prose p,.aj-page .aj-cycle-intro p,.aj-page .aj-transition p,.aj-page .aj-faq p{font:400 clamp(17px,1.27vw,19px)/1.8 Source,Georgia,serif;letter-spacing:.003em;color:#d7d2cf;overflow-wrap:break-word;max-width:69ch;margin:0 0 23px}
 .aj-page .aj-hero-copy p:last-child,.aj-page .aj-prose p:last-child{margin-bottom:0}
 .aj-page .aj-object{margin:0;min-width:0}
-.aj-page .aj-object img{display:block;width:100%;height:auto;max-height:660px;object-fit:contain;object-position:center;background:#09090a;filter:grayscale(1) contrast(1.05);transition:transform 5.5s cubic-bezier(.18,.6,.2,1),filter 1s ease;transform-origin:center}
-.aj-page .aj-object:hover img{transform:scale(1.035);filter:grayscale(1) contrast(1.07) brightness(1.07)}
+.aj-page .aj-object img{display:block;width:100%;height:auto;max-height:660px;object-fit:contain;object-position:center;background:#09090a;filter:contrast(1.02);transition:transform 5.5s cubic-bezier(.18,.6,.2,1),filter 1s ease;transform-origin:center}
+.aj-page .aj-object:hover img{transform:scale(1.035);filter:contrast(1.035) brightness(1.055)}
 .aj-page .aj-object figcaption{display:grid;gap:4px;padding:15px 0 0;color:#b6aeaa;font:400 12px/1.55 Source,Arial,sans-serif;overflow-wrap:break-word}
 .aj-page .aj-object figcaption span{display:block;max-width:100%}
 .aj-page .aj-object .object-name{font:400 clamp(17px,1.6vw,22px)/1.3 Caslon,Georgia,serif;color:#eae6e2}
