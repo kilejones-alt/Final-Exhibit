@@ -1,9 +1,12 @@
 /* Source color emerges once; no duplicate images or generated color. */
 .museum-color-object img{
   filter:grayscale(1)!important;
-  transition:filter 3.8s cubic-bezier(.2,.65,.25,1),transform 5.5s cubic-bezier(.16,.65,.2,1)!important;
+  transition:filter 4.8s cubic-bezier(.25,.3,.25,1),transform 5.5s cubic-bezier(.16,.65,.2,1)!important;
 }
 .museum-color-object.is-gallery-arrived img{filter:grayscale(0)!important}
+.museum-color-object.is-color-reset img{filter:grayscale(1)!important;transition:none!important}
+body main .museum-color-object[data-museum-reveal],body main .museum-color-object[data-global-arrival],body main article.artifact[data-museum-reveal]{opacity:1!important;filter:none!important;transform:none!important}
+.aj-source-page .museum-reading-graph{display:none!important}
 .museum-reading-graph{
   position:relative;isolation:isolate;
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
@@ -53,6 +56,12 @@ body article.artifact .art-open,body article.artifact:nth-of-type(even) .art-ope
 body article.artifact .artifact-copy,body article.artifact:nth-of-type(even) .artifact-copy{
   grid-column:1;grid-row:2;max-width:1100px;
 }
+body article.artifact.gallery-text-row,body article.artifact.gallery-text-row:nth-of-type(even){min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:clamp(24px,5vw,70px)}
+body article.gallery-text-row .gallery-object-column{min-width:0;width:100%}
+body article.gallery-text-row .source-narrative{width:100%;padding:0;margin:0}
+body article.gallery-text-row .source-narrative p{font-size:18px;line-height:1.7}
+@media(min-width:480px) and (max-width:800px){body article.gallery-text-row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);padding-inline:24px}body article.gallery-text-row .source-narrative p{font-size:16px}}
+@media(max-width:479px){body article.gallery-text-row{display:flex;flex-direction:column}}
 body .aj-object figcaption,body article.artifact .artifact-copy{
   display:block!important;width:100%;margin:0;padding:10px 0 0!important;
   border:0!important;text-align:center;

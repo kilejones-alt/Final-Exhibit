@@ -230,3 +230,25 @@ halo.src=S[0].photo;
 aud.removeAttribute('src');aud.preload='none';aud.volume=0;
 draw(0);renderTransport();
 requestAnimationFrame(()=>{theater.classList.add('open');requestAnimationFrame(tick)});
+
+// A deliberate upward scroll returns to the exhibition above this presentation.
+let upwardScroll=0,lastUpward=0,touchOrigin=null;
+const returnUp=()=>{
+ if(hosted)window.parent.postMessage({type:'deicide-film-scroll-back'},location.origin);
+};
+addEventListener('wheel',event=>{
+ if(!hosted||event.ctrlKey)return;
+ if(event.deltaY>=0){upwardScroll=0;return}
+ event.preventDefault();
+ const now=performance.now();if(now-lastUpward>280)upwardScroll=0;
+ lastUpward=now;upwardScroll-=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);
+ if(upwardScroll>45){upwardScroll=0;returnUp()}
+},{passive:false});
+addEventListener('touchstart',event=>{touchOrigin=event.touches.length===1?event.touches[0].clientY:null},{passive:true});
+addEventListener('touchmove',event=>{
+ if(!hosted||touchOrigin===null||event.touches.length!==1)return;
+ if(event.touches[0].clientY-touchOrigin>55){event.preventDefault();touchOrigin=null;returnUp()}
+},{passive:false});
+addEventListener('keydown',event=>{
+ if(hosted&&['ArrowUp','PageUp'].includes(event.key)){event.preventDefault();returnUp()}
+});

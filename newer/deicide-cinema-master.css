@@ -218,10 +218,12 @@ opacity:0;transition:opacity 2.5s ease}
 #film-hud,#transport,#narrate,#status{display:none!important}
 .theater .controls{
   z-index:25!important;
-  opacity:.48;
+  opacity:.85;
 }
 .theater .control#exit{
-  width:39px;height:39px;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  width:auto;min-width:88px;height:40px;min-height:40px;
+  padding:0 16px;white-space:nowrap;line-height:1;
   border-radius:999px;
   background:rgba(6,5,7,.25);
 }

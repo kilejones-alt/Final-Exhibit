@@ -4,8 +4,9 @@
 (() => {
   'use strict';
   const section = document.getElementById('deicide-cinema');
-  if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261103-shorter-cards-v1&embedded=1';
+
+    if (!section) return;
+  const source = 'deicide-museum-film.html?edition=20261103-scroll-back-v2&embedded=1';
   const next = document.getElementById('libel-blood');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -49,6 +50,17 @@
     frame.setAttribute('referrerpolicy', 'same-origin');
     frame.setAttribute('loading', 'eager');
     overlay.appendChild(frame);
+    let upDistance=0;
+    overlay.addEventListener('wheel',event=>{
+      if(event.ctrlKey||event.deltaY>=0){upDistance=0;return}
+      event.preventDefault();upDistance-=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);
+      if(upDistance>45)close(false);
+    },{passive:false});
+    let touchY=null;
+    overlay.addEventListener('touchstart',event=>{touchY=event.touches.length===1?event.touches[0].clientY:null},{passive:true});
+    overlay.addEventListener('touchmove',event=>{
+      if(touchY!==null&&event.touches.length===1&&event.touches[0].clientY-touchY>55){event.preventDefault();touchY=null;close(false)}
+    },{passive:false});
 
     let frameReady = false, arrivalFinished = false;
     const playWhenReady = () => {
@@ -90,17 +102,23 @@
     if (advance && next) next.scrollIntoView({
       behavior: reducedMotion ? 'auto' : 'smooth', block: 'start'
     });
+    if(!advance){
+      const top=window.scrollY+section.getBoundingClientRect().top-window.innerHeight-32;
+      window.scrollTo({top:Math.max(0,top),behavior:'instant'});
+    }
     if (lastFocus?.isConnected) lastFocus.focus({ preventScroll: true });
   }
 
   window.addEventListener('message', event => {
     if (event.origin !== window.location.origin ||
         event.source !== overlay?.querySelector('iframe')?.contentWindow) return;
+    if(event.data?.type==='deicide-film-scroll-back'){close(false);return}
     if (event.data?.type === 'deicide-film-exit' ||
         event.data?.type === 'deicide-film-finished') close(true);
   });
 
   document.addEventListener('keydown', event => {
+    if(opened&&['ArrowUp','PageUp'].includes(event.key)){event.preventDefault();close(false);return}
     if (opened && event.key === 'Escape') {
       event.preventDefault();
       close(true);
