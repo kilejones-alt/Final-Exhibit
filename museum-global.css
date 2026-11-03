@@ -493,3 +493,24 @@ body.museum-gallery-enabled:not(.official-entrance) .museum-gallery-rail{
   .museum-global-artframe.museum-mobile-arrived img{animation:none!important}
   .museum-rail-preview,.museum-rail-preview img{transition:none!important}
 }
+
+
+/* Magnetic proximity never changes the number of dots or reveals extra art. */
+.museum-rail-dot{
+  transform:scale(var(--museum-proximity-scale,1));
+}
+.museum-rail-image:is(:hover,:focus-visible,.is-revealed) .museum-rail-dot{
+  transform:scale(2.1);
+}
+/* Reading should be stable under a moving pointer. Art and interactive
+   headings may lift, but curatorial paragraphs never shift while reading. */
+body.museum-gallery-enabled main p:hover{
+  transform:none!important;
+  filter:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .museum-rail-dot{transform:none!important}
+  .museum-rail-image:is(:focus-visible,.is-revealed) .museum-rail-dot{
+    transform:scale(1.6)!important;
+  }
+}
