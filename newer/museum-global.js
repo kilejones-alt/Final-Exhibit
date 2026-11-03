@@ -169,8 +169,8 @@
     link.classList.add('is-revealed');
     rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
-    const vw=art ? Math.min(finePointer?520:350,innerWidth*(finePointer?.62:.86)) : Math.min(finePointer?275:225,innerWidth-28);
-    const vh=art ? Math.min(430,innerHeight*.54) : Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
+    const vw=art ? Math.min(finePointer?460:292,innerWidth*(finePointer?.54:.77)) : Math.min(finePointer?275:225,innerWidth-28);
+    const vh=art ? Math.min(finePointer?360:248,innerHeight*(finePointer?.46:.31)) : Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
     preview.style.width=vw+'px';
     preview.style.height=vh+'px';
     const left=Math.max(12,Math.min(innerWidth-vw-12,rect.left+rect.width/2-vw/2));

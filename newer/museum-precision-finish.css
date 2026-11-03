@@ -1,0 +1,66 @@
+/* The Third Era — restrained finishing pass, 3 November 2026.
+   Historical images, copy, page geometry, and film timing are unchanged. */
+:root {
+  --finish-void:#020203;
+  --finish-gallery:#030304;
+  --finish-panel:#070708;
+  --finish-hairline:rgba(232,227,232,.17);
+}
+/* A blacker, quieter environment without flattening original archival art. */
+body.official-entrance, body.official-entrance .cinema { background-color:var(--finish-void)!important; }
+body.dark,body.home-selected,body.gallery-polished { background-color:var(--finish-gallery)!important; }
+body.gallery-polished .site-header,body.home-selected .site-header { background-color:rgba(3,3,4,.96)!important; }
+body.gallery-polished main :is(.museum-global-artframe,.door-art) { background-color:var(--finish-panel); }
+/* Keep the existing one-line, 21-dot timeline. */
+body.museum-gallery-enabled .museum-gallery-rail {
+  background:rgba(3,3,4,.97)!important;
+  border-bottom-color:var(--finish-hairline)!important;
+  box-shadow:none!important;
+}
+body.museum-gallery-enabled .museum-gallery-rail .museum-rail-strip::before {
+  background:linear-gradient(90deg,transparent 0%,rgba(211,199,211,.34) 11%,rgba(211,199,211,.38) 50%,rgba(211,199,211,.34) 89%,transparent 100%)!important;
+}
+body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image[aria-current] .museum-rail-dot {
+  background:#e3d4e0!important;
+  box-shadow:0 0 0 3px rgba(3,3,4,.94),0 0 0 4px rgba(215,197,213,.24)!important;
+  opacity:1!important;
+}
+body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image:is(:hover,:focus-visible) .museum-rail-dot {
+  transform:translate3d(var(--thread-shift-x,0px),0,0) scale(1.85)!important;
+}
+/* Response is quick; the artwork retains its separate, gentle 5.5s camera motion. */
+body.museum-gallery-enabled .museum-rail-preview {
+  background:rgba(5,5,6,.985)!important;
+  border-color:rgba(230,220,226,.27)!important;
+}
+@media(min-width:701px) and (hover:hover) and (pointer:fine) {
+  body.museum-gallery-enabled .museum-rail-preview.has-art {
+    transition:transform .82s cubic-bezier(.16,.74,.22,1),opacity .35s ease,visibility .82s ease!important;
+  }
+}
+@media(max-width:700px) {
+  body.museum-gallery-enabled .museum-rail-preview.has-art {
+    padding:10px!important;
+    transition:transform .72s cubic-bezier(.2,.7,.23,1),opacity .3s ease,visibility .72s ease!important;
+  }
+  body.museum-gallery-enabled .museum-rail-preview.has-art .museum-rail-preview-title {
+    font-size:10px!important;letter-spacing:.075em!important;
+  }
+}
+@media(hover:hover) and (pointer:fine) {
+  body.gallery-polished .museum-global-artframe img,body.gallery-polished .door-art img {
+    transition-timing-function:cubic-bezier(.17,.66,.22,1)!important;
+  }
+}
+body.gallery-polished :is(h1,h2,h3,h4),body.home-selected :is(h1,h2,h3,h4){text-wrap:balance}
+body.gallery-polished :is(p,li,blockquote){text-wrap:pretty}
+/* Film backdrop only; all curated cards and original motion remain untouched. */
+body:not(.official-entrance) .theater {
+  background:radial-gradient(ellipse at 50% 43%,#080809 0%,#030304 58%,#010102 100%)!important;
+}
+@media(prefers-reduced-motion:reduce) {
+  body.museum-gallery-enabled .museum-rail-preview.has-art,
+  body.museum-gallery-enabled .museum-rail-preview.has-art.is-open,
+  body.gallery-polished .museum-global-artframe img,
+  body.gallery-polished .door-art img{transition:none!important}
+}
