@@ -134,6 +134,7 @@
     rail.classList.remove('is-thread-active');
   };
   const reveal = (link, fromTouch=false) => {
+    if (innerWidth <= 700) return;
     if(!link)return;
     clearTimeout(hideTimer);
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
@@ -182,6 +183,7 @@
       // Keyboard and assistive-technology activation must navigate on the first
       // attempt. The deliberate two-tap preview applies to touch only.
       link.addEventListener('click',event=>{
+        if (innerWidth <= 700) return;
         if(event.detail===0 || event.pointerType==='mouse') return;
         if(chosen!==link || !touchSelected){
           event.preventDefault();
