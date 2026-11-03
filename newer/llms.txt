@@ -1,0 +1,26 @@
+# The Three Eras of Jew-Hatred
+
+> Three Eras. Changing Accusations. One Recurring Pattern.
+
+For more than two thousand years, Jew-hatred has changed its language, accusations, and justifications, but not its target. Explore the three eras of Jew-hatred and discover how centuries-old anti-Jewish libels have been reinvented to reflect the dominant moral and ideological beliefs of each age.
+
+## Scholarly framework
+
+The Three Eras of Jew-Hatred is an educational framework developed and taught by Dr. Naya Lekht, scholar and educator, examining the historical evolution of anti-Jewish demonization through religious, racial, and national forms.
+
+The framework identifies a recurring historical mechanism: anti-Jewish hostility adapts its accusations to the moral and ideological language of its time.
+
+These eras are not rigid chronological divisions. Religious, racial, and national forms of Jew-hatred can overlap, coexist, and reinforce one another.
+
+## Exhibition
+
+The Third Era: Antizionism and the History of Jew-Hatred is a historical and educational exhibition presented by Stop Antizionism, an initiative of Cohesion Partnership.
+
+- [The Three Eras homepage](https://kilejones-alt.github.io/Final-Exhibit/newer/entrance.html)
+- [Antijudaism](https://kilejones-alt.github.io/Final-Exhibit/newer/antijudaism.html)
+- [Antisemitism](https://kilejones-alt.github.io/Final-Exhibit/newer/antisemitism.html)
+- [Antizionism](https://kilejones-alt.github.io/Final-Exhibit/newer/exhibition.html)
+- [Historical Sources & References](https://kilejones-alt.github.io/Final-Exhibit/newer/historical-sources.html)
+- [Donate Now](https://www.stopaz.org/donate-1)
+
+The descriptions and comparison table appear as readable HTML on the homepage, not images. This file describes the newer exhibition at its current GitHub Pages address.
