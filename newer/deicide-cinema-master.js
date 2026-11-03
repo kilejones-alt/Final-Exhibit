@@ -38,17 +38,19 @@ function idxAt(t){
 function moveCamera(n,local){
  if(reduced || n===8 || n===13)return;
  const p=Math.max(0,Math.min(1,local)),s=S[n];
+ const ease=p*p*(3-2*p);
  let dx=0,dy=0,scale=1.006;
  const direction=n%2===0?1:-1;
+ // Preserve full words at every edge of the original cards.
+ // The archival approach remains visible but never expands past the safe inset.
  switch(s.move){
-  case 'ascend':scale=1.012+.052*p;dx=direction*-8*p;dy=-14*p;break;
-  case 'glide':scale=1.009+.061*p;dx=direction*17*p;dy=direction*-3*p;break;
-  case 'slow':scale=1.012+.037*p;dx=direction*-8*p;dy=-7*p;break;
-  case 'close':scale=1.024+.073*p;dx=direction*8*p;dy=4*p;break;
-  case 'still':scale=1.009+.012*p;break;
-  default:scale=1.011+.048*p;
+  case 'ascend':scale=1.007+.024*ease;dx=direction*-2.5*ease;dy=-2.7*ease;break;
+  case 'glide':scale=1.007+.025*ease;dx=direction*2.7*ease;dy=-1.2*ease;break;
+  case 'slow':scale=1.007+.022*ease;dx=direction*-2*ease;dy=-2*ease;break;
+  case 'close':scale=1.007+.025*ease;dx=direction*2.2*ease;dy=1.6*ease;break;
+  case 'still':scale=1.007+.012*ease;break;
+  default:scale=1.007+.022*ease;
  }
- // Preserve the complete artwork: move the containing image, never crop its source.
  images[active].style.transform='translate3d('+dx.toFixed(2)+'px,'+dy.toFixed(2)+'px,0) scale('+scale.toFixed(4)+')';
 }
 function draw(n){
@@ -188,14 +190,12 @@ async function toggleMusic(){
   message('Tap Play music to enable sound');
  }
 }
-sound.addEventListener('click',toggleMusic);
+// Music controls are intentionally disabled in the silent exhibition film.
 pause.addEventListener('click',togglePause);
 previous.addEventListener('click',()=>seek(offsets[Math.max(0,idxAt(time)-1)]+.01));
 next.addEventListener('click',()=>seek(offsets[Math.min(S.length-1,idxAt(time)+1)]+.01));
 $('exit').addEventListener('click',closeFilm);
-art.addEventListener('click',()=>{
- if(!sounding&&!finishing)toggleMusic();
-});
+// Clicking the original archival card never starts audio.
 progress.max=String(TOTAL);
 progress.addEventListener('pointerdown',()=>{seekDragging=true});
 progress.addEventListener('pointerup',()=>{seekDragging=false;seek(progress.value)});
@@ -226,7 +226,7 @@ preload(0);preload(1);preload(2);
 images[0].src=S[0].photo;
 images[1].src=S[0].photo;
 halo.src=S[0].photo;
-aud.src='assets/deicide-cinema/deicide_quick_ambient.m4a?edition=museum-master';
-aud.preload='auto';aud.volume=0;
+// The film is silent; don't download a hidden soundtrack.
+aud.removeAttribute('src');aud.preload='none';aud.volume=0;
 draw(0);renderTransport();
 requestAnimationFrame(()=>{theater.classList.add('open');requestAnimationFrame(tick)});
