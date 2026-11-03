@@ -1,22 +1,23 @@
 /* Three Eras / Deicide: cinematic arrival into the existing historical film.
  * The archival film begins immediately while the page darkens and the image
- * gently enlarges over five seconds. Audio remains opt-in under browser rules. */
+ * gently enlarges over five seconds. The film is silent and has no music UI. */
 (() => {
   'use strict';
   const section = document.getElementById('deicide-cinema');
   if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261102-minimal-cinema-v3&embedded=1';
+  const source = 'deicide-museum-film.html?edition=20261102-silent-cinema-v4&embedded=1';
   const next = document.getElementById('libel-02');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let overlay = null;
   let opened = false;
   let dismissed = false;
+  let closing = false;
   let wasPlaying = false;
   let lastFocus = null;
 
   function start() {
-    if (opened) return;
+    if (opened || closing) return;
     opened = true;
     dismissed = true;
     lastFocus = document.activeElement;
@@ -59,18 +60,24 @@
   }
 
   function close(advance = true) {
-    if (!opened) return;
+    if (!opened || closing) return;
     opened = false;
-    overlay?.remove();
-    overlay = null;
-    document.body.classList.remove('deicide-film-host-open');
-
-    if (wasPlaying && siteAudio) siteAudio.play().catch(() => {});
-    wasPlaying = false;
-    if (advance && next) next.scrollIntoView({
-      behavior: reducedMotion ? 'auto' : 'smooth', block: 'start'
-    });
-    if (lastFocus?.isConnected) lastFocus.focus({ preventScroll: true });
+    closing = true;
+    overlay?.classList.add('is-closing');
+    const previousFocus = lastFocus;
+    // The room fades away before returning the visitor to the exhibition.
+    setTimeout(() => {
+      overlay?.remove();
+      overlay = null;
+      closing = false;
+      document.body.classList.remove('deicide-film-host-open');
+      if (wasPlaying && siteAudio) siteAudio.play().catch(() => {});
+      wasPlaying = false;
+      if (advance && next) next.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth', block: 'start'
+      });
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+    }, reducedMotion ? 0 : 1100);
   }
 
   window.addEventListener('message', event => {
