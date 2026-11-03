@@ -6,8 +6,7 @@ const S=SCENES;
 const $=id=>document.getElementById(id);
 const theater=$('theater'),art=$('image-hold'),stage=$('stage'),halo=$('halo');
 const images=[$('image-a'),$('image-b')],copy=$('copy'),date=$('date'),title=$('title'),quote=$('quote');
-const aud=$('voice'),sound=$('narrate'),pause=$('pause'),previous=$('previous'),next=$('next');
-const progress=$('progress'),timer=$('time-display'),sceneName=$('scene-name'),counter=$('hud-counter'),status=$('status');
+const aud=$('voice'),sound=$('narrate'),status=$('status');
 const reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const hosted=new URLSearchParams(location.search).get('embedded')==='1';
 const offsets=[0];
@@ -15,10 +14,8 @@ S.forEach(s=>offsets.push(offsets[offsets.length-1]+s.duration));
 const TOTAL=offsets[offsets.length-1];
 const SCORE_END=Math.min(133,TOTAL);
 const sceneCache=new Map();
-let time=0,last=0,current=-1,active=0,playing=!hosted,sounding=false,finishing=false,raf=0;
-let begun=!hosted,fadeTimer=null,finishTimer=null,seekDragging=false;
-const numeral=n=>String(n).padStart(2,'0');
-const clock=t=>numeral(Math.floor(t/60))+':'+numeral(Math.floor(t%60));
+let time=0,last=0,current=-1,active=0,playing=true,sounding=false,finishing=false,raf=0;
+let begun=true,fadeTimer=null,finishTimer=null,suspendedByVisibility=false;
 function message(value){
  status.textContent=value;
  clearTimeout(message.timer);
@@ -49,6 +46,8 @@ function moveCamera(n,local){
   default:scale=1.011+.048*p;
  }
  // Preserve the complete artwork: move the containing image, never crop its source.
+ // Restrained movement protects artwork lettering and composition.
+ scale=Math.min(1.035,scale);dx=Math.max(-6,Math.min(6,dx));dy=Math.max(-6,Math.min(6,dy));
  images[active].style.transform='translate3d('+dx.toFixed(2)+'px,'+dy.toFixed(2)+'px,0) scale('+scale.toFixed(4)+')';
 }
 function draw(n){
@@ -72,8 +71,6 @@ function draw(n){
  date.textContent=s.date;
  title.textContent=s.title;
  quote.textContent=s.sub;
- sceneName.textContent=s.date;
- counter.textContent=numeral(n+1)+' / '+numeral(S.length);
  requestAnimationFrame(()=>requestAnimationFrame(()=>copy.classList.add('is-shown')));
  preload(n+1);preload(n+2);
 }
@@ -89,15 +86,6 @@ function audioFollow(){
  const outro=Math.min(1,Math.max(0,(SCORE_END-aud.currentTime)/6.3));
  aud.volume=Math.min(.58,.58*intro*outro);
 }
-function renderTransport(){
- if(!seekDragging){
-  progress.value=String(Math.min(TOTAL,time));
-  progress.style.setProperty('--progress',(time/TOTAL*100).toFixed(3)+'%');
- }
- timer.textContent=clock(time)+' / '+clock(TOTAL);
- pause.textContent=finishing?'Replay':playing?'Pause':'Resume';
- pause.setAttribute('aria-label',finishing?'Replay film':playing?'Pause film':'Resume film');
-}
 function closeFilm(){
  playing=false;sounding=false;aud.pause();
  clearTimeout(fadeTimer);clearTimeout(finishTimer);
@@ -108,8 +96,8 @@ function finish(){
  if(finishing)return;
  finishing=true;playing=false;
  sounding=false;aud.pause();
- sound.textContent='Play music';sound.setAttribute('aria-pressed','false');
- renderTransport();
+ sound.setAttribute('aria-label','Play music');sound.title='Play music';sound.setAttribute('aria-pressed','false');
+ 
  if(hosted){
   // The image stays on its last credits frame before the room fades to black.
   fadeTimer=setTimeout(()=>{theater.classList.add('finale')},550);
@@ -127,7 +115,7 @@ function tick(now){
  draw(n);
  moveCamera(n,(time-offsets[n])/S[n].duration);
  audioFollow();
- renderTransport();
+ 
  if(time>=TOTAL)finish();
  raf=requestAnimationFrame(tick);
 }
@@ -141,9 +129,9 @@ function seek(t){
  if(sounding&&!aud.paused && value<SCORE_END-.07){
   try{aud.currentTime=value}catch(e){}
  }else if(sounding&&value>=SCORE_END){
-  aud.pause();sounding=false;sound.textContent='Play music';sound.setAttribute('aria-pressed','false');
+  aud.pause();sounding=false;sound.setAttribute('aria-label','Play music');sound.title='Play music';sound.setAttribute('aria-pressed','false');
  }
- draw(idxAt(time));renderTransport();
+ draw(idxAt(time));
 }
 function togglePause(){
  if(!begun)return;
@@ -152,7 +140,7 @@ function togglePause(){
   theater.classList.remove('finale');
   clearTimeout(fadeTimer);clearTimeout(finishTimer);
   if(sounding){try{aud.currentTime=0}catch(e){}aud.play().catch(()=>{})}
-  draw(0);renderTransport();return;
+  draw(0);return;
  }
  playing=!playing;
  last=0;
@@ -160,12 +148,12 @@ function togglePause(){
   if(playing)aud.play().catch(()=>{});
   else aud.pause();
  }
- renderTransport();
+ 
 }
 async function toggleMusic(){
  if(sounding){
   aud.pause();sounding=false;
-  sound.textContent='Play music';sound.setAttribute('aria-pressed','false');
+  sound.setAttribute('aria-label','Play music');sound.title='Play music';sound.setAttribute('aria-pressed','false');
   message('Music off');
   return;
  }
@@ -180,7 +168,7 @@ async function toggleMusic(){
   aud.volume=.08;
   await aud.play();
   sounding=true;
-  sound.textContent='Music on';sound.setAttribute('aria-pressed','true');
+  sound.setAttribute('aria-label','Mute music');sound.title='Mute music';sound.setAttribute('aria-pressed','true');
   message('Music on');
   // Don't start the film during the architectural entrance.
   if(begun&&!playing)togglePause();
@@ -189,18 +177,7 @@ async function toggleMusic(){
  }
 }
 sound.addEventListener('click',toggleMusic);
-pause.addEventListener('click',togglePause);
-previous.addEventListener('click',()=>seek(offsets[Math.max(0,idxAt(time)-1)]+.01));
-next.addEventListener('click',()=>seek(offsets[Math.min(S.length-1,idxAt(time)+1)]+.01));
 $('exit').addEventListener('click',closeFilm);
-art.addEventListener('click',()=>{
- if(!sounding&&!finishing)toggleMusic();
-});
-progress.max=String(TOTAL);
-progress.addEventListener('pointerdown',()=>{seekDragging=true});
-progress.addEventListener('pointerup',()=>{seekDragging=false;seek(progress.value)});
-progress.addEventListener('input',()=>{seekDragging=true;seek(progress.value);progress.value=String(time);progress.style.setProperty('--progress',(time/TOTAL*100).toFixed(3)+'%')});
-progress.addEventListener('change',()=>{seekDragging=false;seek(progress.value)});
 document.addEventListener('keydown',event=>{
  if(event.key==='Escape'){event.preventDefault();closeFilm()}
  else if(event.code==='Space'&&!event.target.closest('button,input')){event.preventDefault();togglePause()}
@@ -210,16 +187,16 @@ document.addEventListener('keydown',event=>{
  }
 });
 document.addEventListener('visibilitychange',()=>{
- if(document.hidden&&playing){playing=false;last=0;if(sounding)aud.pause();renderTransport()}
+ if(document.hidden){
+  suspendedByVisibility=playing;
+  if(playing){playing=false;last=0;if(sounding)aud.pause();}
+ }else if(suspendedByVisibility&&!finishing){
+  suspendedByVisibility=false;playing=true;last=0;
+  if(sounding)aud.play().catch(()=>{});
+ }
 });
 aud.addEventListener('ended',()=>{
- sounding=false;sound.textContent='Play music';sound.setAttribute('aria-pressed','false');
-});
-window.addEventListener('message',event=>{
- if(event.origin!==location.origin||event.source!==window.parent)return;
- if(event.data?.type==='deicide-film-start'&&!begun){
-  begun=true;playing=true;last=0;renderTransport();
- }
+ sounding=false;sound.setAttribute('aria-label','Play music');sound.title='Play music';sound.setAttribute('aria-pressed','false');
 });
 // Only critical art loads immediately; other frames are fetched as the film advances.
 preload(0);preload(1);preload(2);
@@ -228,5 +205,5 @@ images[1].src=S[0].photo;
 halo.src=S[0].photo;
 aud.src='assets/deicide-cinema/deicide_quick_ambient.m4a?edition=museum-master';
 aud.preload='auto';aud.volume=0;
-draw(0);renderTransport();
+draw(0);
 requestAnimationFrame(()=>{theater.classList.add('open');requestAnimationFrame(tick)});
