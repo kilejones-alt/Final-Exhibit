@@ -1,0 +1,87 @@
+/* Three original archival works, presented as one museum installation. */
+body.geo-home .hero.geo-doors{
+  min-height:100svh;
+  padding:0 0 clamp(76px,9vw,138px);
+  background:radial-gradient(ellipse 80% 62% at 50% 47%,#191718 0%,#080809 72%,#050506 100%)!important;
+}
+body.geo-home .hero.geo-doors .hero-title{
+  padding-top:clamp(38px,5.4vw,82px)!important;
+  padding-bottom:clamp(30px,4vw,55px)!important;
+}
+body.geo-home .hero.geo-doors .hero-title .geo-hero-tagline{
+  margin-top:clamp(17px,2vw,27px)!important;
+  color:#d8cfca!important;
+}
+body.geo-home .hero.geo-doors .triptych{
+  width:min(100%,1520px)!important;
+  max-width:1520px!important;
+  gap:clamp(18px,3vw,48px)!important;
+  padding-inline:clamp(26px,5vw,80px)!important;
+}
+body.geo-home .hero.geo-doors .triptych .door.geo-door{
+  position:relative;
+  isolation:isolate;
+  transition:translate .75s cubic-bezier(.18,.75,.2,1),filter .75s ease!important;
+}
+body.geo-home .hero.geo-doors .triptych .door.geo-door::before{
+  position:absolute;
+  top:22px;left:22px;z-index:3;
+  font:400 11px/1 Source,Arial,sans-serif;
+  letter-spacing:.18em;
+  color:#eee8e3;
+  text-shadow:0 2px 16px #000;
+  pointer-events:none;
+}
+body.geo-home .hero.geo-doors .triptych .door.geo-door:nth-child(1)::before{content:'I'}
+body.geo-home .hero.geo-doors .triptych .door.geo-door:nth-child(2)::before{content:'II'}
+body.geo-home .hero.geo-doors .triptych .door.geo-door:nth-child(3)::before{content:'III'}
+body.geo-home .hero.geo-doors .triptych .door-art{
+  aspect-ratio:4/5!important;
+  background:#080809!important;
+  border:1px solid rgba(234,225,218,.32)!important;
+  box-shadow:0 24px 75px #000b,0 0 0 7px #080809,0 0 0 8px rgba(234,225,218,.11)!important;
+  transition:box-shadow .8s ease,transform .8s cubic-bezier(.18,.75,.2,1)!important;
+}
+body.geo-home .hero.geo-doors .triptych .door-art::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.24),transparent 20%,transparent 76%,rgba(0,0,0,.33));
+  box-shadow:inset 0 0 34px #0008;
+}
+body.geo-home .hero.geo-doors .triptych .door-label{
+  padding-top:clamp(29px,3.5vw,48px)!important;
+  font-size:clamp(31px,3vw,46px)!important;
+  letter-spacing:-.035em!important;
+}
+body.geo-home .hero.geo-doors .geo-door-type{color:#b8aaa5!important}
+body.geo-home .hero.geo-doors .geo-door-claim{color:#eee6e0!important}
+body.geo-home .hero.geo-doors .geo-door-caption{color:#beb4af!important}
+body.geo-home .hero.geo-doors .geo-door-cta{margin-top:24px!important}
+body.geo-home .hero.geo-doors .geo-lead-after-doors{
+  max-width:850px;
+  margin:clamp(75px,8vw,125px) auto 0;
+  padding:clamp(27px,3.8vw,55px) 25px 0;
+  border-top:1px solid rgba(238,230,225,.17);
+  color:#d8d0cb;
+  font:400 clamp(18px,1.7vw,24px)/1.65 Source,Georgia,serif;
+  text-align:center;
+  text-wrap:pretty;
+}
+@media(hover:hover) and (pointer:fine){
+  body.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hover,:focus-visible){translate:0 -12px;filter:brightness(1.09)}
+  body.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hover,:focus-visible) .door-art{
+    box-shadow:0 34px 95px #000e,0 0 0 7px #080809,0 0 0 8px rgba(234,225,218,.38)!important;
+  }
+}
+@media(max-width:700px){
+  body.geo-home .hero.geo-doors{padding-bottom:70px}
+  body.geo-home .hero.geo-doors .hero-title{padding-top:30px!important;padding-bottom:34px!important}
+  body.geo-home .hero.geo-doors .triptych{gap:14px!important;padding-inline:20px!important}
+  body.geo-home .hero.geo-doors .triptych .door.geo-door::before{top:12px;left:13px}
+  body.geo-home .hero.geo-doors .triptych .door-art{box-shadow:0 11px 27px #0009,0 0 0 3px #080809,0 0 0 4px rgba(234,225,218,.12)!important}
+  body.geo-home .hero.geo-doors .triptych .door-label{font-size:clamp(22px,6vw,31px)!important;padding-top:16px!important}
+  body.geo-home .hero.geo-doors .geo-lead-after-doors{margin-top:66px;padding-inline:22px;text-align:left}
+}
+@media(prefers-reduced-motion:reduce){
+  body.geo-home .hero.geo-doors .triptych .door.geo-door,
+  body.geo-home .hero.geo-doors .triptych .door-art{transition:none!important}
+}
