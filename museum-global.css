@@ -451,3 +451,45 @@ body.museum-gallery-enabled:not(.official-entrance) .museum-gallery-rail{
  .museum-rail-dot,.museum-rail-preview,.museum-rail-preview img{transition-duration:.01ms!important}
  .museum-rail-preview.is-open img{transform:none}
 }
+
+
+/* Finishing pass: the navigation should feel engraved into the museum wall,
+   never like a permanently exposed image-carousel. */
+.museum-rail-image .museum-rail-dot{
+  background:#a99ba6;
+  box-shadow:0 0 0 2px rgba(8,7,9,.98);
+}
+.museum-rail-image[aria-current] .museum-rail-dot{background:#ece0e9}
+.museum-rail-preview{
+  border-color:rgba(232,224,230,.29);
+  box-shadow:0 28px 88px rgba(0,0,0,.87),0 0 0 1px rgba(255,255,255,.03);
+  transition:opacity .58s ease,visibility .58s ease,
+    transform 2.8s cubic-bezier(.14,.74,.2,1);
+}
+.museum-rail-preview img{
+  filter:none!important;
+  background:#090909;
+  transition:transform 5.6s cubic-bezier(.14,.68,.19,1)!important;
+}
+.museum-rail-preview.is-open img{transform:scale(1.055)}
+/* Respect the color and contrast of original archival artwork in the gallery.
+   Retain monochrome source files as monochrome; never force colorization. */
+.museum-global-artframe img{filter:none}
+@media(hover:hover) and (pointer:fine){
+  .museum-global-artframe:is(:hover,:focus-within) img{
+    filter:brightness(1.055) contrast(1.015);
+  }
+}
+@media(hover:none),(pointer:coarse){
+  .museum-global-artframe.museum-mobile-arrived img{
+    animation:museum-touch-camera-art-direction 5.6s cubic-bezier(.16,.67,.21,1) 1 both;
+  }
+  @keyframes museum-touch-camera-art-direction{
+    from{transform:scale(1);filter:brightness(1)}
+    to{transform:scale(1.047);filter:brightness(1.035)}
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .museum-global-artframe.museum-mobile-arrived img{animation:none!important}
+  .museum-rail-preview,.museum-rail-preview img{transition:none!important}
+}
