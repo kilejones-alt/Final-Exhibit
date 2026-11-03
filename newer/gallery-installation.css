@@ -9,6 +9,10 @@ body.gallery-polished .museum-rail-context{background:#050505}
 body.gallery-polished.geo-home .hero.geo-doors{background:#050505!important;padding-bottom:64px}
 body.gallery-polished.geo-home .hero.geo-doors .hero-title{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.65fr);align-items:end;gap:45px;max-width:1520px;text-align:left;padding:clamp(40px,5vw,76px) var(--installation-gutter) 42px!important}
 body.gallery-polished.geo-home .hero.geo-doors .hero-title h1{max-width:16ch;font:400 clamp(48px,5.7vw,100px)/.96 Caslon,Georgia,serif!important;letter-spacing:-.045em;color:#fff;text-wrap:balance}
+body.gallery-polished.geo-home .hero.geo-doors .hero-title>*{min-width:0;position:static!important;inset:auto!important;transform:none!important;translate:none!important}
+body.gallery-polished.geo-home .hero.geo-doors .hero-title h1{width:auto!important;white-space:normal!important;text-wrap:balance!important;overflow-wrap:normal;max-width:100%!important}
+body.gallery-polished.geo-home .hero.geo-doors .hero-title .geo-hero-tagline{width:auto!important;white-space:normal!important;align-self:end}
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door{transform:none!important;translate:none!important}
 body.gallery-polished.geo-home .hero.geo-doors .hero-title .geo-hero-tagline{margin:0!important;max-width:25ch;padding-bottom:5px;font:400 17px/1.55 Source,Arial,sans-serif!important;color:#c7c7c7!important}
 body.gallery-polished.geo-home .hero.geo-doors .triptych{gap:clamp(18px,2.2vw,34px)!important;padding-inline:var(--installation-gutter)!important}
 body.gallery-polished.geo-home .hero.geo-doors .triptych .door-art{aspect-ratio:4/5!important;border:0!important;background:#101010!important;box-shadow:none!important;padding:clamp(10px,1.3vw,20px)!important}
