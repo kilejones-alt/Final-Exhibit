@@ -17,6 +17,15 @@
   let wasPlaying = false;
   let lastFocus = null;
   let entryTimer = null;
+  // A direct chapter link can cross this sentinel during the browser's initial
+  // smooth scroll. Only enter the slideshow when that is the chosen destination
+  // or when the visitor deliberately scrolls through the gallery.
+  let chapterJump = Boolean(location.hash && location.hash !== '#deicide-cinema' && location.hash !== '#libel-deicide');
+  const beginReading = () => { chapterJump = false; };
+  addEventListener('wheel',beginReading,{passive:true});
+  addEventListener('touchstart',beginReading,{passive:true});
+  addEventListener('keydown',event=>{if(['ArrowDown','ArrowUp','PageDown','PageUp',' '].includes(event.key))beginReading()});
+  addEventListener('hashchange',()=>{chapterJump=Boolean(location.hash && location.hash !== '#deicide-cinema' && location.hash !== '#libel-deicide')});
 
   function start() {
     if (opened) return;
@@ -135,7 +144,7 @@
 
     const entranceObserver = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
-        if (!dismissed && !opened) start();
+        if (!dismissed && !opened && !chapterJump) start();
       } else if (!opened) {
         dismissed = false;
       }
