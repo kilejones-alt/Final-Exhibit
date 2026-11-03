@@ -1,21 +1,19 @@
 /* Three Eras / Deicide: cinematic arrival into the existing historical film.
- * The page darkens as the archival image grows. Film time begins only when the
- * entry transition settles. Audio remains user initiated under browser rules. */
+ * The archival film begins immediately while the page darkens and the image
+ * gently enlarges over five seconds. Audio remains opt-in under browser rules. */
 (() => {
   'use strict';
   const section = document.getElementById('deicide-cinema');
   if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261102-museum-master-v2&embedded=1';
+  const source = 'deicide-museum-film.html?edition=20261102-minimal-cinema-v3&embedded=1';
   const next = document.getElementById('libel-02');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const arrivalMs = reducedMotion ? 0 : 3900;
   let overlay = null;
   let opened = false;
   let dismissed = false;
   let wasPlaying = false;
   let lastFocus = null;
-  let entryTimer = null;
 
   function start() {
     if (opened) return;
@@ -31,8 +29,8 @@
 
     const rect = section.getBoundingClientRect();
     const relativeY = rect.top + rect.height / 2 - innerHeight / 2;
-    const startY = Math.max(-innerHeight * .28, Math.min(innerHeight * .28, relativeY));
-    const startScale = Math.max(.50, Math.min(.70, Math.min(rect.width / innerWidth, rect.height / innerHeight) * .85));
+    const startY = Math.max(-innerHeight * .035, Math.min(innerHeight * .035, relativeY * .15));
+    const startScale = reducedMotion ? 1 : .92;
 
     overlay = document.createElement('div');
     overlay.className = 'deicide-film-host';
@@ -50,17 +48,6 @@
     frame.setAttribute('loading', 'eager');
     overlay.appendChild(frame);
 
-    let frameReady = false, arrivalFinished = false;
-    const playWhenReady = () => {
-      if (!opened || !frameReady || !arrivalFinished || !frame.contentWindow) return;
-      frame.contentWindow.postMessage({ type: 'deicide-film-start' }, window.location.origin);
-    };
-
-    frame.addEventListener('load', () => {
-      frameReady = true;
-      playWhenReady();
-    }, { once: true });
-
     document.body.appendChild(overlay);
     document.body.classList.add('deicide-film-host-open');
 
@@ -68,19 +55,12 @@
       if (opened && overlay) overlay.classList.add('is-opening');
     }));
 
-    entryTimer = setTimeout(() => {
-      arrivalFinished = true;
-      playWhenReady();
-    }, arrivalMs);
-
     frame.focus();
   }
 
   function close(advance = true) {
     if (!opened) return;
     opened = false;
-    clearTimeout(entryTimer);
-    entryTimer = null;
     overlay?.remove();
     overlay = null;
     document.body.classList.remove('deicide-film-host-open');
