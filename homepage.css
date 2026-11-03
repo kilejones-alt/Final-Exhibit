@@ -195,8 +195,8 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 @media(max-width:420px){
  .official-entrance .entrance-controls{padding-top:max(10px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right))}
  .official-entrance .entrance-controls .pills{gap:4px}
- .official-entrance .entrance-controls .pill{min-height:38px;height:38px;padding:6px 9px;font-size:10px}
- .official-entrance .entrance-controls .music{min-width:38px;width:38px}
+ .official-entrance .entrance-controls .pill{min-height:44px;height:44px;padding:7px 9px;font-size:10px}
+ .official-entrance .entrance-controls .music{min-width:44px;width:44px}
 }
 @media(prefers-reduced-motion:reduce){
  .official-entrance .entrance-controls .pill{transition:none}
