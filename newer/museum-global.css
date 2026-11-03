@@ -1197,7 +1197,7 @@ body.museum-gallery-enabled .museum-rail-preview-title{
     transform:scale(.025)!important;
     opacity:0;
     pointer-events:none;
-    transition:transform 2.8s cubic-bezier(.15,.72,.19,1),opacity .85s ease,visibility 2.8s ease!important;
+    transition:transform 7.5s cubic-bezier(.22,.35,.2,1),opacity 1.2s ease,visibility 7.5s ease!important;
   }
   body.museum-gallery-enabled .museum-rail-preview.has-art.is-open{
     transform:scale(1)!important;
@@ -1230,7 +1230,7 @@ body.museum-gallery-enabled .museum-rail-preview:not(.has-art) .museum-rail-prev
     pointer-events:none;
     transform-origin:var(--dot-origin-x,50%) var(--dot-origin-y,0px)!important;
     transform:scale(.025)!important;
-    transition:transform 2.4s cubic-bezier(.15,.72,.19,1),opacity .7s ease,visibility 2.4s ease!important;
+    transition:transform 7.5s cubic-bezier(.22,.35,.2,1),opacity 1.2s ease,visibility 7.5s ease!important;
   }
   body.museum-gallery-enabled .museum-rail-preview.has-art.is-open{
     grid-template-rows:minmax(0,1fr) auto;

@@ -39,6 +39,10 @@ body main p[data-museum-reveal],body main .sentence-word{
 }
 body main .sentence-word{transition:none!important}
 body main img{max-width:100%;height:auto}
+.source-room-subtitle{font:400 clamp(24px,2.4vw,36px)/1.2 Caslon,Georgia,serif;letter-spacing:-.02em;margin:0 0 25px;color:#f0e8e1}
+.source-narrative{width:min(calc(100% - 60px),960px);margin:0 auto;padding:55px 0}
+.source-narrative p{font:400 clamp(17px,1.45vw,21px)/1.75 Caslon,Georgia,serif;color:#e4dad3;margin:0 0 27px}
+.source-narrative p:last-child{margin-bottom:0}
 /* Each object has one consistent identification line beneath the image. */
 body article.artifact,body article.artifact:nth-of-type(even){
   grid-template-columns:minmax(0,1fr);justify-items:center;gap:16px;
