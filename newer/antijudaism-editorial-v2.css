@@ -285,3 +285,21 @@
 @media(prefers-reduced-motion:reduce){
   .aj-page .aj-intro-scene .aj-object img{transform:none!important;transition:none!important}
 }
+
+
+/* Anti-Judaism manuscript: white-on-black editorial typography. */
+/* The source text and artwork are preserved. Scope the change to this
+   exhibition room, not the entrance animations or any other exhibition page. */
+.aj-page .exhibition-future-main :is(
+  h1,h2,h3,h4,p,li,blockquote,
+  .aj-era-name,.aj-era-number,.aj-kicker,.aj-number,.aj-section-label,
+  .aj-pullquote,.aj-fact,.aj-fact strong,.aj-faq summary,
+  .aj-subnav a,.aj-film-link,.aj-sources a,.aj-links a,
+  .aj-next-actions a,.aj-credits,.aj-credits p,
+  .aj-object figcaption,.aj-object figcaption span
+){
+  color:#fff!important;
+}
+.aj-page .exhibition-future-main .aj-intro-continuation :is(.aj-intro-beat,.aj-intro-prose) p{
+  color:#fff!important;
+}
