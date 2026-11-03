@@ -241,3 +241,65 @@ html:not(.motion-ready) .home-selected .framework-arrow-tip{
  .home-selected .home-overview{padding-inline:clamp(24px,4vw,48px)}
  .home-selected .era-framework{max-width:100%}
 }
+
+
+/* Reference artwork: preserve the exact image typography and colors as pixels.
+   Reveal on approach; source graphic stays available when animation is reduced. */
+html[lang="en"] .home-selected .era-framework.framework-reference-ready {
+  position: relative;
+  isolation: isolate;
+}
+html[lang="en"] .home-selected .era-framework.framework-reference-ready > .framework-inner {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+html[lang="en"] .home-selected .framework-reference-art {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  display: block;
+}
+html[lang="en"] .home-selected .framework-reference-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: none !important;
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(18px) scale(.985);
+  transform-origin: 50% 0%;
+}
+html[lang="en"] .home-selected .era-framework.is-revealed .framework-reference-art img {
+  animation: reference-ink-flow 6.8s cubic-bezier(.14,.62,.19,1) .3s 1 forwards;
+}
+html[lang="en"] .home-selected .framework-reference-art figcaption {
+  display: block;
+  margin-top: clamp(17px,2.3vw,26px);
+  text-align: left;
+  font: 12px/1.45 Source,Arial,sans-serif;
+  color: #dfd9d6;
+}
+@keyframes reference-ink-flow {
+  0% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(18px) scale(.985); }
+  11% { opacity: 1; clip-path: inset(0 0 85% 0); }
+  35% { opacity: 1; clip-path: inset(0 0 58% 0); }
+  63% { opacity: 1; clip-path: inset(0 0 30% 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[lang="en"] .home-selected .framework-reference-art img,
+  html[lang="en"] .home-selected .era-framework.is-revealed .framework-reference-art img {
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
