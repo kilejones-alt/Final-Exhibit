@@ -39,6 +39,23 @@
     [2,'colonialism.html#museum-object-06'],
     [2,'apartheid.html#museum-object-01']
   ];
+  // Existing object images are loaded only when a visitor approaches a dot.
+  // Chapter/film points have no duplicate artwork preview.
+  const previewArt = [
+    'assets/antijudaism-1.jpg', null, 'assets/antijudaism-2.jpg',
+    'assets/antijudaism-4.jpg', null, 'assets/antijudaism-5.jpg',
+    'assets/antijudaism-3.jpg', null,
+    'assets/antisemitism-1.jpg', 'assets/antisemitism-2.jpg',
+    'assets/antisemitism-3.jpg', 'assets/antisemitism-4.jpg',
+    'assets/antisemitism-5.jpg',
+    'assets/naya-nelyubin-un-1978.webp',
+    'assets/naya-sayegh-1965.webp', 'assets/naya-rodinson-1967.webp',
+    'assets/naya-ivanov-beware-zionism-1969.webp',
+    'assets/naya-sychov-moscow-1972.webp',
+    'assets/naya-expansionists-krokodil-1973.webp',
+    'assets/naya-cherepanov-israeli-plan-1979.webp',
+    'assets/naya-efimovsky-zionism-racism-1976.webp'
+  ];
   const chapters = ['I','II','III'];
   const main = document.querySelector('main');
   const header = document.querySelector('.site-header');
@@ -118,6 +135,11 @@
   const preview = document.createElement('div');
   preview.className = 'museum-rail-preview';
   preview.setAttribute('aria-hidden','true');
+  const previewImage = document.createElement('img');
+  previewImage.className = 'museum-rail-preview-art';
+  previewImage.alt = '';
+  previewImage.decoding = 'async';
+  preview.append(previewImage);
   const previewTitle = document.createElement('span');
   previewTitle.className = 'museum-rail-preview-title';
   preview.append(previewTitle);
@@ -140,11 +162,14 @@
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
     const changed = chosen !== link;
     chosen=link;touchSelected=fromTouch;
+    const art = previewArt[anchors.indexOf(link)];
+    preview.classList.toggle('has-art', Boolean(art));
+    if (art && previewImage.getAttribute('src') !== art) previewImage.src = art;
     link.classList.add('is-revealed');
     rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
-    const vw=Math.min(finePointer?275:225,innerWidth-28);
-    const vh=Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
+    const vw=art ? Math.min(760,innerWidth*.72) : Math.min(finePointer?275:225,innerWidth-28);
+    const vh=art ? Math.min(650,innerHeight*.73) : Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
     preview.style.width=vw+'px';
     preview.style.height=vh+'px';
     const left=Math.max(12,Math.min(innerWidth-vw-12,rect.left+rect.width/2-vw/2));

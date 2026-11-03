@@ -9,7 +9,7 @@
   const next = document.getElementById('libel-blood');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const arrivalMs = reducedMotion ? 0 : 3900;
+  const arrivalMs = reducedMotion ? 0 : 1550;
   let overlay = null;
   let opened = false;
   let dismissed = false;

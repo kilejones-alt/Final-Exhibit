@@ -39,8 +39,8 @@
   background:radial-gradient(ellipse at center,rgba(0,0,0,.80),#000 85%);
   opacity:0;backdrop-filter:blur(0px) brightness(1);
   -webkit-backdrop-filter:blur(0px) brightness(1);
-  transition:opacity 3.1s cubic-bezier(.17,.64,.21,1),
-    backdrop-filter 3.1s ease,-webkit-backdrop-filter 3.1s ease;
+  transition:opacity 1.9s cubic-bezier(.17,.64,.21,1),
+    backdrop-filter 1.9s ease,-webkit-backdrop-filter 1.9s ease;
 }
 .deicide-film-host.is-opening::before{opacity:1;backdrop-filter:blur(15px) brightness(.12);-webkit-backdrop-filter:blur(15px) brightness(.12)}
 .deicide-film-host iframe{
@@ -51,9 +51,9 @@
   transform-origin:center center;
   border-radius:clamp(14px,3vw,46px);
   box-shadow:0 34px 140px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.10);
-  transition:transform 3.85s cubic-bezier(.13,.71,.18,1),
-    opacity 2.1s ease .33s,
-    border-radius 3.85s cubic-bezier(.13,.71,.18,1);
+  transition:transform 2.25s cubic-bezier(.13,.71,.18,1),
+    opacity 1.15s ease .14s,
+    border-radius 2.25s cubic-bezier(.13,.71,.18,1);
   will-change:transform,opacity;
 }
 .deicide-film-host.is-opening iframe{
