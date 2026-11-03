@@ -1,0 +1,516 @@
+/* The Three Eras — shared museum grammar.
+ * One understated, persistent artwork timeline on the official EN/RU/HE
+ * installation and every populated exhibit room.
+ * Typography, images and content remain source-authentic. */
+.museum-gallery-rail{
+  --rail-plum:#ac95aa;--rail-bg:rgba(7,7,9,.965);
+  --rail-border:rgba(229,223,230,.19);--rail-ink:#ece8eb;
+  box-sizing:border-box!important;
+  position:sticky;top:0;z-index:95;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);
+  grid-template-areas:"heading tabs" "art art" "indicator indicator";
+  gap:0 12px;width:100%;max-width:100vw;
+  min-height:98px;padding:6px max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));
+  margin:0;border-top:1px solid var(--rail-border);border-bottom:1px solid var(--rail-border);
+  background:var(--rail-bg);color:var(--rail-ink);
+  font-family:Source,Arial,sans-serif;font-weight:400;
+  box-shadow:0 15px 45px rgba(0,0,0,.28);
+  -webkit-font-smoothing:antialiased;
+  contain:layout style;
+}
+.museum-gallery-rail *,.museum-rail-preview *{box-sizing:border-box!important}
+.museum-gallery-rail a{color:inherit;text-decoration:none;cursor:pointer}
+.museum-gallery-rail a:focus-visible{outline:2px solid #ddd2df;outline-offset:3px}
+.museum-rail-heading{
+  grid-area:heading;align-self:center;justify-self:start;
+  display:inline-flex;align-items:center;max-width:100%;
+  padding:5px 7px 4px 0;
+  font:400 clamp(13px,1vw,16px)/1.28 Caslon,Georgia,serif;
+  letter-spacing:.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  color:var(--rail-ink)!important;
+  transition:transform .75s cubic-bezier(.16,.75,.22,1),filter .7s ease;
+}
+.museum-rail-heading:hover,.museum-rail-heading:focus-visible{
+  transform:translate3d(0,-2px,0);filter:brightness(1.22);
+}
+.museum-rail-tabs{
+  grid-area:tabs;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  justify-self:end;align-self:stretch;width:min(100%,670px);
+  min-height:28px;gap:3px;
+}
+.museum-rail-tab{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  min-width:0;min-height:30px;padding:4px 5px;
+  border-bottom:1px solid transparent;
+  color:#c3bec5!important;
+  font:500 11px/1.25 Source,Arial,sans-serif;letter-spacing:.03em;
+  transition:color .65s ease,background .65s ease,
+    transform .7s cubic-bezier(.18,.75,.23,1),border-color .65s ease,filter .65s ease;
+}
+.museum-rail-tab[aria-current="page"]{color:#eee5ec!important;border-bottom-color:#ac95aa}
+.museum-rail-tab:hover,.museum-rail-tab:focus-visible{
+  color:#f8f0f7!important;background:rgba(166,134,167,.08);
+  transform:translate3d(var(--museum-mx,0px),calc(-3px + var(--museum-my,0px)),0);
+  border-bottom-color:rgba(217,189,215,.7);filter:brightness(1.08);
+}
+.museum-rail-roman{
+  font:600 10px/1.2 Source,Arial,sans-serif;letter-spacing:.11em;
+  color:#b19bb7;flex-shrink:0;
+}
+.museum-rail-era-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.museum-rail-viewport{
+  grid-area:art;display:block;min-width:0;width:100%;max-width:100%;
+  overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;
+  -webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;
+  scroll-snap-type:x proximity;scrollbar-width:none;
+  padding:7px 1px 5px;outline-offset:-2px;
+}
+.museum-rail-viewport::-webkit-scrollbar{display:none}
+.museum-rail-strip{
+  display:flex;gap:clamp(8px,.88vw,14px);
+  width:max-content;min-width:100%;align-items:flex-start;flex-wrap:nowrap;
+  padding:0 3px 3px;
+}
+.museum-rail-image{
+  position:relative;display:grid;place-items:center;
+  flex:0 0 clamp(42px,3.65vw,55px);width:clamp(42px,3.65vw,55px);
+  height:clamp(43px,3.7vw,56px);
+  border:1px solid rgba(242,233,243,.18);
+  background:linear-gradient(155deg,#242023,#0d0c0e 70%);
+  border-radius:1px;overflow:hidden;isolation:isolate;
+  scroll-snap-align:start;
+  box-shadow:0 4px 12px #0007;
+  transform:translate3d(0,0,0);
+  transition:border-color .9s ease,box-shadow 1s ease,
+    transform 1.2s cubic-bezier(.12,.7,.2,1),background 1.2s ease;
+}
+.museum-rail-image:after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+  box-shadow:inset 0 0 18px #0007;
+  background:linear-gradient(to top,rgba(0,0,0,.84),transparent 39%);
+}
+.museum-rail-image.is-era-start{margin-inline-start:clamp(12px,1.5vw,24px)}
+.museum-rail-image:first-child.is-era-start{margin-inline-start:0}
+.museum-rail-image.is-era-start:before{
+  content:"";position:absolute;inset-block-start:-7px;inset-inline-start:0;
+  height:2px;width:100%;background:#a38ba8;z-index:4;
+}
+.museum-rail-image img{
+  display:block;position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;object-position:center;
+  filter:grayscale(1) brightness(.7) contrast(1.045);
+  transform:scale(1);opacity:.91;
+  transition:transform 5.5s cubic-bezier(.16,.68,.2,1),
+    filter 1.8s ease,opacity 1.6s ease;
+}
+.museum-rail-stamp{
+  position:absolute;bottom:2px;left:3px;z-index:4;
+  color:#f5ecf1;font:600 8px/1.2 Source,Arial,sans-serif;
+  letter-spacing:.055em;text-shadow:0 1px 5px #000;
+  pointer-events:none;direction:ltr;
+}
+.museum-rail-image[aria-current]{border-color:#ccaccb;box-shadow:0 0 0 1px #b79bb8,0 3px 12px #0009}
+@media(hover:hover) and (pointer:fine){
+  .museum-rail-image:hover,.museum-rail-image:focus-visible{
+    border-color:rgba(251,237,250,.9);
+    transform:translateY(-6px);
+    box-shadow:0 12px 25px #000a,0 0 24px rgba(150,118,155,.13);
+    z-index:8;
+  }
+  .museum-rail-image:hover img,.museum-rail-image:focus-visible img{
+    transform:scale(1.075);
+    opacity:1;filter:grayscale(.85) brightness(1.06) contrast(1.04);
+  }
+}
+.museum-rail-indicator{
+  grid-area:indicator;height:2px;align-self:end;
+  margin:0 -16px;
+  background:linear-gradient(90deg,rgba(162,132,167,.65) 0,rgba(162,132,167,.65) calc((var(--museum-current-era,0) + 1) * 33.333%),transparent calc((var(--museum-current-era,0) + 1) * 33.333%));
+  opacity:.65;
+}
+.museum-rail-preview{
+  box-sizing:border-box!important;
+  position:fixed;z-index:180;
+  display:grid;grid-template-rows:minmax(0,1fr) auto;gap:11px;
+  height:262px;padding:12px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  border:1px solid rgba(238,222,237,.29);
+  border-radius:2px;background:rgba(11,9,12,.985);
+  box-shadow:0 26px 90px rgba(0,0,0,.9);
+  transform:translate3d(0,-13px,0) scale(.94);
+  transition:opacity .56s ease,visibility .56s ease,
+    transform 1.3s cubic-bezier(.16,.73,.22,1);
+}
+.museum-rail-preview.is-open{
+  opacity:1;visibility:visible;
+  transform:translate3d(0,0,0) scale(1);
+}
+.museum-rail-preview img{
+  display:block;width:100%;height:100%;
+  object-fit:contain;filter:grayscale(1) contrast(1.075) brightness(1.02);
+  background:#09090a;
+  transform:scale(1);
+  transition:transform 5.5s cubic-bezier(.16,.65,.2,1);
+}
+.museum-rail-preview.is-open img{transform:scale(1.048)}
+.museum-rail-preview-title{
+  display:block;color:#d8cfd9;
+  font:400 13px/1.45 Caslon,Georgia,serif;
+  letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+html[dir="rtl"] .museum-rail-heading{justify-self:end;padding:5px 0 4px 7px}
+html[dir="rtl"] .museum-rail-strip{direction:rtl}
+html[dir="rtl"] .museum-rail-viewport{direction:rtl}
+html[dir="rtl"] .museum-rail-stamp{left:auto;right:3px}
+html[dir="rtl"] .museum-rail-indicator{background:linear-gradient(270deg,rgba(162,132,167,.65) 0,rgba(162,132,167,.65) calc((var(--museum-current-era,0) + 1)*33.333%),transparent calc((var(--museum-current-era,0) + 1)*33.333%))}
+/* The landing cinema remains immersive. Its gallery rail floats below top controls. */
+.official-entrance .museum-gallery-rail{
+  position:fixed!important;
+  top:clamp(62px,8svh,82px);
+  bottom:auto;z-index:39;background:rgba(7,7,9,.83);
+  box-shadow:none;
+  min-height:82px;
+  padding-top:4px;
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+}
+.official-entrance .museum-rail-image{height:42px;flex-basis:42px;width:42px}
+.official-entrance .museum-rail-viewport{padding-block:3px}
+.official-entrance .museum-rail-heading{font-size:14px}
+/* Subtle, unified gallery choreography: reveal descends rather than bouncing up. */
+.motion-ready [data-museum-reveal]:not(.is-museum-visible){
+  opacity:0;transform:translate3d(0,-27px,0);filter:blur(2.5px);
+}
+.motion-ready [data-museum-reveal]{
+  transition-duration:1.55s,1.95s,1.6s!important;
+  transition-timing-function:cubic-bezier(.16,.72,.2,1)!important;
+}
+.motion-ready .sentence-word{
+  translate:0 -19px;
+  transition:opacity 1.55s ease var(--sentence-delay,0ms),
+    translate 2.05s cubic-bezier(.14,.72,.2,1) var(--sentence-delay,0ms)!important;
+}
+.museum-global-motion [data-global-arrival]{
+  opacity:0;transform:translate3d(0,-25px,0);filter:blur(2px);
+  transition:opacity 1.6s ease var(--museum-reveal-delay,0ms),
+    transform 1.95s cubic-bezier(.16,.73,.2,1) var(--museum-reveal-delay,0ms),
+    filter 1.7s ease var(--museum-reveal-delay,0ms);
+}
+.museum-global-motion [data-global-arrival].is-arrived{opacity:1;transform:none;filter:none}
+.museum-global-hover{
+  transition:transform .85s cubic-bezier(.16,.72,.2,1),
+    filter .95s ease,color .85s ease,text-shadow .9s ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .museum-global-hover:hover,.museum-global-hover:focus-visible,
+  .motion-ready main [data-museum-reveal].museum-global-hover.is-museum-visible:hover,
+  .motion-ready main [data-museum-reveal].museum-global-hover.is-museum-visible:focus-visible{
+    transform:translate3d(0,-5px,0)!important;
+    filter:brightness(1.13)!important;
+    text-shadow:0 0 24px rgba(229,210,232,.11);
+  }
+}
+.museum-global-artframe{isolation:isolate}
+.museum-global-artframe img{
+  transition:transform 5.5s cubic-bezier(.16,.65,.2,1),
+    filter 1.75s ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+  .museum-global-artframe:hover img,.museum-global-artframe:focus-within img{
+    transform:scale(1.055);
+    filter:brightness(1.06) contrast(1.025);
+  }
+}
+@media(max-width:1050px){
+ .museum-gallery-rail{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:0 4px}
+ .museum-rail-heading{font-size:13px}
+ .museum-rail-tab{gap:5px;font-size:10px}
+ .museum-rail-image{flex-basis:48px;width:48px;height:48px}
+}
+@media(max-width:700px){
+ .museum-gallery-rail{
+  min-height:91px;padding:5px max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left));
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"tabs" "art" "indicator";
+ }
+ .museum-rail-heading{display:none}
+ .museum-rail-tabs{justify-self:stretch;width:100%;min-height:31px;gap:6px}
+ .museum-rail-tab{font-size:10px;letter-spacing:.005em;min-height:31px;padding:3px 2px}
+ .museum-rail-era-name{font-size:10px}
+ .museum-rail-roman{font-size:10px}
+ .museum-rail-viewport{padding:6px 0 4px}
+ .museum-rail-strip{gap:9px}
+ .museum-rail-image{flex-basis:45px;width:45px;height:44px}
+ .museum-rail-indicator{margin:0 -12px}
+ .museum-rail-preview{display:none!important}
+ .official-entrance .museum-gallery-rail{top:max(57px,env(safe-area-inset-top) + 44px)}
+ .official-entrance .museum-rail-image{width:38px;height:38px;flex-basis:38px}
+}
+@media(max-width:375px){
+ .museum-rail-tab{gap:5px}
+ .museum-rail-era-name{display:none}
+ .museum-rail-roman{font-size:12px}
+ .museum-rail-image{width:43px;flex-basis:43px}
+}
+@media(hover:none),(pointer:coarse){
+ .museum-global-hover:hover{transform:none!important}
+ .museum-global-artframe:hover img{transform:none!important}
+ .museum-rail-image:hover{transform:none!important}
+ .museum-rail-image:hover img{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .museum-gallery-rail *, .museum-rail-preview *,
+ .museum-global-hover,.museum-global-artframe img,
+ [data-global-arrival],.museum-rail-image{
+  transition-duration:0.01ms!important;animation:none!important;
+ }
+ .motion-ready [data-museum-reveal],.museum-global-motion [data-global-arrival]{
+  opacity:1!important;transform:none!important;filter:none!important;
+ }
+ .motion-ready .sentence-word{opacity:1!important;translate:none!important}
+ .museum-global-artframe:hover img{transform:none!important}
+}
+
+
+/* Touch equivalent of the 5.5-second gallery camera push. */
+@media(hover:none),(pointer:coarse){
+ @keyframes museum-touch-camera {
+   from {transform:scale(1);filter:brightness(.97)}
+   to {transform:scale(1.047);filter:brightness(1.035)}
+ }
+ .museum-global-artframe.museum-mobile-arrived img {
+   animation:museum-touch-camera 5.5s cubic-bezier(.16,.68,.2,1) 1 both;
+ }
+ .museum-rail-tab{min-height:42px}
+}
+@media(prefers-reduced-motion:reduce){
+ .museum-global-artframe.museum-mobile-arrived img{animation:none!important;transform:none!important}
+}
+.museum-libel-heading-link{color:inherit;text-decoration:none;border-bottom:1px solid transparent;
+ transition:border-color .85s ease,color .85s ease}
+.museum-libel-heading-link:hover,.museum-libel-heading-link:focus-visible{
+ color:inherit;border-bottom-color:rgba(232,218,230,.55)}
+
+/* Single final fixed archival timeline. No competing sticky/relative states. */
+:root{--museum-pinned-height:110px}
+body.museum-gallery-enabled:not(.official-entrance){
+ padding-top:calc(var(--museum-pinned-height) + env(safe-area-inset-top))!important;
+}
+body.museum-gallery-enabled:not(.official-entrance) .museum-gallery-rail{
+ position:fixed!important;top:0!important;left:0!important;right:0!important;
+ height:calc(var(--museum-pinned-height) + env(safe-area-inset-top))!important;
+ min-height:0!important;width:100%!important;max-width:100vw!important;
+ padding-top:calc(6px + env(safe-area-inset-top))!important;
+ z-index:960!important;
+}
+html:has(body.museum-gallery-enabled:not(.official-entrance)){
+ scroll-padding-top:calc(var(--museum-pinned-height) + 22px + env(safe-area-inset-top))
+}
+@media(max-width:700px){
+ :root{--museum-pinned-height:104px}
+ body.museum-gallery-enabled:not(.official-entrance) .museum-gallery-rail{
+  padding-top:calc(5px + env(safe-area-inset-top))!important
+ }
+}
+@media(max-height:500px) and (orientation:landscape){:root{--museum-pinned-height:96px}}
+
+/* Mobile soundtrack control hit area. Match the 44px cinematic landing target,
+   without widening other pills or changing historic navigation text. */
+@media(hover:none),(pointer:coarse){
+ body:not(.official-entrance) .site-header .audio-toggle{
+  min-width:44px!important;width:44px!important;
+  min-height:44px!important;height:44px!important;
+  flex:0 0 44px!important;
+  display:inline-flex!important;align-items:center;justify-content:center;
+  padding:0!important;
+  border-radius:999px;
+  touch-action:manipulation
+ }
+}
+
+/* DOT-ONLY GALLERY TIMELINE — quiet archive line.
+   Original image links and all three era controls remain accessible.
+   Images appear only as visitor-triggered enlarged archival previews. */
+:root{--museum-pinned-height:82px}
+.museum-gallery-rail{
+ --rail-bg:rgba(8,7,9,.93);
+ grid-template-columns:minmax(0,1fr) minmax(0,1.65fr);
+ min-height:74px;
+ gap:0 12px;
+ border-top:1px solid rgba(222,209,221,.11);
+ border-bottom:1px solid rgba(222,209,221,.23);
+ box-shadow:0 8px 34px rgba(0,0,0,.24);
+ -webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);
+}
+.museum-rail-heading{font-size:clamp(12px,1vw,16px)}
+.museum-rail-tabs{min-height:27px}
+.museum-rail-tab{min-height:27px;padding:2px 4px}
+.museum-rail-viewport{
+ padding:6px 0 8px;
+ overflow-x:auto;overflow-y:hidden;
+ scrollbar-width:none
+}
+.museum-rail-strip{
+ position:relative;
+ display:flex;align-items:center;
+ gap:0;
+ width:max-content;min-width:100%;
+ padding:0 9px;
+ height:25px
+}
+.museum-rail-strip::before{
+ content:"";position:absolute;
+ left:15px;right:15px;top:50%;
+ height:1px;z-index:0;pointer-events:none;
+ background:linear-gradient(90deg,rgba(201,171,199,.1),rgba(208,178,204,.55) 11%,rgba(208,178,204,.42) 89%,rgba(201,171,199,.1))
+}
+.museum-rail-image,
+.official-entrance .museum-rail-image{
+ position:relative;z-index:1;isolation:auto;overflow:visible;
+ flex:1 0 clamp(27px,3.1vw,42px);
+ width:clamp(27px,3.1vw,42px);
+ min-width:27px;max-width:42px;height:25px;
+ border:0!important;border-radius:0!important;
+ background:transparent!important;
+ box-shadow:none!important;outline-offset:0;
+ display:grid;place-items:center;
+ padding:0;margin:0;
+ transform:none!important;
+ transition:none!important;
+ scroll-snap-align:center;
+ -webkit-tap-highlight-color:transparent
+}
+.museum-rail-image::before,.museum-rail-image::after{content:none!important}
+.museum-rail-image.is-era-start{margin-inline-start:clamp(9px,1.15vw,18px)}
+.museum-rail-image:first-child.is-era-start{margin-inline-start:0}
+.museum-rail-image img,.museum-rail-stamp{display:none!important}
+.museum-rail-dot{
+ position:relative;z-index:2;display:block;
+ width:6px;height:6px;flex:0 0 6px;
+ border-radius:50%;background:#9e8a9e;
+ box-shadow:0 0 0 2px rgba(8,7,9,.98);
+ transform:scale(1);opacity:.78;
+ transition:transform 1.25s cubic-bezier(.16,.72,.19,1),
+  background .95s ease,box-shadow 1.1s ease,opacity 1.1s ease;
+ pointer-events:none;
+}
+.museum-rail-image[aria-current] .museum-rail-dot{width:8px;height:8px;background:#dec3d8;opacity:1}
+.museum-rail-image:is(:hover,:focus-visible,.is-revealed) .museum-rail-dot{
+ transform:scale(2.1);
+ background:#efe0eb;
+ box-shadow:0 0 0 3px rgba(12,9,12,.98),0 0 16px rgba(221,181,214,.42);
+ opacity:1
+}
+.museum-rail-image:focus-visible{outline:1px solid #cdbac8!important;outline-offset:0!important;border-radius:22px!important}
+.museum-rail-indicator{height:1px}
+.museum-rail-preview{
+ z-index:990!important;
+ overflow:hidden;
+ grid-template-rows:minmax(0,1fr) auto;
+ gap:8px;
+ height:284px;
+ padding:12px;
+ border:1px solid rgba(232,211,227,.34);
+ border-radius:4px;
+ background:#0c0a0e;
+ box-shadow:0 22px 70px #000c;
+ transform:translate3d(0,-9px,0) scale(.70);
+ transform-origin:50% 0;
+ transition:opacity .6s ease,visibility .6s ease,
+  transform 2.1s cubic-bezier(.12,.7,.18,1)
+}
+.museum-rail-preview.is-open{transform:translate3d(0,0,0) scale(1)}
+.museum-rail-preview img{object-fit:contain;filter:grayscale(1) brightness(.95);transition:transform 5.6s cubic-bezier(.16,.65,.2,1)}
+.museum-rail-preview.is-open img{transform:scale(1.055)}
+.museum-rail-preview-title{font-size:12px}
+body.museum-gallery-enabled:not(.official-entrance) .museum-gallery-rail{
+ height:calc(var(--museum-pinned-height) + env(safe-area-inset-top))!important
+}
+@media(max-width:700px){
+ :root{--museum-pinned-height:79px}
+ .museum-gallery-rail{
+  grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"tabs" "art" "indicator";
+ }
+ .museum-rail-tabs{min-height:29px}
+ .museum-rail-viewport{padding:5px 0 8px}
+ .museum-rail-strip{min-width:650px;height:21px}
+ .museum-rail-image{height:23px;flex:0 0 30px;max-width:30px;width:30px}
+ .museum-rail-indicator{margin:0 -12px}
+ .museum-rail-preview{display:grid!important}
+}
+@media(max-width:375px){
+ .museum-rail-image{flex-basis:30px;width:30px;max-width:30px}
+}
+@media(hover:none),(pointer:coarse){
+ .museum-rail-image:hover,.museum-rail-image:hover .museum-rail-dot{transform:none!important}
+ .museum-rail-image.is-revealed .museum-rail-dot{transform:scale(1.95)!important}
+ .museum-rail-preview{display:grid!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .museum-rail-dot,.museum-rail-preview,.museum-rail-preview img{transition-duration:.01ms!important}
+ .museum-rail-preview.is-open img{transform:none}
+}
+
+
+/* Finishing pass: the navigation should feel engraved into the museum wall,
+   never like a permanently exposed image-carousel. */
+.museum-rail-image .museum-rail-dot{
+  background:#a99ba6;
+  box-shadow:0 0 0 2px rgba(8,7,9,.98);
+}
+.museum-rail-image[aria-current] .museum-rail-dot{background:#ece0e9}
+.museum-rail-preview{
+  border-color:rgba(232,224,230,.29);
+  box-shadow:0 28px 88px rgba(0,0,0,.87),0 0 0 1px rgba(255,255,255,.03);
+  transition:opacity .58s ease,visibility .58s ease,
+    transform 2.8s cubic-bezier(.14,.74,.2,1);
+}
+.museum-rail-preview img{
+  filter:none!important;
+  background:#090909;
+  transition:transform 5.6s cubic-bezier(.14,.68,.19,1)!important;
+}
+.museum-rail-preview.is-open img{transform:scale(1.055)}
+/* Respect the color and contrast of original archival artwork in the gallery.
+   Retain monochrome source files as monochrome; never force colorization. */
+.museum-global-artframe img{filter:none}
+@media(hover:hover) and (pointer:fine){
+  .museum-global-artframe:is(:hover,:focus-within) img{
+    filter:brightness(1.055) contrast(1.015);
+  }
+}
+@media(hover:none),(pointer:coarse){
+  .museum-global-artframe.museum-mobile-arrived img{
+    animation:museum-touch-camera-art-direction 5.6s cubic-bezier(.16,.67,.21,1) 1 both;
+  }
+  @keyframes museum-touch-camera-art-direction{
+    from{transform:scale(1);filter:brightness(1)}
+    to{transform:scale(1.047);filter:brightness(1.035)}
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .museum-global-artframe.museum-mobile-arrived img{animation:none!important}
+  .museum-rail-preview,.museum-rail-preview img{transition:none!important}
+}
+
+
+/* Magnetic proximity never changes the number of dots or reveals extra art. */
+.museum-rail-dot{
+  transform:scale(var(--museum-proximity-scale,1));
+}
+.museum-rail-image:is(:hover,:focus-visible,.is-revealed) .museum-rail-dot{
+  transform:scale(2.1);
+}
+/* Reading should be stable under a moving pointer. Art and interactive
+   headings may lift, but curatorial paragraphs never shift while reading. */
+body.museum-gallery-enabled main p:hover{
+  transform:none!important;
+  filter:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .museum-rail-dot{transform:none!important}
+  .museum-rail-image:is(:focus-visible,.is-revealed) .museum-rail-dot{
+    transform:scale(1.6)!important;
+  }
+}

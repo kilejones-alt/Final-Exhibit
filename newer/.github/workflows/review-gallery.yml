@@ -1,0 +1,30 @@
+name: Review gallery capture
+on:
+  push:
+    branches: [page-two-type-motion-languages-review]
+    paths:
+      - '.github/workflows/review-gallery.yml'
+      - 'tools/review-gallery.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/review-gallery.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: current-review-page-gallery
+          path: qa/review-gallery/
+          retention-days: 7

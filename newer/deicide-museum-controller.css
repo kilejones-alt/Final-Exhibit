@@ -1,0 +1,70 @@
+.deicide-museum-passage{box-sizing:border-box;position:relative;left:50%;margin-left:-50vw;width:100vw;max-width:100vw;min-height:72svh;background:#050506;color:#f2ebe4;display:flex;align-items:center;justify-content:center;text-align:center;padding:65px 22px;border-block:1px solid rgba(255,255,255,.075)}
+.deicide-museum-intro{max-width:700px;display:flex;flex-direction:column;align-items:center;gap:24px}
+.deicide-museum-kicker{font:600 10px/1.35 Source,Arial,sans-serif!important;letter-spacing:.28em!important;color:#c5a6a0!important;text-transform:uppercase!important;margin:0!important}
+.deicide-museum-intro h3{font:400 clamp(38px,5vw,72px)/1.07 Caslon,Georgia,serif!important;color:#f2eae4!important;max-width:720px;margin:0!important}
+.deicide-museum-intro>p:not(.deicide-museum-kicker){font:400 clamp(15px,1.3vw,18px)/1.6 Caslon,Georgia,serif!important;color:#bbb0ae!important;max-width:480px;margin:0!important}
+.deicide-museum-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px}
+#deicide-film-watch{appearance:none;background:#e8ddd4;color:#171316;padding:16px 29px;border:1px solid #e8ddd4;border-radius:40px;letter-spacing:.15em;font:600 10px/1 Source,Arial,sans-serif;cursor:pointer;transition:background .2s}
+#deicide-film-watch:hover{background:#fff}
+.deicide-museum-actions>a{font:500 11px Source,Arial,sans-serif;color:#beb2b1;text-decoration:underline;text-underline-offset:5px}
+.deicide-film-host-open{overflow:hidden!important}
+.deicide-film-host{position:fixed;inset:0;width:100vw;height:100dvh;z-index:999999;background:#050505;overflow:hidden}
+.deicide-film-host iframe{display:block;width:100%;height:100%;border:0;background:#050505}
+@media(prefers-reduced-motion:reduce){.deicide-museum-passage *{transition:none!important}}
+
+
+/* Theatrical entrance: an archival image invites the visitor into the darkened room. */
+.deicide-museum-passage{isolation:isolate;overflow:hidden;background:#050405}
+.deicide-museum-passage::before{
+  content:"";position:absolute;inset:6% 6%;z-index:0;pointer-events:none;
+  background:url("assets/deicide-cinema/scene_01.webp") center center/contain no-repeat;
+  opacity:.24;filter:brightness(.72) saturate(.85);transform:scale(.91);
+  transition:transform 4.2s cubic-bezier(.15,.65,.19,1),opacity 3s ease,filter 3s ease;
+}
+.deicide-museum-passage::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(2,2,3,.80),rgba(2,2,3,.54) 48%,rgba(2,2,3,.77)),
+    linear-gradient(0deg,#050405 0%,transparent 24%,transparent 72%,#050405 100%);
+}
+.deicide-museum-passage.is-approaching::before{
+  transform:scale(1.06);opacity:.60;filter:brightness(.9) saturate(1.08)
+}
+.deicide-museum-intro{position:relative;z-index:1;text-shadow:0 4px 28px #000}
+.deicide-film-host{
+  background:transparent!important;isolation:isolate;overflow:hidden;
+  contain:layout paint;
+}
+.deicide-film-host::before{
+  content:"";position:absolute;z-index:0;inset:0;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.80),#000 85%);
+  opacity:0;backdrop-filter:blur(0px) brightness(1);
+  -webkit-backdrop-filter:blur(0px) brightness(1);
+  transition:opacity 3.1s cubic-bezier(.17,.64,.21,1),
+    backdrop-filter 3.1s ease,-webkit-backdrop-filter 3.1s ease;
+}
+.deicide-film-host.is-opening::before{opacity:1;backdrop-filter:blur(15px) brightness(.12);-webkit-backdrop-filter:blur(15px) brightness(.12)}
+.deicide-film-host iframe{
+  position:relative;z-index:1;
+  height:100%!important;width:100%!important;
+  opacity:0;
+  transform:translate3d(0,var(--portal-start-y,6svh),0) scale(var(--portal-start-scale,.59));
+  transform-origin:center center;
+  border-radius:clamp(14px,3vw,46px);
+  box-shadow:0 34px 140px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.10);
+  transition:transform 3.85s cubic-bezier(.13,.71,.18,1),
+    opacity 2.1s ease .33s,
+    border-radius 3.85s cubic-bezier(.13,.71,.18,1);
+  will-change:transform,opacity;
+}
+.deicide-film-host.is-opening iframe{
+  opacity:1;transform:translate3d(0,0,0) scale(1);border-radius:0;
+}
+@media(max-width:600px){
+  .deicide-film-host iframe{transform:translate3d(0,var(--portal-start-y,4svh),0) scale(var(--portal-start-scale,.68))}
+  .deicide-museum-passage::before{inset:8% 0;opacity:.28}
+}
+@media(prefers-reduced-motion:reduce){
+  .deicide-museum-passage::before{transition:none!important;transform:none!important}
+  .deicide-film-host::before{transition:none!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .deicide-film-host iframe{transition:none!important;transform:none!important;opacity:1!important;border-radius:0!important}
+}

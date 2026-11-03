@@ -1,0 +1,203 @@
+/* Official entrance derived from mock-up three. The 36-second image sequence is unchanged. */
+:root{--header-height:0px;--heading-height:0px}
+html,body{width:100%;max-width:100%;min-height:100%;overflow-x:clip}
+body{padding-top:env(safe-area-inset-top)}
+main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-area-inset-bottom)}
+
+.entrance-controls{position:fixed;z-index:40;top:0;right:0;width:auto;min-height:0;height:auto;padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 0 0;background:transparent}
+.entrance-controls .pills{gap:2px}
+.entrance-controls .pill{min-width:34px;min-height:34px;padding:6px 7px;font-size:9px;letter-spacing:.04em;color:#d6d6d6}
+.entrance-controls .pill:before{inset:4px 1px;border-color:#454545}
+.entrance-controls .music{width:34px;font-size:13px}
+
+.cinema{height:min(78svh,760px,calc(100svh - 96px));max-width:1680px}
+.cinema-space{--scene-scale:inherit;transform:translate(-50%,-50%) scale(var(--scene-scale,.96)) translate3d(var(--pan-x,0px),var(--pan-y,0px),0)}
+.cinema-world{transform-style:preserve-3d}
+.cinema-plate{-webkit-backface-visibility:visible}
+.official-entrance .cinema-title{opacity:1}
+.cinema-title{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(5px,1.15vw,14px);padding:24px;text-align:center;font-family:Caslon,Georgia,serif;line-height:1;text-transform:none;isolation:isolate;text-shadow:0 4px 28px #000,0 0 48px rgba(0,0,0,.96)}
+.cinema-title:before{content:"";position:absolute;z-index:-1;inset:10% 4%;background:radial-gradient(ellipse at center,rgba(0,0,0,.74) 0%,rgba(0,0,0,.42) 38%,transparent 72%);filter:blur(10px);pointer-events:none}
+.cinema-title>span{position:relative;z-index:1}
+.final-title-main{font-size:clamp(40px,6.35vw,92px);letter-spacing:-.035em;color:#f5f5f5}
+.final-title-sub{font:400 clamp(17px,2.1vw,29px)/1 Source,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ededed}
+.final-title-enter{font:400 clamp(10px,1vw,14px)/1.2 Source,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#d4d4d4;margin-top:3px}
+
+/* A slightly longer final hold improves legibility without changing the installation choreography. */
+@keyframes cinema-title{0%,77%{opacity:0;transform:translateY(0);filter:blur(0)}81.5%,93.0556%{opacity:1;transform:translateY(0);filter:blur(0)}97.7778%{opacity:.72;transform:translateY(-.6px);filter:blur(.35px)}100%{opacity:0;transform:translateY(-2px);filter:blur(1.2px)}}
+
+.entry{min-height:96px;overflow:visible}
+.entry-pill{min-width:88px;min-height:28px;padding:4px 15px;font-size:11.5px;letter-spacing:.08em;overflow:visible;border:0;animation:entry-arrival 36s linear 1 forwards}
+.entry-pill .entry-outline{position:absolute;z-index:1;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);pointer-events:none;overflow:visible}
+.entry-pill .entry-outline rect{fill:none;stroke:#a2a2a2;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:entry-outline-draw 36s linear 1 forwards;transition:stroke 1.8s ease}
+.entry-pill .entry-label{position:relative;z-index:2;display:inline-block;opacity:0;animation:entry-label-arrival 36s linear 1 forwards}
+.entry-pill:hover .entry-outline rect,.entry-pill:focus-visible .entry-outline rect{stroke:#dedede}
+
+@keyframes entry-arrival{0%,79%{visibility:hidden;transform:translateY(-18px)}79.01%{visibility:visible;transform:translateY(-18px)}98%,100%{visibility:visible;transform:translateY(0)}}
+@keyframes entry-outline-draw{0%,79%{opacity:0;stroke-dashoffset:1}79.01%{opacity:.16;stroke-dashoffset:1}84%{opacity:.52}98%,100%{opacity:1;stroke-dashoffset:0}}
+@keyframes entry-label-arrival{0%,95%{opacity:0;letter-spacing:.17em;transform:translateY(-2px)}99%,100%{opacity:1;letter-spacing:.08em;transform:translateY(0)}}
+
+@media(max-width:640px){
+  .cinema{--scene-scale:.4;height:min(72svh,610px,calc(100svh - 92px))}
+  .cinema-title{gap:7px;padding:18px}
+  .final-title-main{font-size:clamp(36px,11.5vw,51px)}
+  .final-title-sub{font-size:clamp(15px,4.5vw,20px);letter-spacing:.17em}
+  .final-title-enter{font-size:10px;letter-spacing:.14em}
+  .entry{min-height:92px}
+  .entrance-controls{padding-top:max(9px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right))}
+}
+@media(max-height:500px) and (orientation:landscape){.cinema{height:calc(100svh - 64px)}.entry{min-height:64px}.cinema-title{gap:4px}.final-title-main{font-size:34px}.final-title-sub{font-size:15px}.final-title-enter{font-size:9px}}
+/* Keyboard visitors can use the entrance immediately without waiting for the film. */
+.cinema-title{margin:0}
+.entry:target .entry-pill,.entry:target .entry-outline rect,.entry:target .entry-label{animation:none;visibility:visible;opacity:1;transform:none;stroke-dashoffset:0}
+@media(prefers-reduced-motion:reduce){
+  .official-entrance .cinema-title{display:flex!important;opacity:1;animation:none!important}
+  .official-entrance .cinema-world,.official-entrance .cinema-plate{animation:none!important}
+  .official-entrance .cinema-triangle{display:none!important}
+  .official-entrance .entry-pill,.official-entrance .entry-outline rect,.official-entrance .entry-label{animation:none!important;visibility:visible;opacity:1;transform:none;stroke-dashoffset:0}
+}
+
+
+/* Experimental art-direction pass — isolated review branch only. */
+
+/* Pull focus gently toward the title while preserving the original 36s choreography. */
+.cinema-world{
+  animation:camera 36s linear infinite,cinema-focus-pull 36s linear infinite;
+  will-change:transform,filter;
+}
+@keyframes cinema-focus-pull{
+  0%,78%{filter:blur(0) brightness(1)}
+  81.5%,93.0556%{filter:blur(1.15px) brightness(.84)}
+  97.7778%{filter:blur(.7px) brightness(.9)}
+  100%{filter:blur(0) brightness(1)}
+}
+
+/* Keep the final tableau alive without reading as another animation. */
+.cinema-space{
+  animation:cinema-residual-life 36s ease-in-out infinite;
+}
+@keyframes cinema-residual-life{
+  0%,81.5%{translate:0 0}
+  90%{translate:.35px -.45px}
+  97.7778%{translate:.7px -1px}
+  100%{translate:0 0}
+}
+
+/* Cursor-depth offsets are written by JS using individual translate so they compose with plate transforms. */
+.cinema-plate{
+  translate:var(--depth-x,0px) var(--depth-y,0px);
+  will-change:transform,opacity,translate;
+}
+
+/* Magnetic entrance: the outline follows slightly behind the text/body. */
+.entry-pill{
+  --magnet-x:0px;
+  --magnet-y:0px;
+  --outline-lag-x:0px;
+  --outline-lag-y:0px;
+  translate:var(--magnet-x) var(--magnet-y);
+  will-change:translate;
+}
+.entry-pill .entry-outline{
+  transform:translate(var(--outline-lag-x),var(--outline-lag-y));
+  transform-origin:center;
+  will-change:transform;
+}
+
+/* Replace a generic fade with a horizontal uncover inside the completed pill. */
+.entry-pill .entry-label{
+  clip-path:inset(0 100% 0 0);
+  will-change:clip-path,opacity,letter-spacing,transform;
+}
+@keyframes entry-label-arrival{
+  0%,95%{opacity:0;clip-path:inset(0 100% 0 0);letter-spacing:.17em;transform:translateY(-2px)}
+  96.6%{opacity:.9;clip-path:inset(0 58% 0 0);letter-spacing:.135em;transform:translateY(-1px)}
+  99%,100%{opacity:1;clip-path:inset(0 0 0 0);letter-spacing:.08em;transform:translateY(0)}
+}
+
+/* One restrained light catch as the outline finishes drawing — not a sparkle. */
+.entry-pill .entry-outline .entry-glint{
+  fill:none;
+  stroke:#f2f2f2;
+  stroke-width:1.05;
+  vector-effect:non-scaling-stroke;
+  stroke-dasharray:.055 .945;
+  stroke-dashoffset:1.04;
+  opacity:0;
+  filter:drop-shadow(0 0 1.2px rgba(255,255,255,.32));
+  animation:entry-glint-pass 36s linear 1 forwards;
+}
+@keyframes entry-glint-pass{
+  0%,98.05%{opacity:0;stroke-dashoffset:1.04}
+  98.2%{opacity:.18}
+  98.45%{opacity:.52}
+  98.85%{opacity:.2;stroke-dashoffset:.7}
+  99.05%,100%{opacity:0;stroke-dashoffset:.64}
+}
+
+/* Touch devices keep the cinematic sequence but never imitate magnetic hover. */
+@media(hover:none),(pointer:coarse){
+  .entry-pill{translate:0 0!important}
+  .entry-pill .entry-outline{transform:none!important}
+  .cinema-plate{translate:0 0!important}
+}
+
+/* Reduced motion rests on the intended final tableau with title and completed entrance visible. */
+@media(prefers-reduced-motion:reduce){
+  .official-entrance .cinema-world{filter:blur(1px) brightness(.86)!important}
+  .official-entrance .cinema-space{translate:0 0!important}
+  .official-entrance .entry-label{clip-path:inset(0 0 0 0)!important}
+  .official-entrance .entry-glint{display:none!important}
+}
+
+/* Discreet 44px touch target for visitor-initiated music in all three entrances.
+   Keep the original 36-second animation and framing intact. */
+.official-entrance .entrance-controls .music{
+ width:44px!important;min-width:44px;min-height:44px;
+ display:inline-grid;place-items:center;
+ padding:0!important;
+ font-size:17px!important;
+ color:#f0e7e2;
+ background:rgba(12,9,12,.55);
+ border:1px solid rgba(243,222,215,.24);
+ border-radius:22px;
+ backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);
+ transition:transform .65s cubic-bezier(.17,.7,.2,1),background .65s ease,border-color .65s ease;
+}
+.official-entrance .entrance-controls .music:is(:hover,:focus-visible){
+ transform:translateY(-3px);
+ background:rgba(51,36,49,.75);
+ border-color:rgba(247,222,214,.62);
+}
+@media(prefers-reduced-motion:reduce){
+ .official-entrance .entrance-controls .music{transition:none}
+}
+
+/* THREE ORIGINAL HOMEPAGE PILLS — music, Russian, Hebrew.
+   The 36-second immersive film remains the full, unobstructed first page. */
+.official-entrance .entrance-controls{z-index:100}
+.official-entrance .entrance-controls .pills{display:flex;align-items:center;gap:6px;direction:ltr}
+.official-entrance .entrance-controls .pill{
+ box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+ width:auto;min-width:42px;min-height:42px;height:42px;
+ padding:8px 12px;
+ color:#e5e1e0;border-radius:999px;
+ text-decoration:none;white-space:nowrap;
+ font:500 11px/1.2 Source,Arial,sans-serif;
+ letter-spacing:.025em;
+ backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+ transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .7s ease,background .7s ease
+}
+.official-entrance .entrance-controls .pill:is(:hover,:focus-visible){
+ transform:translateY(-3px);filter:brightness(1.15)
+}
+.official-entrance .entrance-controls .music{min-width:42px;width:42px;font-size:15px}
+.official-entrance .entrance-controls .exhibition-locale-pill:before{content:none}
+@media(max-width:420px){
+ .official-entrance .entrance-controls{padding-top:max(10px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right))}
+ .official-entrance .entrance-controls .pills{gap:4px}
+ .official-entrance .entrance-controls .pill{min-height:44px;height:44px;padding:7px 9px;font-size:10px}
+ .official-entrance .entrance-controls .music{min-width:44px;width:44px}
+}
+@media(prefers-reduced-motion:reduce){
+ .official-entrance .entrance-controls .pill{transition:none}
+}

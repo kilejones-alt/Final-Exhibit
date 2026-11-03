@@ -1,0 +1,82 @@
+/* THE THIRD ERA | DEICIDE: Cinematic Screening II
+   User-supplied original images. Original score generated for this exhibition.
+   Existing curatorial prose and images remain unchanged. */
+.deicide-cinema {height:105svh!important;min-height:620px!important;margin-block:clamp(45px,8vw,110px)!important;isolation:isolate}
+.deicide-cinema .deicide-cinema-sticky{position:relative!important;top:auto!important;height:min(100svh,1050px)!important;min-height:min(680px,100svh)!important;background:#040404!important;transition:background 1.6s ease;isolation:isolate}
+.deicide-cinema .deicide-theatre-container{width:100%!important;max-width:1500px!important;transition:opacity 1s ease}
+.deicide-cinema .deicide-screen{transform:perspective(1800px) rotateX(1.5deg) scale(.82);transition:transform 2.2s cubic-bezier(.18,.65,.18,1),box-shadow 2.2s ease!important}
+.deicide-cinema.is-open .deicide-cinema-sticky{position:fixed!important;z-index:99990!important;inset:0!important;width:100vw!important;max-width:none!important;height:100dvh!important;min-height:0!important;background:#010102!important;overflow:hidden!important}
+.deicide-cinema.is-open .deicide-screen{transform:perspective(1800px) rotateX(.35deg) scale(1)!important;box-shadow:0 30px 95px 25px #000,0 0 75px rgba(166,115,113,.15),0 0 0 1px rgba(255,245,235,.14)!important}
+.deicide-cinema .deicide-theatre-halo{background:radial-gradient(ellipse at 50% 48%,#191418 0%,#090709 28%,#010102 73%)!important;opacity:.82!important;transition:opacity 2.2s ease,filter 2.2s ease}
+.deicide-cinema.is-open .deicide-theatre-halo{opacity:1!important;filter:brightness(.56)}
+.deicide-cinema .deicide-screen:after{background:radial-gradient(ellipse at 50% 40%,transparent 32%,rgba(0,0,0,.37) 100%)!important}
+.deicide-cinema .deicide-frame{transition:opacity 1.4s cubic-bezier(.22,.72,.22,1),visibility 1.4s,transform 1.6s ease!important;backface-visibility:hidden}
+.deicide-cinema .deicide-frame.is-active{z-index:2;opacity:1!important;visibility:visible!important}
+.deicide-cinema .deicide-frame img{transform-origin:var(--camera-origin,center);transform:translate3d(var(--cx,0px),var(--cy,0px),0) scale(var(--zoom,1.025)) rotate(var(--tilt,0deg))!important;filter:brightness(1.015) contrast(1.03);transition:none!important}
+.deicide-cinema .deicide-theatre-heading{z-index:4;transition:opacity 1s ease}
+.deicide-cinema.is-playing .deicide-theatre-intro{opacity:.45}
+.deicide-cinema .deicide-caption-date{letter-spacing:.2em}
+.deicide-cinema .deicide-theatre-controls{z-index:6}
+.deicide-cinema .deicide-screening-utility{position:absolute;z-index:20;top:max(18px,env(safe-area-inset-top));right:max(20px,env(safe-area-inset-right));display:flex;gap:8px;opacity:1;transition:opacity .6s}
+.deicide-cinema .deicide-screening-exit,.deicide-cinema .deicide-screening-mode,.deicide-cinema .deicide-screening-play{border:1px solid rgba(235,228,223,.38);border-radius:50px;background:rgba(7,7,9,.62);color:#ede9e4;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:10px 16px;font:500 10px/1.2 Source,Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;min-height:38px;transition:background .3s,border-color .3s}
+.deicide-cinema .deicide-screening-exit:hover,.deicide-cinema .deicide-screening-mode:hover,.deicide-cinema .deicide-screening-play:hover{background:rgba(95,62,69,.5);border-color:#e3d4cf}
+.deicide-cinema .deicide-screening-utility[hidden]{display:none!important}
+.deicide-cinema .deicide-screening-gate{position:absolute;inset:0;z-index:12;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.67);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);opacity:1;transition:opacity 1.25s ease,visibility 1.25s}
+.deicide-cinema.is-playing .deicide-screening-gate{opacity:0;visibility:hidden;pointer-events:none}
+.deicide-cinema .deicide-screening-gate-content{max-width:720px;display:grid;justify-items:center;text-align:center;gap:clamp(12px,2vh,24px)}
+.deicide-cinema .deicide-gate-eyebrow{font:600 11px/1.4 Source,Arial,sans-serif!important;letter-spacing:.35em!important;color:#af9ca1!important;margin:0!important}
+.deicide-cinema .deicide-gate-title{font:400 clamp(34px,5vw,66px)/1.07 Caslon,Georgia,serif!important;color:#f6f1ee!important;margin:0!important;letter-spacing:-.025em}
+.deicide-cinema .deicide-gate-description{font:400 clamp(12px,1.15vw,15px)/1.65 Source,Arial,sans-serif!important;color:#c3b8b7!important;margin:0!important;max-width:500px}
+.deicide-cinema .deicide-gate-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:10px}
+.deicide-cinema .deicide-gate-primary{background:#eae1db;color:#111015;border:1px solid #eae1db;border-radius:50px;padding:15px 25px;font:600 11px Source,Arial,sans-serif;letter-spacing:.14em;cursor:pointer;transition:transform .3s,background .3s}
+.deicide-cinema .deicide-gate-primary:hover{transform:translateY(-2px);background:white}
+.deicide-cinema .deicide-gate-secondary{background:rgba(6,6,8,.4);color:#e5dddd;border:1px solid #777079;border-radius:50px;padding:15px 24px;font:600 11px Source,Arial,sans-serif;letter-spacing:.11em;cursor:pointer;transition:transform .3s,border-color .3s}
+.deicide-cinema .deicide-gate-secondary:hover{transform:translateY(-2px);border-color:white}
+.deicide-cinema .deicide-gate-note{font:400 11px/1.4 Source,Arial,sans-serif!important;color:#a69a9e!important;margin:0!important}
+.deicide-cinema .deicide-screening-close-inline{margin:0 auto 20px;display:block;border:1px solid #827b7d;color:#ece6e3;background:transparent;border-radius:50px;padding:12px 24px;font:600 10px Source,Arial,sans-serif;letter-spacing:.16em;cursor:pointer}
+.deicide-cinema .deicide-screening-replay{position:absolute;z-index:10;bottom:18px;left:50%;transform:translateX(-50%);border:1px solid #80747a;border-radius:50px;background:#151116;color:#fff;padding:9px 18px;font:600 10px Source,Arial,sans-serif;letter-spacing:.13em;cursor:pointer}
+.deicide-cinema .deicide-screening-replay[hidden]{display:none}
+.deicide-cinema .deicide-screening-play{padding:9px 17px}
+.deicide-cinema .deicide-screening-time{font:500 10px Source,Arial,sans-serif;letter-spacing:.04em;color:#a99ca2;min-width:95px;text-align:center}
+.deicide-cinema .deicide-theatre-buttons{flex-wrap:wrap;justify-content:flex-end}
+.deicide-cinema .deicide-theatre-controls{width:min(930px,96%)!important}
+.deicide-cinema .deicide-progress{width:min(930px,96%)!important;height:2px!important;overflow:hidden}
+.deicide-cinema .deicide-progress span{background:linear-gradient(90deg,#71666a,#e9dbd6)!important;transition:transform .15s linear!important}
+.deicide-cinema .deicide-theatre-container{padding-top:clamp(55px,8vh,90px)!important;padding-bottom:clamp(10px,2svh,24px)!important;gap:clamp(7px,1vh,17px)!important}
+.deicide-cinema .deicide-screen{height:min(70dvh,850px)!important;max-height:100%!important;aspect-ratio:4/5!important;max-width:94vw!important}
+.deicide-cinema.is-open .deicide-screen{height:min(75dvh,890px)!important}
+.deicide-cinema .deicide-screening-replay:not([hidden]){display:none}
+.deicide-cinema.is-dismissed:not(.is-open) .deicide-screening-replay:not([hidden]){display:block}
+.deicide-cinema .deicide-exit{color:#8c7e83!important}
+body.deicide-modal-open{overflow:hidden!important}
+@media(max-width:600px){
+ .deicide-cinema{min-height:600px!important}
+ .deicide-cinema .deicide-theatre-container{padding:58px 10px 12px!important;gap:8px!important}
+ .deicide-cinema .deicide-screen,.deicide-cinema.is-open .deicide-screen{height:auto!important;max-height:min(58dvh,680px)!important;width:min(94vw,calc(58dvh * 4 / 5))!important;aspect-ratio:4/5!important}
+ .deicide-cinema .deicide-screening-utility{top:max(9px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+ .deicide-cinema .deicide-screening-exit{padding:8px 13px;min-height:36px}
+ .deicide-cinema .deicide-theatre-heading h3{font-size:clamp(19px,5.6vw,27px)!important}
+ .deicide-cinema .deicide-theatre-intro{display:none}
+ .deicide-cinema .deicide-caption{gap:1px}
+ .deicide-cinema .deicide-caption strong{font-size:15px}
+ .deicide-cinema .deicide-theatre-controls{width:100%!important;gap:5px}
+ .deicide-cinema .deicide-theatre-buttons{justify-content:center!important;gap:5px}
+ .deicide-cinema .deicide-screening-play{padding:8px 11px;font-size:9px}
+ .deicide-cinema .deicide-screening-time{min-width:70px;font-size:9px}
+ .deicide-cinema .deicide-gate-title{font-size:clamp(31px,8vw,47px)!important}
+ .deicide-cinema .deicide-gate-primary,.deicide-cinema .deicide-gate-secondary{padding:14px 19px}
+ .deicide-cinema .deicide-exit{font-size:8px}
+}
+@media(max-height:600px) and (orientation:landscape){
+ .deicide-cinema .deicide-theatre-heading{display:none}
+ .deicide-cinema .deicide-screen,.deicide-cinema.is-open .deicide-screen{max-height:65dvh!important;height:65dvh!important}
+ .deicide-cinema .deicide-theatre-container{padding:35px 15px 4px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .deicide-cinema *, .deicide-cinema *:before,.deicide-cinema *:after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+ .deicide-cinema .deicide-frame img{transform:none!important}
+}
+
+/* After a screening ends, leave a genuinely clickable replay invitation. */
+.deicide-cinema.is-dismissed:not(.is-open) .deicide-screening-gate{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.deicide-cinema.is-dismissed:not(.is-open) .deicide-screening-replay:not([hidden]){z-index:24;display:block}

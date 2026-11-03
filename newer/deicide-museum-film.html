@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#010101">
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="The Evolution of the Deicide Libel — archival film from the Three Eras exhibition.">
+<title>The Evolution of the Deicide Libel — Historical Museum Film</title>
+<link rel="stylesheet" href="deicide-cinema-master.css?v=4">
+</head>
+<body>
+<div class="theater" id="theater" role="region" aria-label="The Evolution of the Deicide Libel historical film">
+  <img class="halo" id="halo" alt="" aria-hidden="true">
+  <div class="darkness" aria-hidden="true"></div>
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="stage" id="stage">
+    <div class="image-hold" id="image-hold" aria-label="Historical archival artwork">
+      <img class="image visible" id="image-a" alt="Historical archival artwork">
+      <img class="image" id="image-b" alt="Historical archival artwork">
+    </div>
+    <div class="interlude" id="interlude" aria-hidden="true">
+      <span class="interlude-kicker">c. 240 CE · ORIGEN</span>
+      <span class="interlude-copy">Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.</span>
+    </div>
+    <section class="copy" id="copy" aria-live="off">
+      <p class="chapter" id="date"></p>
+      <h1 class="title" id="title"></h1>
+      <p class="quote" id="quote"></p>
+    </section>
+  </div>
+  <div id="film-hud" aria-hidden="true">
+    <span class="hud-label">THE EVOLUTION OF THE DEICIDE LIBEL</span>
+    <span class="hud-rule"></span>
+    <span class="hud-counter" id="hud-counter">01 / 14</span>
+  </div>
+  <nav class="controls" aria-label="Film controls">
+    <button type="button" id="narrate" class="control" aria-pressed="false">Play music</button>
+    <button type="button" id="exit" class="control">Exit ×</button>
+  </nav>
+  <div id="transport" role="group" aria-label="Film transport">
+    <button type="button" class="transport-button" id="previous" aria-label="Previous historical card">‹</button>
+    <button type="button" class="transport-button" id="pause" aria-label="Pause film">Pause</button>
+    <div class="transport-center">
+      <div class="transport-details" aria-hidden="true"><span id="scene-name">PROLOGUE</span><span id="time-display">00:00 / 01:38</span></div>
+      <input id="progress" type="range" min="0" max="98" step="0.1" value="0" aria-label="Seek through historical film">
+    </div>
+    <button type="button" class="transport-button" id="next" aria-label="Next historical card">›</button>
+  </div>
+  <audio id="voice" preload="metadata"></audio>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+</div>
+<!-- Original curated 14-scene historical titles, dates, captions, objects and order are unmodified. -->
+<script>const SCENES=[{"title":"THE EVOLUTION OF THE DEICIDE LIBEL","sub":"It developed over four centuries.","date":"PROLOGUE","duration":5,"move":"ascend","photo":"assets/deicide-cinema/scene_01.webp","source_time":16},{"title":"THE CRUCIFIXION","sub":"Jesus was crucified under Pontius Pilate. Crucifixion was a Roman punishment, ordered and performed under Roman authority.","date":"c. 30 CE","duration":7,"move":"glide","photo":"assets/deicide-cinema/scene_02.webp","source_time":48},{"title":"THE SECOND TEMPLE","sub":"In 70 CE, Rome destroyed Jerusalem and the Second Temple.","date":"70 CE","duration":6,"move":"slow","photo":"assets/deicide-cinema/scene_03.webp","source_time":97},{"title":"THE GOSPEL ACCOUNTS","sub":"“His blood be on us and on our children.”","date":"c. 85 CE","duration":7,"move":"close","photo":"assets/deicide-cinema/scene_04.webp","source_time":115},{"title":"IGNATIUS OF ANTIOCH","sub":"Around 110 CE, Ignatius of Antioch attacked Christians who continued Jewish observances.","date":"c. 110 CE","duration":6,"move":"glide","photo":"assets/deicide-cinema/scene_05.webp","source_time":160},{"title":"HADRIAN · THE BAR KOKHBA REVOLT","sub":"After suppressing the revolt, Emperor Hadrian rebuilt Jerusalem as Aelia Capitolina and excluded Jews from the city.","date":"135 CE","duration":7,"move":"slow","photo":"assets/deicide-cinema/scene_06.webp","source_time":190},{"title":"JUSTIN MARTYR","sub":"Justin Martyr told his Jewish interlocutor that “you had crucified him.” He also presented Christians as the “true spiritual Israel.”","date":"c. 150 CE","duration":8,"move":"close","photo":"assets/deicide-cinema/scene_07.webp","source_time":254},{"title":"MELITO OF SARDIS","sub":"Around 165, Melito of Sardis supplied one of the clearest formulations: “God has been murdered.”","date":"c. 165 CE","duration":7,"move":"ascend","photo":"assets/deicide-cinema/scene_08.webp","source_time":268},{"title":"ORIGEN","sub":"Origen later interpreted Jerusalem’s destruction and Jewish displacement as divine punishment for rejecting and killing Jesus.","date":"c. 240 CE","duration":8,"move":"still","photo":"assets/deicide-cinema/scene_09.webp","source_time":291},{"title":"CONSTANTINE · NICAEA","sub":"The ancient libel now spoke with the voice of an emperor.","date":"325 CE","duration":7,"move":"glide","photo":"assets/deicide-cinema/scene_10.webp","source_time":307},{"title":"THEODOSIUS I","sub":"In 380, Emperor Theodosius established Nicene Christianity as the authorized orthodoxy of the Roman Empire.","date":"380 CE","duration":7,"move":"slow","photo":"assets/deicide-cinema/scene_11.webp","source_time":353},{"title":"JOHN CHRYSOSTOM","sub":"He called Jews “the slayers of Christ” and denounced the synagogue as a place of evil.","date":"c. 387 CE","duration":7,"move":"close","photo":"assets/deicide-cinema/scene_12.webp","source_time":364},{"title":"FROM DISPUTE TO DOCTRINE","sub":"The deicide libel had therefore completed its transformation: from local theological dispute, to collective accusation, to imperial doctrine and social policy.","date":"440 CE","duration":9,"move":"ascend","photo":"assets/deicide-cinema/scene_13.webp","source_time":411},{"title":"THE DEICIDE LIBEL","sub":"Research · Natasha H. Pein     Design · Kile Jones","date":"CREDITS","duration":7,"move":"still","photo":"assets/deicide-cinema/deicide_carousel_14.webp","source_time":null}];</script>
+<script src="deicide-cinema-master.js?v=4"></script>
+</body>
+</html>

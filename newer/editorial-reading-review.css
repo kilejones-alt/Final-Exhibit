@@ -1,0 +1,82 @@
+/* Editorial reading refinement — review branch only.
+   No copy, artwork, navigation, or motion-timing changes. */
+.home-selected .home-message{
+  max-width:1440px;
+  padding-block:clamp(92px,12vw,176px);
+  padding-inline:clamp(22px,6.2vw,112px);
+  border-top:1px solid rgba(255,255,255,.09);
+}
+.home-selected .home-message-title{
+  max-width:1060px;
+  margin-inline:auto;
+  margin-bottom:clamp(42px,5.4vw,78px);
+}
+.home-selected .home-message-title h2{
+  font-family:Caslon,Georgia,serif;
+  font-size:clamp(39px,5.6vw,78px);
+  font-weight:400;
+  line-height:1.075;
+  letter-spacing:-.034em;
+  text-wrap:balance;
+}
+.home-selected .home-message-copy{
+  width:min(100%,760px);
+  margin-inline:auto;
+  columns:1;
+  text-align:left;
+}
+.home-selected .home-message-copy p{
+  font-family:Source,Georgia,serif;
+  color:#dedede;
+  font-size:clamp(18px,1.48vw,21px);
+  line-height:1.86;
+  letter-spacing:.003em;
+  margin:0 0 clamp(24px,3vw,42px);
+  overflow-wrap:break-word;
+  text-wrap:pretty;
+}
+.home-selected .home-message-copy p:first-child{
+  color:#f1f1f1;
+}
+.home-selected .home-message-copy p:last-child{margin-bottom:0}
+.home-selected .home-overview{
+  padding-block:clamp(88px,10vw,142px);
+  padding-inline:clamp(22px,5.2vw,92px);
+}
+.home-selected .home-overview-heading h2{
+  max-width:1050px;
+  margin-inline:auto;
+  font-size:clamp(38px,5.2vw,72px);
+  line-height:1.09;
+  letter-spacing:-.03em;
+  text-wrap:balance;
+}
+.home-selected .home-era-details{
+  max-width:1180px;
+  margin-inline:auto;
+}
+.home-selected .home-era-details details{
+  border-color:rgba(255,255,255,.17);
+  transition:border-color .65s ease,background .65s ease;
+}
+.home-selected .home-era-details details:hover,
+.home-selected .home-era-details details[open]{
+  border-color:rgba(255,255,255,.45);
+  background:rgba(255,255,255,.022);
+}
+.home-selected .home-era-details details p{
+  max-width:64ch;
+  line-height:1.8;
+  color:#dedede;
+}
+@media(max-width:700px){
+  .home-selected .home-message{padding-block:76px 86px;padding-inline:clamp(22px,6vw,38px)}
+  .home-selected .home-message-title{margin-bottom:34px}
+  .home-selected .home-message-title h2{font-size:clamp(37px,9.1vw,56px);line-height:1.11}
+  .home-selected .home-message-copy p{font-size:17px;line-height:1.77;margin-bottom:25px}
+  .home-selected .home-overview{padding-block:75px 84px;padding-inline:clamp(19px,5.5vw,36px)}
+  .home-selected .home-overview-heading h2{font-size:clamp(35px,8.8vw,52px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-selected .home-era-details details{transition:none}
+}
