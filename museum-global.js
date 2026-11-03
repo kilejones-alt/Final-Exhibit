@@ -205,12 +205,19 @@
     preview.addEventListener('pointerleave',closePreview);
   }else{
     // On tap, preview first and navigate on the second tap.
-    anchors.forEach(link=>link.addEventListener('click',event=>{
-      if(chosen!==link || !touchSelected){
-        event.preventDefault();
-        reveal(link,true);
-      }
-    }));
+    anchors.forEach(link=>{
+      // Keyboard and assistive-technology activation must navigate on the first
+      // attempt. The deliberate two-tap preview applies to touch only.
+      link.addEventListener('click',event=>{
+        if(event.detail===0 || event.pointerType==='mouse') return;
+        if(chosen!==link || !touchSelected){
+          event.preventDefault();
+          reveal(link,true);
+        }
+      });
+      link.addEventListener('focusin',()=>reveal(link,false));
+      link.addEventListener('focusout',()=>{hideTimer=setTimeout(closePreview,150)});
+    });
     // Programmatic scrolling to the current chapter must not reveal art.
     // Only deliberate touching, wheeling or keyboard navigation enables it.
     viewport.addEventListener('pointerdown',()=>{userScrolledTimeline=true},{passive:true});
