@@ -7,7 +7,9 @@
     const summary=document.createElement('summary');
     summary.className='object-caption-line';
     summary.setAttribute('aria-label',name.textContent+' · '+date.textContent+' — artwork details and source');
-    summary.append(name,document.createTextNode(' · '),date);
+    name.classList.add('caption-name');date.classList.add('caption-date');
+    const separator=document.createElement('span');separator.className='caption-separator';separator.textContent='·';separator.setAttribute('aria-hidden','true');
+    summary.append(name,separator,date);
     const panel=document.createElement('div');
     panel.className='object-provenance-panel';
     credits.forEach(node=>panel.append(node));

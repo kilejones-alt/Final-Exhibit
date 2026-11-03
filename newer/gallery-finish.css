@@ -55,7 +55,8 @@ body .aj-object figcaption,body article.artifact .artifact-copy{
 }
 body .object-provenance{display:block;position:relative;width:100%;margin:0}
 body .object-caption-line{
-  display:block!important;width:100%!important;height:auto!important;
+  display:flex!important;align-items:baseline;justify-content:center;gap:.35em;
+  width:100%!important;height:auto!important;
   min-width:0!important;min-height:0!important;
   padding:3px 0!important;margin:0!important;
   border:0!important;border-radius:0!important;background:none!important;
@@ -71,6 +72,8 @@ body .object-caption-line :is(h2,p,span){
   padding:0!important;margin:0!important;white-space:inherit!important;
 }
 body .object-caption-line:hover{color:#fff}
+body .object-caption-line .caption-name{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+body .object-caption-line :is(.caption-date,.caption-separator){flex:0 0 auto}
 body .object-provenance-panel{
   position:absolute;z-index:30;left:50%;bottom:calc(100% + 12px);
   transform:translateX(-50%);width:min(390px,85vw);max-height:65vh;overflow:auto;
