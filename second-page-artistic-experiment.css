@@ -204,3 +204,15 @@
   .home-selected .triptych .door-art img,
   .home-selected .triptych .door-label{transition:none!important}
 }
+
+/* Original archival source colors remain original. Monochrome originals
+   stay monochrome without applying a destructive blanket image filter. */
+.home-selected .triptych .door-art img{filter:none!important}
+@media(hover:hover) and (pointer:fine){
+ .home-selected .triptych .door:is(:hover,:focus-visible) .door-art img{
+   filter:brightness(1.045) contrast(1.015)!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .home-selected .triptych .door-art img{filter:none!important}
+}
