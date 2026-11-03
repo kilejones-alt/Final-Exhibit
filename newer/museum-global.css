@@ -1223,6 +1223,32 @@ body.museum-gallery-enabled .museum-rail-preview-title{
   }
 }
 body.museum-gallery-enabled .museum-rail-preview:not(.has-art) .museum-rail-preview-art{display:none!important}
+@media(max-width:700px) and (hover:none){
+  body.museum-gallery-enabled .museum-rail-preview.has-art{
+    display:grid!important;
+    opacity:0;
+    pointer-events:none;
+    transform-origin:var(--dot-origin-x,50%) var(--dot-origin-y,0px)!important;
+    transform:scale(.025)!important;
+    transition:transform 2.4s cubic-bezier(.15,.72,.19,1),opacity .7s ease,visibility 2.4s ease!important;
+  }
+  body.museum-gallery-enabled .museum-rail-preview.has-art.is-open{
+    grid-template-rows:minmax(0,1fr) auto;
+    gap:8px;
+    padding:12px!important;
+    opacity:1;
+    pointer-events:auto;
+    transform:scale(1)!important;
+  }
+  body.museum-gallery-enabled .museum-rail-preview.has-art .museum-rail-preview-art{
+    display:block!important;width:100%;height:100%;min-height:0;
+    object-fit:contain!important;filter:none!important;background:transparent!important;
+  }
+  body.museum-gallery-enabled .museum-rail-preview.has-art .museum-rail-preview-title{
+    display:block!important;font:600 10px/1.4 Source,Arial,sans-serif!important;
+    letter-spacing:.12em;text-transform:uppercase;color:#e6d7d0!important;
+  }
+}
 @media(prefers-reduced-motion:reduce){
   body.museum-gallery-enabled .museum-rail-preview.has-art,
   body.museum-gallery-enabled .museum-rail-preview.has-art.is-open{

@@ -156,7 +156,7 @@
     rail.classList.remove('is-thread-active');
   };
   const reveal = (link, fromTouch=false) => {
-    if (innerWidth <= 700) return;
+    if (innerWidth <= 700 && !fromTouch) return;
     if(!link)return;
     clearTimeout(hideTimer);
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
@@ -165,6 +165,7 @@
     const art = previewArt[anchors.indexOf(link)];
     preview.classList.toggle('has-art', Boolean(art));
     if (art && previewImage.getAttribute('src') !== art) previewImage.src = art;
+    previewImage.alt = art ? link.title : '';
     link.classList.add('is-revealed');
     rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
@@ -208,8 +209,8 @@
       // Keyboard and assistive-technology activation must navigate on the first
       // attempt. The deliberate two-tap preview applies to touch only.
       link.addEventListener('click',event=>{
-        if (innerWidth <= 700) return;
         if(event.detail===0 || event.pointerType==='mouse') return;
+        if(innerWidth <= 700 && !previewArt[anchors.indexOf(link)]) return;
         if(chosen!==link || !touchSelected){
           event.preventDefault();
           reveal(link,true);
@@ -218,6 +219,7 @@
       link.addEventListener('focusin',()=>reveal(link,false));
       link.addEventListener('focusout',()=>{hideTimer=setTimeout(closePreview,150)});
     });
+    preview.addEventListener('click',()=>{if(chosen)location.href=chosen.href});
     // Programmatic scrolling to the current chapter must not reveal art.
     // Only deliberate touching, wheeling or keyboard navigation enables it.
     viewport.addEventListener('pointerdown',()=>{userScrolledTimeline=true},{passive:true});
