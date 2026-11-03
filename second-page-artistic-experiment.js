@@ -118,6 +118,7 @@
       const fRect=framework.getBoundingClientRect();
       if(fRect.top>innerHeight*.76 || fRect.bottom<innerHeight*.18)return;
       played=true;
+      observer.disconnect();
 
       ghosts.forEach(({ghost,thread},index)=>{
         const target=eras[index].getBoundingClientRect();
@@ -154,6 +155,9 @@
           {opacity:0,height:`${Math.hypot(tx,ty)}px`,transform:`rotate(${angle.toFixed(2)}deg)`}
         ],{duration:1500,delay:delay+80,easing:'cubic-bezier(.18,.66,.24,1)',fill:'forwards'});
       });
+      // Release ephemeral art layers after the transition: less GPU memory
+      // during the long editorial scroll and no invisible overlays lingering.
+      setTimeout(() => layer.remove(), 2500);
     };
 
     const observer=new IntersectionObserver(entries=>{
