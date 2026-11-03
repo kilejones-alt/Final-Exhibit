@@ -975,3 +975,189 @@ body.geo-home main.geo-editorial :is(.geo-evolution,.geo-pattern,.geo-understand
   body.geo-home .hero.geo-doors .triptych .door.geo-door,
   .aj-page .aj-cycle-list li{transition:none!important}
 }
+
+
+/* SINGLE THREAD AND CINEMATIC INK REVEAL
+   Only one continuous rule crosses the gallery dots. The old header divider
+   and the rail's bottom border are suppressed, without changing placement. */
+body.museum-gallery-enabled:not(.official-entrance) > .site-header{
+  border-bottom:0!important;
+}
+body.museum-gallery-enabled:not(.official-entrance) > .museum-gallery-rail{
+  border-top:0!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+body.museum-gallery-enabled:not(.official-entrance) > .museum-gallery-rail .museum-rail-strip::before{
+  height:1px!important;
+  top:calc(50% - .5px)!important;
+  background:linear-gradient(90deg,
+    rgba(180,160,178,.12) 0%,
+    rgba(197,178,197,.48) 10%,
+    rgba(197,178,197,.48) 90%,
+    rgba(180,160,178,.12) 100%)!important;
+  box-shadow:none!important;
+}
+body.museum-gallery-enabled:not(.official-entrance) > .museum-gallery-rail .museum-rail-strip::after{
+  content:none!important;display:none!important;
+}
+/* A photographic object gently opens from its selected dot. */
+body.museum-gallery-enabled .museum-rail-preview{
+  transition:transform 2.15s cubic-bezier(.16,.73,.2,1),
+    opacity .62s ease,visibility 2.15s ease!important;
+}
+body.museum-gallery-enabled .museum-rail-preview img,
+body.museum-gallery-enabled .museum-rail-preview.is-open img{
+  transition:transform 6.5s cubic-bezier(.15,.66,.2,1)!important;
+}
+body.museum-gallery-enabled .museum-rail-preview.is-open img{
+  transform:scale(1.038)!important;
+}
+
+/* The two complete authored About passages are read consecutively,
+   not squeezed into unrelated side-by-side blocks. No copy changes. */
+body.geo-home .geo-about-grid{
+  grid-template-columns:minmax(0,1fr)!important;
+  column-gap:0!important;
+  row-gap:0!important;
+  width:min(100%,1120px)!important;
+}
+body.geo-home .geo-about-grid .geo-about{
+  width:min(100%,840px)!important;
+  max-width:840px!important;
+  margin-inline:auto!important;
+}
+body.geo-home .geo-about-grid .geo-about:first-child{
+  padding-bottom:clamp(62px,7vw,105px);
+}
+body.geo-home .geo-about-grid .geo-about + .geo-about{
+  border-top:1px solid rgba(242,235,239,.18);
+  padding-top:clamp(62px,7vw,105px);
+}
+body.geo-home .geo-about-grid .geo-about h2{
+  max-width:18ch;
+  margin-bottom:clamp(27px,3vw,44px);
+}
+body.geo-home .geo-about-grid .geo-about p{
+  max-width:67ch!important;
+  line-height:1.82!important;
+}
+@media(max-width:700px){
+  body.geo-home .geo-about-grid .geo-about:first-child{padding-bottom:62px}
+  body.geo-home .geo-about-grid .geo-about + .geo-about{padding-top:62px}
+}
+
+/* Each piece uses the provided image's original pixels and exact typography.
+   The top title settles, three arrows draw slowly, labels descend, lower arrows
+   grow, then the three accusations and source credit appear in sequence.
+   The original full bitmap remains in DOM for accessibility and as the
+   reduced-motion fallback. */
+html[lang="en"] body.geo-home .framework-reference-art.is-sequenced{
+  width:100%;
+  overflow:visible;
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-artwork-frame{
+  box-sizing:border-box;
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:1122 / 1402;
+  background:#000;
+  overflow:hidden;
+  isolation:isolate;
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-artwork-frame > img{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  object-fit:contain;
+  opacity:0!important;
+  visibility:hidden!important;
+  clip-path:none!important;
+  transform:none!important;
+  animation:none!important;
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink-layer{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  display:block;
+  box-sizing:border-box;
+  pointer-events:none;
+  background:#000 url("assets/jew-hatred-conceptual-framework.png") no-repeat center / 100% 100%;
+  opacity:0;
+  transform:translateZ(0);
+  will-change:clip-path,opacity;
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink--title{
+  clip-path:inset(0 0 73% 0);
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink--upper-arrows{
+  clip-path:inset(26.7% 0 55.4% 0);
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink--eras{
+  clip-path:inset(44.6% 0 48.3% 0);
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink--lower-arrows{
+  clip-path:inset(51.5% 0 35.3% 0);
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink--claims{
+  clip-path:inset(64.7% 0 18% 0);
+}
+html[lang="en"] body.geo-home .framework-reference-art .framework-ink--credit{
+  clip-path:inset(86.4% 0 4.5% 0);
+}
+html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--title{
+  animation:exhibit-ink-title 2.8s cubic-bezier(.2,.64,.22,1) .15s both;
+}
+html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--upper-arrows{
+  animation:exhibit-ink-arrows 4.6s cubic-bezier(.23,.64,.24,1) 2.3s both;
+}
+html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--eras{
+  animation:exhibit-ink-types 2.1s cubic-bezier(.18,.7,.2,1) 6.6s both;
+}
+html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--lower-arrows{
+  animation:exhibit-ink-lower 3.8s cubic-bezier(.23,.65,.24,1) 8.1s both;
+}
+html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--claims{
+  animation:exhibit-ink-claims 2.6s cubic-bezier(.16,.7,.2,1) 11.65s both;
+}
+html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--credit{
+  animation:exhibit-ink-credit 2.0s ease-out 13.9s both;
+}
+@keyframes exhibit-ink-title{
+  from{opacity:0;clip-path:inset(0 0 100% 0);filter:blur(3px)}
+  24%{opacity:1;filter:blur(0)}
+  to{opacity:1;clip-path:inset(0 0 73% 0);filter:none}
+}
+@keyframes exhibit-ink-arrows{
+  from{opacity:0;clip-path:inset(26.7% 0 73.3% 0)}
+  8%{opacity:1}
+  to{opacity:1;clip-path:inset(26.7% 0 55.4% 0)}
+}
+@keyframes exhibit-ink-types{
+  from{opacity:0;transform:translateY(-13px);filter:blur(2px)}
+  to{opacity:1;transform:none;filter:none}
+}
+@keyframes exhibit-ink-lower{
+  from{opacity:0;clip-path:inset(51.5% 0 48.5% 0)}
+  8%{opacity:1}
+  to{opacity:1;clip-path:inset(51.5% 0 35.3% 0)}
+}
+@keyframes exhibit-ink-claims{
+  from{opacity:0;transform:translateY(-14px);filter:blur(2px)}
+  to{opacity:1;transform:none;filter:none}
+}
+@keyframes exhibit-ink-credit{
+  from{opacity:0}
+  to{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  html[lang="en"] body.geo-home .framework-reference-art .framework-artwork-frame > img{
+    opacity:1!important;visibility:visible!important;clip-path:none!important;
+  }
+  html[lang="en"] body.geo-home .framework-reference-art .framework-ink-layer{
+    display:none!important;animation:none!important;
+  }
+}
