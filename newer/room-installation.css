@@ -1,0 +1,101 @@
+/* Shared installation treatment for the remaining exhibition rooms. */
+body .room-intro{
+  width:100%;max-width:none;
+  min-height:clamp(430px,64svh,750px);
+  padding:clamp(70px,9vw,135px) clamp(30px,6vw,105px);
+  align-items:center;
+  gap:clamp(45px,7vw,120px);
+  background:radial-gradient(ellipse 65% 75% at 53% 48%,#171516 0%,#080809 76%);
+  border-bottom:1px solid rgba(235,226,220,.13);
+}
+body .room-intro h1{
+  font-size:clamp(62px,7.1vw,118px);
+  line-height:.95;
+  letter-spacing:-.055em;
+  color:#f0e8e1;
+  text-wrap:balance;
+}
+body .room-intro .prose{max-width:670px}
+body .room-intro .prose p{
+  font:400 clamp(19px,1.8vw,25px)/1.68 Caslon,Georgia,serif;
+  color:#ded4ce;
+  text-wrap:pretty;
+}
+body main{counter-reset:museum-object}
+body article.artifact{
+  counter-increment:museum-object;
+  position:relative;
+  max-width:none;
+  min-height:clamp(660px,88svh,1020px);
+  padding:clamp(92px,11vw,170px) clamp(30px,7vw,125px);
+  grid-template-columns:minmax(0,1.28fr) minmax(0,.72fr);
+  gap:clamp(60px,8vw,145px);
+  align-items:center;
+  border-top:1px solid rgba(235,226,220,.13);
+  background:radial-gradient(ellipse 55% 55% at 32% 46%,#151213 0%,#080809 80%);
+}
+body article.artifact::before{
+  content:counter(museum-object,decimal-leading-zero);
+  position:absolute;
+  top:clamp(30px,4.5vw,70px);
+  left:clamp(30px,7vw,125px);
+  color:#baa8a0;
+  font:600 12px/1 Source,Arial,sans-serif;
+  letter-spacing:.22em;
+}
+body article.artifact .art-open{
+  width:100%;min-width:0;
+  align-self:center;
+  transition:transform .75s cubic-bezier(.18,.7,.2,1);
+}
+body article.artifact .art-open img{
+  width:auto;max-width:100%;max-height:min(75svh,850px);
+  object-fit:contain;
+  filter:none;
+  box-shadow:0 25px 85px rgba(0,0,0,.5);
+}
+body article.artifact .artifact-copy{max-width:520px}
+body article.artifact .artifact-copy h2{
+  font:400 clamp(38px,4.35vw,76px)/1.06 Caslon,Georgia,serif;
+  letter-spacing:-.035em;
+  color:#f0e8e1;
+  text-wrap:balance;
+}
+body article.artifact .artifact-copy .date{
+  margin-top:27px;
+  color:#c6b5ad;
+  font:600 12px/1.5 Source,Arial,sans-serif;
+  letter-spacing:.18em;
+}
+body article.artifact .artifact-copy .object-credit{max-width:40ch}
+body article.artifact:nth-of-type(even){
+  grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);
+  background:radial-gradient(ellipse 55% 55% at 68% 46%,#151213 0%,#080809 80%);
+}
+body article.artifact:nth-of-type(even) .art-open{grid-column:2;grid-row:1}
+body article.artifact:nth-of-type(even) .artifact-copy{grid-column:1;grid-row:1}
+@media(hover:hover) and (pointer:fine){
+  body article.artifact .art-open:hover{transform:translateY(-7px)}
+}
+@media(max-width:800px){
+  body .room-intro{display:block;min-height:0;padding:90px 26px 75px}
+  body .room-intro h1{font-size:clamp(56px,11vw,82px);margin-bottom:35px}
+  body .room-intro .prose p{font-size:19px;line-height:1.62}
+  body article.artifact,
+  body article.artifact:nth-of-type(even){
+    display:flex;flex-direction:column;
+    align-items:stretch;min-height:0;
+    gap:32px;padding:90px 26px 95px;
+    background:#080809;
+  }
+  body article.artifact::before{top:40px;left:26px}
+  body article.artifact .art-open,
+  body article.artifact:nth-of-type(even) .art-open{order:0}
+  body article.artifact .artifact-copy,
+  body article.artifact:nth-of-type(even) .artifact-copy{order:1}
+  body article.artifact .art-open img{max-height:68svh;margin:auto}
+  body article.artifact .artifact-copy h2{font-size:clamp(38px,8vw,60px)}
+}
+@media(prefers-reduced-motion:reduce){
+  body article.artifact .art-open{transition:none}
+}
