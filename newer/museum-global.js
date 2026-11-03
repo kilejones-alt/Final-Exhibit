@@ -82,6 +82,16 @@
   else (document.querySelector('.skip') || body.firstElementChild)?.insertAdjacentElement('afterend',rail);
   body.classList.add('museum-gallery-enabled');
 
+  // Match the pinned timeline to the actual bottom edge of the responsive
+  // music/language header. ResizeObserver handles multi-row mobile headers.
+  if (header) {
+    const syncHeaderHeight = () =>
+      root.style.setProperty('--museum-header-h', Math.ceil(header.getBoundingClientRect().height) + 'px');
+    syncHeaderHeight();
+    if ('ResizeObserver' in window) new ResizeObserver(syncHeaderHeight).observe(header);
+    else addEventListener('resize', syncHeaderHeight, { passive: true });
+  }
+
   // Fixed timeline CSS is authoritative. No scroll-dependent pinning,
   // layout spacers or frame loops: faster, and stable on mobile Safari.
 
