@@ -2,6 +2,11 @@
   'use strict';
   const install=(caption,name,date,credits)=>{
     if(!name||!date)return;
+    [name,date].forEach(node=>{
+      node.removeAttribute('data-museum-reveal');
+      node.removeAttribute('data-global-arrival');
+      node.classList.remove('museum-global-hover');
+    });
     const details=document.createElement('details');
     details.className='object-provenance';
     const summary=document.createElement('summary');
