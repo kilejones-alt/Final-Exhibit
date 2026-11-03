@@ -169,3 +169,38 @@
     observer.observe(framework);
   }
 })();
+
+
+/* The image, not a CSS recreation, owns the exact reference lettering and palette.
+   Only English uses the English-language reference; translated mirrors retain
+   their native-script diagrams. The semantic diagram remains available in HTML. */
+(() => {
+  if (document.documentElement.lang !== 'en' || !document.body.classList.contains('geo-home')) return;
+  const framework = document.querySelector('.era-framework');
+  const inner = framework?.querySelector('.framework-inner');
+  if (!framework || !inner || framework.querySelector('.framework-reference-art')) return;
+  const artwork = document.createElement('img');
+  artwork.src = 'assets/jew-hatred-conceptual-framework.png';
+  artwork.alt = 'The Three Eras of Jew-Hatred conceptual framework';
+  artwork.decoding = 'async';
+  artwork.loading = 'lazy';
+  const present = () => {
+    if (!artwork.naturalWidth || framework.querySelector('.framework-reference-art')) return;
+    const stage = document.createElement('div');
+    stage.className = 'framework-reference-art';
+    stage.append(artwork);
+    const existingCaption = inner.querySelector('figcaption');
+    if (existingCaption) stage.append(existingCaption.cloneNode(true));
+    framework.insertBefore(stage, inner);
+    framework.classList.add('framework-reference-ready');
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        framework.classList.add('is-revealed');
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(stage);
+  };
+  artwork.addEventListener('load', present, { once: true });
+  if (artwork.complete) present();
+})();
