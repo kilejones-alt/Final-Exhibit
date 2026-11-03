@@ -150,3 +150,44 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
   height:32px!important;min-height:32px!important;max-height:32px!important;
  }
 }
+
+
+/* A visitor-controlled exit from the unchanged 36-second film.
+   The film's plates, motion timing, camera and audio are untouched. */
+.official-entrance .cinema-skip{
+  position:absolute;z-index:12;
+  inset-inline-end:clamp(18px,4vw,58px);
+  bottom:clamp(18px,3.5svh,36px);
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-width:100px;min-height:44px;padding:11px 18px;
+  border:1px solid rgba(240,233,230,.43);
+  border-radius:999px;background:rgba(7,7,9,.67);
+  color:#f3eeee;
+  font:500 12px/1.2 Source,Arial,sans-serif;
+  letter-spacing:.09em;text-transform:uppercase;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  text-decoration:none;opacity:0;
+  transform:translateY(7px);
+  pointer-events:none;
+  transition:opacity .65s ease,transform .78s cubic-bezier(.16,.72,.2,1),border-color .65s ease,background .65s ease;
+}
+.official-entrance .cinema:hover .cinema-skip,
+.official-entrance .cinema:focus-within .cinema-skip,
+.official-entrance .cinema-skip:focus-visible{
+  opacity:1;transform:none;pointer-events:auto;
+}
+.official-entrance .cinema-skip:is(:hover,:focus-visible){
+  border-color:rgba(248,240,238,.9);background:rgba(34,29,34,.92);
+}
+.official-entrance .entry-pill{
+  min-width:109px;
+  min-height:34px;
+  padding:7px 19px;
+  font-size:12.5px;
+}
+@media(hover:none),(pointer:coarse){
+  .official-entrance .cinema-skip{opacity:.85;transform:none;pointer-events:auto;min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  .official-entrance .cinema-skip{opacity:1;transform:none;pointer-events:auto;transition:none}
+}
