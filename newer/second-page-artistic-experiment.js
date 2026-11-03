@@ -171,34 +171,51 @@
 })();
 
 
-/* The image, not a CSS recreation, owns the exact reference lettering and palette.
-   Only English uses the English-language reference; translated mirrors retain
-   their native-script diagrams. The semantic diagram remains available in HTML. */
+
+/* Animate the user-supplied artwork as six independent museum beats.
+   The original bitmap is the only visible source of lettering, white arrows,
+   and red emphasis; no generated words or substituted typefaces. */
 (() => {
   if (document.documentElement.lang !== 'en' || !document.body.classList.contains('geo-home')) return;
   const framework = document.querySelector('.era-framework');
   const inner = framework?.querySelector('.framework-inner');
   if (!framework || !inner || framework.querySelector('.framework-reference-art')) return;
+
   const artwork = document.createElement('img');
   artwork.src = 'assets/jew-hatred-conceptual-framework.png';
   artwork.alt = 'The Three Eras of Jew-Hatred conceptual framework';
   artwork.decoding = 'async';
   artwork.loading = 'lazy';
+
   const present = () => {
     if (!artwork.naturalWidth || framework.querySelector('.framework-reference-art')) return;
     const stage = document.createElement('div');
-    stage.className = 'framework-reference-art';
-    stage.append(artwork);
-    const existingCaption = inner.querySelector('figcaption');
-    if (existingCaption) stage.append(existingCaption.cloneNode(true));
+    stage.className = 'framework-reference-art is-sequenced';
+    const frame = document.createElement('div');
+    frame.className = 'framework-artwork-frame';
+    frame.append(artwork);
+    for (const part of ['title','upper-arrows','eras','lower-arrows','claims','credit']) {
+      const layer = document.createElement('span');
+      layer.className = 'framework-ink-layer framework-ink--' + part;
+      layer.setAttribute('aria-hidden', 'true');
+      frame.append(layer);
+    }
+    stage.append(frame);
+    const originalCaption = inner.querySelector('figcaption');
+    if (originalCaption) stage.append(originalCaption.cloneNode(true));
     framework.insertBefore(stage, inner);
     framework.classList.add('framework-reference-ready');
+
+    if (!('IntersectionObserver' in window)) {
+      framework.classList.add('is-revealed');
+      return;
+    }
     const observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
         framework.classList.add('is-revealed');
         observer.disconnect();
       }
-    }, { threshold: 0.1 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -3% 0px' });
     observer.observe(stage);
   };
   artwork.addEventListener('load', present, { once: true });
