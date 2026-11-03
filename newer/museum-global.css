@@ -1161,3 +1161,21 @@ html[lang="en"] body.geo-home .era-framework.is-revealed .framework-ink--credit{
     display:none!important;animation:none!important;
   }
 }
+/* Text previews keep each artwork at its single exhibition location. */
+body.museum-gallery-enabled .museum-rail-preview{
+  display:flex!important;
+  align-items:center;
+  justify-content:center;
+  padding:24px!important;
+  background:#080809!important;
+  border:1px solid rgba(238,230,225,.22)!important;
+  box-shadow:0 16px 48px rgba(0,0,0,.5)!important;
+}
+body.museum-gallery-enabled .museum-rail-preview-title{
+  display:block!important;
+  max-width:100%;
+  color:#eae3de!important;
+  font:400 clamp(17px,2vw,26px)/1.35 Caslon,Georgia,serif!important;
+  text-align:center;
+  text-wrap:balance;
+}

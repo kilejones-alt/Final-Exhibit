@@ -1,12 +1,12 @@
-/* Three Eras / Deicide: cinematic arrival into the existing historical film.
- * The page darkens as the archival image grows. Film time begins only when the
+/* Three Eras / Deicide: automatic arrival into the existing slideshow.
+ * The page darkens as the slideshow grows. Playback begins when the
  * entry transition settles. Audio remains user initiated under browser rules. */
 (() => {
   'use strict';
   const section = document.getElementById('deicide-cinema');
   if (!section) return;
   const source = 'deicide-museum-film.html?edition=20261102-original-cards-v1&embedded=1';
-  const next = document.getElementById('libel-02');
+  const next = document.getElementById('libel-blood');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const arrivalMs = reducedMotion ? 0 : 3900;
@@ -40,11 +40,11 @@
     overlay.style.setProperty('--portal-start-y', startY.toFixed(1) + 'px');
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'The evolution of the Deicide Libel: historical film');
+    overlay.setAttribute('aria-label', 'The evolution of the Deicide Libel: historical slideshow');
 
     const frame = document.createElement('iframe');
     frame.src = source;
-    frame.title = 'The Deicide Libel — museum film in fourteen movements';
+    frame.title = 'The Deicide Libel — fourteen-card slideshow';
     frame.allow = 'autoplay';
     frame.setAttribute('referrerpolicy', 'same-origin');
     frame.setAttribute('loading', 'eager');
@@ -107,8 +107,6 @@
     }
   });
 
-  section.querySelector('#deicide-film-watch')?.addEventListener('click', start);
-
   if ('IntersectionObserver' in window) {
     const approachObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
@@ -118,7 +116,11 @@
     approachObserver.observe(section);
 
     const entranceObserver = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting) && !dismissed && !opened) start();
+      if (entries.some(entry => entry.isIntersecting)) {
+        if (!dismissed && !opened) start();
+      } else if (!opened) {
+        dismissed = false;
+      }
     }, { threshold: .36 });
     entranceObserver.observe(section);
   }

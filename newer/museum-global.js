@@ -14,30 +14,30 @@
     ru: { heading: 'Три эпохи ненависти к евреям', eras: ['Антииудаизм', 'Антисемитизм', 'Антисионизм'] }
   };
   const text = strings[locale];
-  // Gallery objects already present in the exhibition; links refer to existing
-  // room sections/artifacts. The label displays only the era and a number.
+  // Links refer to existing room sections/artifacts. The preview uses type so
+  // artwork is encountered only at its place in the exhibition.
   const artworks = [
-    [0,'antijudaism.html','assets/door-antijudaism-kile.jpg'],
-    [0,'antijudaism.html#aj-title','assets/antijudaism-1.jpg'],
-    [0,'antijudaism.html#aj-art-manesse','assets/antijudaism-2.jpg'],
-    [0,'antijudaism.html#aj-art-host','assets/antijudaism-4.jpg'],
-    [0,'antijudaism.html#deicide-cinema','assets/deicide-cinema/scene_01.webp'],
-    [0,'antijudaism.html#libel-blood','assets/antijudaism-5.jpg'],
-    [0,'antijudaism.html#libel-well','assets/antijudaism-3.jpg'],
-    [1,'antisemitism.html','assets/door-antisemitism-naya.jpg'],
-    [1,'antisemitism.html#museum-object-01','assets/antisemitism-1.jpg'],
-    [1,'antisemitism.html#museum-object-02','assets/antisemitism-2.jpg'],
-    [1,'antisemitism.html#museum-object-03','assets/antisemitism-3.jpg'],
-    [1,'antisemitism.html#museum-object-04','assets/antisemitism-4.jpg'],
-    [1,'antisemitism.html#museum-object-05','assets/antisemitism-5.jpg'],
-    [2,'exhibition.html','assets/door-antizionism-naya-source.jpg'],
-    [2,'colonialism.html#museum-object-01','assets/naya-sayegh-1965.webp'],
-    [2,'colonialism.html#museum-object-02','assets/naya-rodinson-1967.webp'],
-    [2,'colonialism.html#museum-object-03','assets/naya-ivanov-beware-zionism-1969.webp'],
-    [2,'colonialism.html#museum-object-04','assets/naya-sychov-moscow-1972.webp'],
-    [2,'colonialism.html#museum-object-05','assets/naya-expansionists-krokodil-1973.webp'],
-    [2,'colonialism.html#museum-object-06','assets/naya-cherepanov-israeli-plan-1979.webp'],
-    [2,'apartheid.html#museum-object-01','assets/naya-efimovsky-zionism-racism-1976.webp']
+    [0,'antijudaism.html'],
+    [0,'antijudaism.html#aj-title'],
+    [0,'antijudaism.html#aj-art-manesse'],
+    [0,'antijudaism.html#aj-art-host'],
+    [0,'antijudaism.html#deicide-cinema'],
+    [0,'antijudaism.html#libel-blood'],
+    [0,'antijudaism.html#libel-well'],
+    [1,'antisemitism.html'],
+    [1,'antisemitism.html#museum-object-01'],
+    [1,'antisemitism.html#museum-object-02'],
+    [1,'antisemitism.html#museum-object-03'],
+    [1,'antisemitism.html#museum-object-04'],
+    [1,'antisemitism.html#museum-object-05'],
+    [2,'exhibition.html'],
+    [2,'colonialism.html#museum-object-01'],
+    [2,'colonialism.html#museum-object-02'],
+    [2,'colonialism.html#museum-object-03'],
+    [2,'colonialism.html#museum-object-04'],
+    [2,'colonialism.html#museum-object-05'],
+    [2,'colonialism.html#museum-object-06'],
+    [2,'apartheid.html#museum-object-01']
   ];
   const chapters = ['I','II','III'];
   const main = document.querySelector('main');
@@ -58,13 +58,12 @@
   strip.className = 'museum-rail-strip';
   const counts = [0,0,0];
   const anchors = [];
-  for (const [index, [era,href,src]] of artworks.entries()) {
+  for (const [era,href] of artworks) {
     counts[era]++;
     const a = document.createElement('a');
     a.className = 'museum-rail-image';
     a.href = href;
     a.dataset.era = String(era);
-    a.dataset.picture = src;
     a.dataset.ordinal = String(counts[era]);
     a.title = chapters[era] + ' · ' + text.eras[era] + ' · ' + String(counts[era]).padStart(2,'0');
     a.setAttribute('aria-label',a.title);
@@ -111,8 +110,7 @@
     }
   }
 
-  // A dot is the only persistent mark. One shared archival image is loaded
-  // on interaction, and vanishes when the pointer/focus moves away.
+  // A dot is the only persistent mark. Its chapter label appears on interaction.
   // On a touchscreen, swiping to a dot reveals it; the first tap previews,
   // and a second tap follows the original exhibition link.
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -120,12 +118,9 @@
   const preview = document.createElement('div');
   preview.className = 'museum-rail-preview';
   preview.setAttribute('aria-hidden','true');
-  const full = document.createElement('img');
-  full.alt = '';
-  full.decoding = 'async';
-  // The archive image itself is the presentation: no panel, caption or frame.
-  full.loading = 'eager';
-  preview.append(full);
+  const previewTitle = document.createElement('span');
+  previewTitle.className = 'museum-rail-preview-title';
+  preview.append(previewTitle);
   body.append(preview);
   let chosen = null, hideTimer = 0, scrollFrame = 0;
   let userScrolledTimeline = false;
@@ -157,13 +152,11 @@
     if(top+vh>innerHeight-16)top=rect.top-vh-10;
     top=Math.max(12,top);
     preview.style.top=top+'px';
-    // The enlarged image emerges exactly from its dot.
+    // The chapter label emerges from its dot.
     preview.style.setProperty('--dot-origin-x',(rect.left+rect.width/2-left).toFixed(1)+'px');
     preview.style.setProperty('--dot-origin-y',(rect.top+rect.height/2-top).toFixed(1)+'px');
-    if(changed || full.dataset.picture!==link.dataset.picture){
-      full.dataset.picture=link.dataset.picture;
-      full.src=link.dataset.picture;
-      // Every new preview starts its own unhurried archival camera approach.
+    if(changed){
+      previewTitle.textContent=link.title;
       preview.classList.remove('is-open');
       void preview.offsetWidth;
     }
@@ -181,7 +174,7 @@
     });
     preview.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
     preview.addEventListener('pointerleave',closePreview);
-    // The expanded archival object remains a route to its original room.
+    // The expanded label remains a route to its original room.
     preview.addEventListener('click',()=>{if(chosen)location.href=chosen.href});
   }else{
     // On tap, preview first and navigate on the second tap.

@@ -42,7 +42,7 @@
 .aj-page .aj-fact{padding:18px 0;border-bottom:1px solid var(--aj-line);font:400 clamp(15px,1.18vw,18px)/1.65 Source,Georgia,serif;color:#eee8e4;overflow-wrap:break-word}
 .aj-page .aj-fact strong{font-weight:600;color:#d9b7af}
 .aj-page .aj-film-link{display:inline-flex;align-items:center;justify-content:center;margin-top:27px;padding:12px 0;color:#e7e1dc;font:600 12px/1.5 Source,Arial,sans-serif;letter-spacing:.11em;text-decoration:underline;text-underline-offset:7px}
-.aj-page .deicide-museum-passage{margin-top:clamp(48px,7vw,100px);min-height:62svh}
+.aj-page .deicide-museum-passage{margin-top:clamp(48px,7vw,100px);min-height:34svh}
 .aj-page .aj-cycle-intro{max-width:920px;margin-bottom:50px}
 .aj-page .aj-cycle-list{list-style:none;counter-reset:ajstep;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--aj-line);border-left:1px solid var(--aj-line);padding:0;margin:30px 0 clamp(45px,6vw,85px)}
 .aj-page .aj-cycle-list li{padding:clamp(25px,3vw,43px);border-right:1px solid var(--aj-line);border-bottom:1px solid var(--aj-line);min-height:330px;display:flex;flex-direction:column;align-items:flex-start}
@@ -115,7 +115,7 @@
   .aj-page .aj-libel-grid{gap:33px}
   .aj-page .aj-facts{margin-top:27px}
   .aj-page .aj-fact{font-size:16px;line-height:1.63;padding:16px 0}
-  .aj-page .deicide-museum-passage{min-height:55svh;margin-top:47px}
+  .aj-page .deicide-museum-passage{min-height:26svh;margin-top:47px}
   .aj-page .aj-cycle-list{grid-template-columns:1fr;margin-bottom:48px}
   .aj-page .aj-cycle-list li{min-height:0;padding:27px 25px}
   .aj-page .aj-cycle-list h3{font-size:27px}
@@ -303,3 +303,5 @@
 .aj-page .exhibition-future-main .aj-intro-continuation :is(.aj-intro-beat,.aj-intro-prose) p{
   color:#fff!important;
 }
+/* The Deicide prose leads directly into the automatic slideshow. */
+.aj-page .aj-deicide-prose{margin-inline:auto}

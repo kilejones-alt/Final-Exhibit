@@ -13,12 +13,12 @@
 @media(prefers-reduced-motion:reduce){.deicide-museum-passage *{transition:none!important}}
 
 
-/* Theatrical entrance: an archival image invites the visitor into the darkened room. */
+/* Theatrical entrance without repeating a film artwork. */
 .deicide-museum-passage{isolation:isolate;overflow:hidden;background:#050405}
 .deicide-museum-passage::before{
   content:"";position:absolute;inset:6% 6%;z-index:0;pointer-events:none;
-  background:url("assets/deicide-cinema/scene_01.webp") center center/contain no-repeat;
-  opacity:.24;filter:brightness(.72) saturate(.85);transform:scale(.91);
+  background:radial-gradient(ellipse at center,rgba(95,70,60,.24),transparent 60%);
+  opacity:.24;transform:scale(.91);
   transition:transform 4.2s cubic-bezier(.15,.65,.19,1),opacity 3s ease,filter 3s ease;
 }
 .deicide-museum-passage::after{
@@ -27,7 +27,7 @@
     linear-gradient(0deg,#050405 0%,transparent 24%,transparent 72%,#050405 100%);
 }
 .deicide-museum-passage.is-approaching::before{
-  transform:scale(1.06);opacity:.60;filter:brightness(.9) saturate(1.08)
+  transform:scale(1.06);opacity:.60
 }
 .deicide-museum-intro{position:relative;z-index:1;text-shadow:0 4px 28px #000}
 .deicide-film-host{
