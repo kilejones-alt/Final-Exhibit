@@ -211,8 +211,13 @@
         reveal(link,true);
       }
     }));
+    // Programmatic scrolling to the current chapter must not reveal art.
+    // Only deliberate touching, wheeling or keyboard navigation enables it.
+    viewport.addEventListener('pointerdown',()=>{userScrolledTimeline=true},{passive:true});
+    viewport.addEventListener('wheel',()=>{userScrolledTimeline=true},{passive:true});
+    viewport.addEventListener('keydown',()=>{userScrolledTimeline=true});
     viewport.addEventListener('scroll',()=>{
-      if(!userScrolledTimeline){userScrolledTimeline=true;}
+      if(!userScrolledTimeline)return;
       if(scrollFrame)cancelAnimationFrame(scrollFrame);
       scrollFrame=requestAnimationFrame(()=>{
         scrollFrame=0;
