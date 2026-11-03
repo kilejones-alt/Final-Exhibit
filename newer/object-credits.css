@@ -1,0 +1,9 @@
+.artifact-copy .object-credit{
+  margin:10px 0 0;
+  color:#c4b9b3;
+  font:400 14px/1.55 Source,Georgia,serif;
+}
+.artifact-copy .object-credit a{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
