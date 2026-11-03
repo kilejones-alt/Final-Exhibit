@@ -578,3 +578,63 @@ body.geo-home .visually-hidden{
   body.geo-home .geo-door .door-art img,
   body.geo-home .geo-support .button{transition:none!important;transform:none!important}
 }
+
+
+/* GEO HOMEPAGE · FOUR-CONTROL MOBILE HEADER */
+/* The supplied brief calls for music, English, Hebrew and Russian.
+   Stack the navigation on narrow phones instead of squeezing four oval pills
+   into the space reserved for the exhibition mark. */
+@media(max-width:700px){
+  body.geo-home.home-selected .site-header{
+    box-sizing:border-box;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-rows:auto auto!important;
+    grid-template-areas:"mark" "languages"!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    gap:13px!important;
+    align-items:center!important;
+    justify-items:start!important;
+    padding:calc(13px + env(safe-area-inset-top)) max(17px,env(safe-area-inset-right)) 13px max(17px,env(safe-area-inset-left))!important;
+  }
+  body.geo-home.home-selected .site-header .brand{
+    grid-area:mark!important;
+    justify-self:start!important;
+    width:clamp(113px,34vw,142px)!important;
+    max-width:100%;
+  }
+  body.geo-home.home-selected .site-header>nav{display:none!important}
+  body.geo-home.home-selected .site-header .header-pills{
+    grid-area:languages!important;
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    justify-content:flex-end!important;
+    justify-self:end!important;
+    gap:7px!important;
+    width:auto!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+  }
+  body.geo-home.home-selected .site-header .header-pills>.header-pill{
+    box-sizing:border-box!important;
+    flex:0 0 60px!important;
+    width:60px!important;min-width:60px!important;max-width:60px!important;
+    height:34px!important;min-height:34px!important;max-height:34px!important;
+    border-radius:999px!important;
+    padding:0 4px!important;
+    font-size:9px!important;
+  }
+  body.geo-home.home-selected .site-header .header-pills>button.audio-toggle{
+    font-size:15px!important;
+  }
+}
+@media(max-width:330px){
+  body.geo-home.home-selected .site-header .header-pills{gap:5px!important}
+  body.geo-home.home-selected .site-header .header-pills>.header-pill{
+    flex-basis:56px!important;
+    width:56px!important;min-width:56px!important;max-width:56px!important;
+  }
+}
