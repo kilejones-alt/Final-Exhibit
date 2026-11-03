@@ -19,6 +19,30 @@ async function check(engine,pagePath,width){
  const url='http://127.0.0.1:8779/'+pagePath;
  try{
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:22000});
+  // The cinematic first page is a separate, unencumbered homepage.
+  // Switching languages on it opens each language's own homepage, not page two.
+  if(pagePath.endsWith('index.html')){
+    const home=await page.evaluate(()=>{
+      const buttons=[...document.querySelectorAll('.entrance-controls .pills > *')];
+      return {timeline:document.querySelectorAll('#museum-gallery-rail').length,
+        controlCount:buttons.length,
+        classes:buttons.map(e=>e.className),
+        localeLinks:[...document.querySelectorAll('.entrance-controls .exhibition-locale-pill')].map(e=>e.getAttribute('href')),
+        soundtrack:!!document.querySelector('#cinema-audio'),
+        cinema:!!document.querySelector('.cinema .cinema-world'),
+        enter:document.querySelector('.entry-pill')?.getAttribute('href'),
+        width:document.documentElement.scrollWidth,
+        openingImages:document.querySelectorAll('.cinema-plate img').length};
+    });
+    const bad=home.timeline!==0||home.controlCount!==3||
+      !home.classes[0].includes('music')||!home.soundtrack||!home.cinema||
+      home.localeLinks[0]!=='ru/index.html'||home.localeLinks[1]!=='he/index.html'||
+      home.openingImages<15||home.width>width+1||
+      home.enter!==(pagePath.startsWith('he/')?'he/entrance.html':pagePath.startsWith('ru/')?'ru/entrance.html':'entrance.html');
+    results.push({engine:engine===webkit?'webkit':'chromium',page:pagePath,width,home,bad,errors});
+    console.log('GALLERY_HOME '+JSON.stringify({page:pagePath,width,home,bad,errors}));
+    return;
+  }
   await page.locator('#museum-gallery-rail').waitFor({state:'visible',timeout:9000});
   await delay(420);
   const original=await page.evaluate(()=>{
@@ -34,6 +58,9 @@ async function check(engine,pagePath,width){
       railTop:rail.getBoundingClientRect().top,railPosition:getComputedStyle(rail).position,
       railWidth:rail.getBoundingClientRect().width,
       thumbCount:rail.querySelectorAll('.museum-rail-image').length,
+      dotCount:rail.querySelectorAll('.museum-rail-dot').length,
+      railImages:rail.querySelectorAll('.museum-rail-image img').length,
+      previewHidden:!document.querySelector('.museum-rail-preview')?.classList.contains('is-open'),
       tabs,active:rail.querySelector('.museum-rail-tab[aria-current]')?.dataset.era||null,
       firstItemWidth:item?.getBoundingClientRect().width,
       scrollWidth:scroller?.scrollWidth,clientWidth:scroller?.clientWidth,
@@ -59,12 +86,25 @@ async function check(engine,pagePath,width){
    const el=document.querySelector('#museum-gallery-rail');
    return {top:el.getBoundingClientRect().top,bottom:el.getBoundingClientRect().bottom,visible:el.getBoundingClientRect().bottom>0};
   });
+  // Only the selected dot may reveal an image. Test on a touch viewport.
+  let dotPreview=null;
+  if(width===390 && pagePath==='entrance.html'){
+    const marker=page.locator('.museum-rail-image').nth(1);
+    await marker.tap();
+    dotPreview=await page.evaluate(()=>({
+      open:document.querySelector('.museum-rail-preview')?.classList.contains('is-open'),
+      img:document.querySelector('.museum-rail-preview img')?.getAttribute('src'),
+      stillOnPage:location.pathname.endsWith('/entrance.html'),
+      marker:document.querySelectorAll('.museum-rail-image.is-revealed').length
+    }));
+  }
   const expectedLang=pagePath.startsWith('he/')?'he':pagePath.startsWith('ru/')?'ru':'en';
-  const bad=original.thumbCount!==21||original.tabs.length!==3||
+  const bad=original.thumbCount!==21||original.dotCount!==21||original.railImages!==0||
+    !original.previewHidden||(dotPreview&&(!dotPreview.open||!dotPreview.img||!dotPreview.stillOnPage||dotPreview.marker!==1))||original.tabs.length!==3||
     original.width!==width||original.documentWidth>width+1||
     original.lang!==expectedLang||!pinned.visible||(!pagePath.includes('index.html')&&!pagePath.endsWith('/')&&Math.abs(pinned.top)>5)||
     (pagePath.includes('entrance.html')&&!original.musicControl);
-  const record={engine:engine===webkit?'webkit':'chromium',page:pagePath,width,original,pinned,errors,bad};
+  const record={engine:engine===webkit?'webkit':'chromium',page:pagePath,width,original,pinned,dotPreview,errors,bad};
   results.push(record);
   console.log('GALLERY_ONE '+JSON.stringify({engine:record.engine,page:pagePath,width,lang:original.lang,top:original.railTop,pinned:pinned.top,
    documentWidth:original.documentWidth,thumbCount:original.thumbCount,musicControl:original.musicControl,bad,errors}));
