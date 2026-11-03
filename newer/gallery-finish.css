@@ -46,6 +46,8 @@ body main img{max-width:100%;height:auto}
 .source-narrative{width:min(calc(100% - 60px),960px);margin:0 auto;padding:55px 0}
 .source-narrative p{font:400 clamp(17px,1.45vw,21px)/1.75 Caslon,Georgia,serif;color:#e4dad3;margin:0 0 27px}
 .source-narrative p:last-child{margin-bottom:0}
+body .room-intro.room-title-only{display:block;min-height:0;padding-block:64px 32px;border:0;background:none}
+@media(min-width:480px){body .gallery-text-row .gallery-object-column{position:sticky;top:70px;align-self:start}}
 /* Each object has one consistent identification line beneath the image. */
 body article.artifact,body article.artifact:nth-of-type(even){
   grid-template-columns:minmax(0,1fr);justify-items:center;gap:16px;
@@ -56,7 +58,7 @@ body article.artifact .art-open,body article.artifact:nth-of-type(even) .art-ope
 body article.artifact .artifact-copy,body article.artifact:nth-of-type(even) .artifact-copy{
   grid-column:1;grid-row:2;max-width:1100px;
 }
-body article.artifact.gallery-text-row,body article.artifact.gallery-text-row:nth-of-type(even){min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:clamp(24px,5vw,70px)}
+body article.artifact.gallery-text-row,body article.artifact.gallery-text-row:nth-of-type(even){min-height:0;padding-block:clamp(36px,5vw,72px);grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:clamp(24px,5vw,70px)}
 body article.gallery-text-row .gallery-object-column{min-width:0;width:100%}
 body article.gallery-text-row .source-narrative{width:100%;padding:0;margin:0}
 body article.gallery-text-row .source-narrative p{font-size:18px;line-height:1.7}

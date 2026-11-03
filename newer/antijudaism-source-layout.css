@@ -48,3 +48,4 @@
 @media(max-width:479px){.aj-source-main .src-editorial-row{grid-template-columns:1fr;gap:24px}.aj-source-main section{padding-block:28px}}
 @media(hover:none){.aj-source-main .src-stage.is-gallery-arrived .stage-outline rect{stroke-dashoffset:0}}
 @media(prefers-reduced-motion:reduce){.aj-source-main .stage-outline rect,.aj-source-main .src-libel-panel,.aj-source-main .src-libel-details::details-content{animation:none;transition:none}}
+@media(min-width:480px){.aj-source-main .src-editorial-row>.aj-object,.aj-source-main .src-artifact>.aj-object{position:sticky;top:70px;align-self:start}}
