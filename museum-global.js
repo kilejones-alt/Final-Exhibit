@@ -4,7 +4,7 @@
 (() => {
   'use strict';
   const body = document.body;
-  if (!body || body.dataset.pageState === 'blank' || body.classList.contains('deicide-film')) return;
+  if (!body || body.dataset.pageState === 'blank' || body.classList.contains('deicide-film') || body.classList.contains('official-entrance')) return;
   const root = document.documentElement;
   const lang = (root.lang || 'en').slice(0, 2).toLowerCase();
   const locale = ['he','ru'].includes(lang) ? lang : 'en';
@@ -84,7 +84,6 @@
   strip.className = 'museum-rail-strip';
   const counts = [0,0,0];
   const anchors = [];
-  const thumbImages = [];
   for (const [index, [era,href,src]] of artworks.entries()) {
     counts[era]++;
     const a = document.createElement('a');
@@ -95,23 +94,13 @@
     a.dataset.ordinal = String(counts[era]);
     a.title = chapters[era] + ' · ' + text.eras[era] + ' · ' + String(counts[era]).padStart(2,'0');
     a.setAttribute('aria-label',a.title);
-    const photo = document.createElement('img');
-    photo.decoding = 'async';
-    photo.loading = 'lazy';
-    photo.alt = '';
-    photo.width = 64;
-    photo.height = 64;
-    photo.dataset.src = src;
-    a.append(photo);
-    const stamp = document.createElement('span');
-    stamp.className = 'museum-rail-stamp';
-    stamp.textContent = chapters[era] + '·' + String(counts[era]).padStart(2,'0');
-    stamp.setAttribute('aria-hidden','true');
-    a.append(stamp);
+    const point = document.createElement('span');
+    point.className = 'museum-rail-dot';
+    point.setAttribute('aria-hidden','true');
+    a.append(point);
     if (counts[era] === 1) a.classList.add('is-era-start');
     strip.append(a);
     anchors.push(a);
-    thumbImages.push(photo);
   }
   viewport.append(strip);
   rail.append(viewport);
@@ -125,22 +114,6 @@
 
   // Fixed timeline CSS is authoritative. No scroll-dependent pinning,
   // layout spacers or frame loops: faster, and stable on mobile Safari.
-
-  const scrollImage = (img) => {
-    if (!img || img.src || !img.dataset.src) return;
-    img.src = img.dataset.src;
-    img.removeAttribute('data-src');
-  };
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        scrollImage(entry.target);
-        observer.unobserve(entry.target);
-      }
-    }, {root: viewport, rootMargin:'0px 300px', threshold:0});
-    thumbImages.forEach(img => observer.observe(img));
-  } else thumbImages.forEach(scrollImage);
 
   // "Current room" is reflected in the chapter tabs and the miniature art.
   const filename = location.pathname.split('/').pop() || 'index.html';
@@ -164,53 +137,117 @@
     indicator.style.setProperty('--museum-current-era',String(activeEra));
   }
 
-  // One shared zooming preview, loaded only when hover/focus requests it.
-  const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  // A dot is the only persistent mark. One shared archival image is loaded
+  // on interaction, and vanishes when the pointer/focus moves away.
+  // On a touchscreen, swiping to a dot reveals it; the first tap previews,
+  // and a second tap follows the original exhibition link.
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if (finePointer) {
-    const preview = document.createElement('div');
-    preview.className = 'museum-rail-preview';
+  const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const preview = document.createElement('div');
+  preview.className = 'museum-rail-preview';
+  preview.setAttribute('aria-hidden','true');
+  const full = document.createElement('img');
+  full.alt = '';
+  full.decoding = 'async';
+  full.loading = 'lazy';
+  const line = document.createElement('span');
+  line.className = 'museum-rail-preview-title';
+  preview.append(full,line);
+  body.append(preview);
+  let chosen = null, hideTimer = 0, scrollFrame = 0;
+  let userScrolledTimeline = false;
+  let touchSelected = false;
+  const closePreview = () => {
+    clearTimeout(hideTimer);
+    chosen?.classList.remove('is-revealed');
+    chosen = null;touchSelected=false;
+    preview.classList.remove('is-open');
     preview.setAttribute('aria-hidden','true');
-    const full = document.createElement('img');
-    full.alt = '';
-    full.decoding = 'async';
-    const line = document.createElement('span');
-    line.className = 'museum-rail-preview-title';
-    preview.append(full,line);
-    body.append(preview);
-    let dismiss;
-    const show = link => {
-      clearTimeout(dismiss);
-      const r = link.getBoundingClientRect();
-      full.src = link.dataset.picture;
-      line.textContent = link.title;
-      const maxWidth = Math.min(250,innerWidth-30);
-      preview.style.width = maxWidth + 'px';
-      preview.style.left = Math.max(12,Math.min(innerWidth-maxWidth-12,r.left + r.width/2-maxWidth/2))+'px';
-      preview.style.top = Math.min(innerHeight-290,r.bottom+11)+'px';
-      preview.classList.add('is-open');
-    };
-    const hide = () => {dismiss=setTimeout(()=>preview.classList.remove('is-open'),80);};
-    anchors.forEach(a => {
-      a.addEventListener('pointerenter',()=>show(a));
-      a.addEventListener('pointerleave',hide);
-      a.addEventListener('focusin',()=>show(a));
-      a.addEventListener('focusout',hide);
-    });
-    addEventListener('scroll',()=>preview.classList.remove('is-open'),{passive:true,capture:true});
-    if (!reduced) {
-      tabs.querySelectorAll('.museum-rail-tab').forEach(tab => {
-        tab.addEventListener('pointermove',event => {
-          const r = tab.getBoundingClientRect();
-          tab.style.setProperty('--museum-mx',Math.max(-4,Math.min(4,(event.clientX-r.left-r.width/2)*.07)).toFixed(2)+'px');
-          tab.style.setProperty('--museum-my',Math.max(-3,Math.min(3,(event.clientY-r.top-r.height/2)*.1)).toFixed(2)+'px');
-        },{passive:true});
-        tab.addEventListener('pointerleave',()=>{
-          tab.style.removeProperty('--museum-mx');
-          tab.style.removeProperty('--museum-my');
-        });
-      });
+  };
+  const reveal = (link, fromTouch=false) => {
+    if(!link)return;
+    clearTimeout(hideTimer);
+    if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
+    const changed = chosen !== link;
+    chosen=link;touchSelected=fromTouch;
+    link.classList.add('is-revealed');
+    const rect=link.getBoundingClientRect();
+    const vw=Math.min(finePointer?275:225,innerWidth-28);
+    const vh=Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
+    preview.style.width=vw+'px';
+    preview.style.height=vh+'px';
+    const left=Math.max(12,Math.min(innerWidth-vw-12,rect.left+rect.width/2-vw/2));
+    preview.style.left=left+'px';
+    let top=rect.bottom+14;
+    if(top+vh>innerHeight-16)top=rect.top-vh-13;
+    preview.style.top=Math.max(12,top)+'px';
+    if(changed || full.dataset.picture!==link.dataset.picture){
+      full.dataset.picture=link.dataset.picture;
+      full.src=link.dataset.picture;
+      // Every new preview starts its own unhurried archival camera approach.
+      preview.classList.remove('is-open');
+      void preview.offsetWidth;
     }
+    line.textContent=link.title;
+    preview.classList.add('is-open');
+    preview.setAttribute('aria-hidden','false');
+  };
+  if(finePointer){
+    anchors.forEach(link=>{
+      link.addEventListener('pointerenter',()=>reveal(link));
+      link.addEventListener('pointerleave',()=>{
+        hideTimer=setTimeout(()=>{if(!preview.matches(':hover'))closePreview()},120);
+      });
+      link.addEventListener('focusin',()=>reveal(link));
+      link.addEventListener('focusout',()=>{hideTimer=setTimeout(closePreview,150)});
+    });
+    preview.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
+    preview.addEventListener('pointerleave',closePreview);
+  }else{
+    // On tap, preview first and navigate on the second tap.
+    anchors.forEach(link=>link.addEventListener('click',event=>{
+      if(chosen!==link || !touchSelected){
+        event.preventDefault();
+        reveal(link,true);
+      }
+    }));
+    viewport.addEventListener('scroll',()=>{
+      if(!userScrolledTimeline){userScrolledTimeline=true;}
+      if(scrollFrame)cancelAnimationFrame(scrollFrame);
+      scrollFrame=requestAnimationFrame(()=>{
+        scrollFrame=0;
+        if(!userScrolledTimeline)return;
+        const bounds=viewport.getBoundingClientRect(),middle=(bounds.left+bounds.right)/2;
+        let closest=null,distance=Infinity;
+        anchors.forEach(link=>{
+          const r=link.getBoundingClientRect();
+          if(r.right<bounds.left || r.left>bounds.right)return;
+          const d=Math.abs((r.left+r.right)/2-middle);
+          if(d<distance){distance=d;closest=link}
+        });
+        if(closest)reveal(closest,false);
+      });
+    },{passive:true});
+  }
+  addEventListener('scroll',()=>{
+    if(!viewport.matches(':hover')&&!preview.matches(':hover'))closePreview();
+  },{passive:true,capture:false});
+  addEventListener('keydown',event=>{if(event.key==='Escape')closePreview()});
+  document.addEventListener('pointerdown',event=>{
+    if(!preview.contains(event.target) && !viewport.contains(event.target))closePreview();
+  },{passive:true});
+
+  if (finePointer && !reduced){
+    tabs.querySelectorAll('.museum-rail-tab').forEach(tab=>{
+      tab.addEventListener('pointermove',event=>{
+        const r=tab.getBoundingClientRect();
+        tab.style.setProperty('--museum-mx',Math.max(-4,Math.min(4,(event.clientX-r.left-r.width/2)*.07)).toFixed(2)+'px');
+        tab.style.setProperty('--museum-my',Math.max(-3,Math.min(3,(event.clientY-r.top-r.height/2)*.1)).toFixed(2)+'px');
+      },{passive:true});
+      tab.addEventListener('pointerleave',()=>{
+        tab.style.removeProperty('--museum-mx');tab.style.removeProperty('--museum-my');
+      });
+    });
   }
 
   // Shared gallery choreography: leave every existing word and source image alone.
