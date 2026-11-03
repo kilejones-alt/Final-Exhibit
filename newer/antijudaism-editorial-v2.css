@@ -200,3 +200,88 @@
 @media(max-width:700px){
  .aj-page .aj-object img{box-shadow:0 9px 30px rgba(0,0,0,.26)}
 }
+
+
+/* Distributed historical objects · unchanged curatorial text and images. */
+.aj-page .aj-intro-continuation{
+  width:100%;max-width:none;
+  margin:clamp(54px,7vw,105px) 0 0;
+  display:flex;flex-direction:column;
+  gap:clamp(74px,10vw,154px);
+}
+.aj-page .aj-intro-beat{
+  width:min(100%,790px);
+  margin-inline:auto;
+}
+.aj-page .aj-intro-scene{
+  display:grid;
+  grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);
+  gap:clamp(34px,6.2vw,96px);
+  align-items:center;
+  min-width:0;
+}
+.aj-page .aj-intro-scene--manesse{
+  grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);
+}
+.aj-page .aj-intro-scene .aj-object{
+  width:100%;max-width:540px;
+  align-self:center;
+  justify-self:start;
+}
+.aj-page .aj-intro-scene--manesse .aj-object{justify-self:end}
+.aj-page .aj-intro-scene .aj-object img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:clamp(340px,39vw,580px);
+  object-fit:contain;
+  object-position:center;
+  filter:none;
+  transition:transform 5.6s cubic-bezier(.14,.67,.19,1),filter 1.8s ease;
+}
+.aj-page .aj-intro-scene .aj-object:is(:hover,:focus-within) img{
+  transform:scale(1.045);
+  filter:brightness(1.055);
+}
+.aj-page .aj-intro-prose{max-width:740px}
+.aj-page .aj-intro-continuation :is(.aj-intro-beat,.aj-intro-prose) p{
+  font:400 clamp(17px,1.27vw,19px)/1.8 Source,Georgia,serif;
+  letter-spacing:.003em;
+  color:#d7d2cf;
+  max-width:69ch;
+  margin:0 0 23px;
+  overflow-wrap:break-word;
+  text-wrap:pretty;
+}
+.aj-page .aj-intro-continuation :is(.aj-intro-beat,.aj-intro-prose) p:last-child{margin-bottom:0}
+@media(max-width:970px){
+  .aj-page .aj-intro-continuation{gap:clamp(54px,8vw,90px)}
+  .aj-page .aj-intro-scene,.aj-page .aj-intro-scene--manesse{
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    gap:clamp(30px,4vw,47px);
+  }
+  .aj-page .aj-intro-scene .aj-object{
+    width:min(100%,630px);
+    justify-self:center;
+  }
+  .aj-page .aj-intro-scene--manesse .aj-object{
+    grid-row:1;
+    justify-self:center;
+  }
+  .aj-page .aj-intro-prose{width:min(100%,790px);margin-inline:auto}
+}
+@media(max-width:600px){
+  .aj-page .aj-intro-continuation{margin-top:42px;gap:67px}
+  .aj-page .aj-intro-scene,.aj-page .aj-intro-scene--manesse{gap:27px}
+  .aj-page .aj-intro-scene .aj-object img{
+    max-height:61svh;
+  }
+  .aj-page .aj-intro-continuation :is(.aj-intro-beat,.aj-intro-prose) p{
+    font-size:17px;line-height:1.74;margin-bottom:21px;
+  }
+  .aj-page .aj-intro-scene .aj-object figcaption{margin-top:6px;padding-top:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .aj-page .aj-intro-scene .aj-object img{transform:none!important;transition:none!important}
+}
