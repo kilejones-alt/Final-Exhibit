@@ -1,5 +1,6 @@
 /* An archival installation: changes in scale and composition carry the story. */
 body.gallery-polished{background:#050505;--installation-gutter:clamp(24px,5.5vw,100px)}
+body.gallery-polished main :is([data-global-arrival],[data-museum-reveal],[data-reveal]){opacity:1!important;visibility:visible!important;filter:none!important;transform:none!important;translate:none!important}
 body.gallery-polished main :is(h1,h2,h3,h4)[data-museum-reveal],
 body.gallery-polished main :is(h1,h2,h3,h4)[data-global-arrival]{opacity:1!important;filter:none!important;transform:none!important;translate:none!important}
 body.gallery-polished .site-header{background:#050505!important}
