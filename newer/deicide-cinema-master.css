@@ -167,3 +167,73 @@ opacity:0;transition:opacity 2.5s ease}
 @media(max-width:700px){
   #transport{left:max(14px,env(safe-area-inset-left) + 8px);right:max(14px,env(safe-area-inset-right) + 8px)}
 }
+
+
+/* ORIGINAL DEICIDE CARDS · source-complete cinema */
+/* Original carousel images carry their historical title and full original wording.
+   Present each card intact, once. Never place shortened film captions above them.
+   Darkness belongs around the art, never over the words on the original cards. */
+.theater .stage{z-index:1!important}
+.theater .darkness{
+  z-index:0!important;
+  background:radial-gradient(ellipse at center,
+    rgba(0,0,0,0) 30%,rgba(0,0,0,.55) 100%)!important;
+}
+.theater .image-hold::after{display:none!important}
+.theater .image-hold{
+  background:transparent!important;
+}
+.theater .image{
+  inset:2.5%!important;
+  width:95%!important;height:95%!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  filter:none!important;
+}
+.theater.is-credits .image{filter:none!important}
+.theater .film-grain{opacity:.05!important}
+/* Keep the old shortened summaries available to assistive technology, but
+   never duplicate or obscure the source card's own text on the screen. */
+.theater .copy,
+.theater.is-typographic .copy,
+.theater.is-credits .copy{
+  display:block!important;
+  position:absolute!important;
+  width:1px!important;height:1px!important;
+  padding:0!important;margin:0!important;
+  overflow:hidden!important;
+  clip-path:inset(50%)!important;
+  white-space:nowrap!important;
+  pointer-events:none!important;
+  text-shadow:none!important;
+}
+.theater.is-typographic .interlude{display:none!important}
+/* The original Origen card is no longer replaced by a separate text interlude. */
+.theater.is-typographic .image.visible{
+  opacity:1!important;
+  transition:opacity 1.95s cubic-bezier(.23,.76,.25,1)!important;
+}
+.theater.is-typographic .image:not(.visible){opacity:0!important}
+/* No music, HUD, clock, counter, transport, or extra navigation. Only exit. */
+#film-hud,#transport,#narrate,#status{display:none!important}
+.theater .controls{
+  z-index:25!important;
+  opacity:.48;
+}
+.theater .control#exit{
+  width:39px;height:39px;
+  border-radius:999px;
+  background:rgba(6,5,7,.25);
+}
+@media(max-width:700px){
+  .theater .image{
+    inset:2%!important;
+    width:96%!important;height:96%!important;
+    object-fit:contain!important;
+    object-position:center center!important;
+  }
+  .theater .controls{opacity:.65}
+}
+@media(prefers-reduced-motion:reduce){
+  .theater .image{transform:none!important}
+}
