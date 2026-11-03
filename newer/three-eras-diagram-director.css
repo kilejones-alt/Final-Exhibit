@@ -43,3 +43,70 @@
 html[lang="ru"] .home-selected .diagram-directed.diagram-motion-ready.diagram-entered .framework-main-title,html[lang="he"] .home-selected .diagram-directed.diagram-motion-ready.diagram-entered .framework-main-title{animation:diagram-title-arrive .85s var(--diagram-ease) .12s both,diagram-pigment-descend 12.8s cubic-bezier(.38,.12,.57,.89) 7.3s infinite alternate!important}
 @keyframes diagram-pigment-descend{0%,7%{background-position:50% 0%}92%,100%{background-position:50% 100%}}
 @media(prefers-reduced-motion:reduce),(forced-colors:active){.home-selected .diagram-directed .framework-main-title .chromatic-type,html[lang="ru"] .home-selected .diagram-directed .framework-main-title,html[lang="he"] .home-selected .diagram-directed .framework-main-title{animation:none!important;background:none!important;color:#f1edec!important;-webkit-text-fill-color:#f1edec!important}}
+
+/* Use the original source image's EXACT bitmap lettering, not a substitute typeface.
+   The existing semantic HTML, three-arrow SVG, animation and translations are retained. */
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-main-title{
+ display:block!important;width:100%!important;max-width:1055px!important;
+ height:auto!important;min-height:0!important;aspect-ratio:1055/380;
+ margin:0 auto!important;padding:0!important;font-size:0!important;line-height:0!important;
+ background:url("assets/jew-hatred-conceptual-framework.png") 50% 0/106.35% auto no-repeat!important;
+}
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-main-title .chromatic-type{
+ opacity:0!important;font-size:0!important;line-height:0!important;
+ background-image:none!important;animation:none!important;
+}
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-era strong{
+ display:block!important;box-sizing:border-box!important;width:100%!important;
+ height:clamp(28px,5.35vw,72px)!important;min-height:0!important;
+ margin:0 auto!important;padding:0!important;border:0!important;
+ font-size:0!important;line-height:0!important;letter-spacing:0!important;
+ color:transparent!important;-webkit-text-fill-color:transparent!important;
+ background-color:transparent!important;background-repeat:no-repeat!important;text-shadow:none!important;
+ background-image:url("assets/jew-hatred-conceptual-framework.png")!important;
+}
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-era:nth-child(1) strong{
+ background-size:389.58% auto!important;background-position:4.08% 48.3%!important;
+}
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-era:nth-child(2) strong{
+ background-size:360.77% auto!important;background-position:49.69% 48.3%!important;
+}
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-era:nth-child(3) strong{
+ background-size:408% auto!important;background-position:95.63% 48.3%!important;
+}
+/* Remove any redundant full-image projection; leave the real three-pronged SVG visible. */
+html[lang="en"] body.home-selected .era-framework.diagram-directed>.framework-reference-art{display:none!important}
+html[lang="en"] body.home-selected .era-framework.diagram-directed>.framework-inner{
+ position:relative!important;inset:auto!important;width:100%!important;
+ opacity:1!important;pointer-events:auto!important;transform:none!important;clip-path:none!important;
+}
+/* Translated scripts retain approved text and use the source's condensed visual character.
+   The Latin-only source image has no Cyrillic or Hebrew glyphs to reproduce verbatim. */
+html:is([lang="ru"],[lang="he"]) body.home-selected .era-framework.diagram-directed .framework-main-title{
+ font-family:Impact,"Arial Narrow","Noto Sans",Arial,sans-serif!important;
+ font-weight:900!important;font-stretch:condensed!important;letter-spacing:-.045em!important;
+ background:none!important;-webkit-text-fill-color:#f1edec!important;text-shadow:none!important;
+}
+html:is([lang="ru"],[lang="he"]) body.home-selected .era-framework.diagram-directed .framework-era strong{
+ font-family:Impact,"Arial Narrow","Noto Sans",Arial,sans-serif!important;
+ font-weight:900!important;font-stretch:condensed!important;letter-spacing:-.035em!important;
+ background:none!important;-webkit-text-fill-color:#f1edec!important;text-shadow:none!important;
+}
+html[lang="he"] body.home-selected .era-framework.diagram-directed :is(.framework-main-title,.framework-era strong){
+ font-family:"Arial Hebrew","Noto Sans Hebrew",Arial,sans-serif!important;letter-spacing:-.015em!important;
+}
+@media(prefers-reduced-motion:reduce){
+ html[lang="en"] body.home-selected .era-framework.diagram-directed :is(.framework-main-title,.framework-era strong){
+  opacity:1!important;animation:none!important;
+ }
+}
+@media(forced-colors:active){
+ html[lang="en"] body.home-selected .era-framework.diagram-directed :is(.framework-main-title,.framework-era strong){
+  background:none!important;font-size:revert!important;line-height:normal!important;
+  height:auto!important;aspect-ratio:auto!important;color:CanvasText!important;-webkit-text-fill-color:CanvasText!important;
+ }
+ html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-main-title .chromatic-type{
+  opacity:1!important;font-size:inherit!important;line-height:inherit!important;
+  color:CanvasText!important;-webkit-text-fill-color:CanvasText!important;
+ }
+}
