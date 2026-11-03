@@ -8,15 +8,15 @@
     el.className='museum-reading-graph';
     el.setAttribute('aria-hidden','true');
     ['I · Antijudaism','II · Antisemitism','III · Antizionism'].forEach(label=>{
-      const step=document.createElement('span');step.textContent=label;el.append(step);
+      const step=document.createElement('span');step.textContent=document.body.classList.contains('aj-source-page')?'':label;el.append(step);
     });
     return el;
   };
   let count=0;
-  const sequence=[...main.querySelectorAll('p,figure,table,svg,.deicide-museum-passage,.era-framework,.libels,.aj-cycle-grid')];
+  const sequence=[...main.querySelectorAll('p,figure,table,svg,.deicide-museum-passage,.era-framework,.libels,.aj-cycle-grid,.src-cycle')];
   for(const el of sequence){
     if(el.tagName!=='P'){count=0;continue}
-    if(el.closest('figure,figcaption,.artifact-copy,.aj-credits,.support')||el.matches('.date,.object-credit'))continue;
+    if(el.closest('figure,figcaption,.artifact-copy,.aj-credits,.support,.src-cycle')||el.matches('.date,.object-credit'))continue;
     if(!el.textContent.trim())continue;
     if(count===3){el.before(graph());count=0}
     count++;
