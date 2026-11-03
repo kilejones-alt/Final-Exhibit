@@ -178,3 +178,25 @@
 @media(max-width:360px){
  .aj-page .aj-era-name{font-size:clamp(34px,10.2vw,38px);letter-spacing:-.06em}
 }
+
+/* Exhibition-room treatment. Historical works retain full framing and color;
+   the dark wall recedes, making an archival object feel physically mounted. */
+.aj-page .aj-object{
+  position:relative;
+}
+.aj-page .aj-object img{
+  background:radial-gradient(ellipse at center,#161415 0%,#09090a 78%);
+  box-shadow:0 18px 62px rgba(0,0,0,.35);
+}
+.aj-page .aj-object figcaption{
+  margin-top:9px;
+  border-top:1px solid rgba(238,230,225,.12);
+  padding-top:14px;
+}
+.aj-page .aj-section-heading h2,
+.aj-page .aj-libel-head h3{text-wrap:balance}
+.aj-page .aj-prose p,
+.aj-page .aj-hero-copy p{text-wrap:pretty}
+@media(max-width:700px){
+ .aj-page .aj-object img{box-shadow:0 9px 30px rgba(0,0,0,.26)}
+}
