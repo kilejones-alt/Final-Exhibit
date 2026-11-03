@@ -50,33 +50,7 @@
   rail.id = 'museum-gallery-rail';
   rail.className = 'museum-gallery-rail';
   rail.setAttribute('aria-label', text.heading);
-  const heading = document.createElement('a');
-  heading.className = 'museum-rail-heading';
-  heading.href = locale === 'en' ? 'entrance.html' : locale + '/entrance.html';
-  heading.textContent = text.heading;
-  rail.append(heading);
-
-  const tabs = document.createElement('div');
-  tabs.className = 'museum-rail-tabs';
-  tabs.setAttribute('role','group');
-  tabs.setAttribute('aria-label', text.heading);
-  ['antijudaism.html','antisemitism.html','exhibition.html'].forEach((href, era) => {
-    const tab = document.createElement('a');
-    tab.href = href;
-    tab.className = 'museum-rail-tab';
-    tab.dataset.era = String(era);
-    const numeral = document.createElement('span');
-    numeral.className = 'museum-rail-roman';
-    numeral.textContent = chapters[era];
-    const label = document.createElement('span');
-    label.className = 'museum-rail-era-name';
-    label.textContent = text.eras[era];
-    tab.setAttribute('aria-label', chapters[era] + ' · ' + text.eras[era]);
-    tab.append(numeral,label);
-    tabs.append(tab);
-  });
-  rail.append(tabs);
-
+  // One strip of navigable dots. Era names remain accessible through link labels.
   const viewport = document.createElement('div');
   viewport.className = 'museum-rail-viewport';
   viewport.setAttribute('tabindex','0');
@@ -104,10 +78,6 @@
   }
   viewport.append(strip);
   rail.append(viewport);
-  const indicator = document.createElement('div');
-  indicator.className = 'museum-rail-indicator';
-  indicator.setAttribute('aria-hidden', 'true');
-  rail.append(indicator);
   if (header) header.insertAdjacentElement('afterend',rail);
   else (document.querySelector('.skip') || body.firstElementChild)?.insertAdjacentElement('afterend',rail);
   body.classList.add('museum-gallery-enabled');
@@ -115,26 +85,20 @@
   // Fixed timeline CSS is authoritative. No scroll-dependent pinning,
   // layout spacers or frame loops: faster, and stable on mobile Safari.
 
-  // "Current room" is reflected in the chapter tabs and the miniature art.
-  const filename = location.pathname.split('/').pop() || 'index.html';
-  let activeEra = null;
-  if (filename === 'antijudaism.html') activeEra = 0;
-  if (filename === 'antisemitism.html') activeEra = 1;
-  if (['exhibition.html','colonialism.html','apartheid.html','genocide.html'].includes(filename)) activeEra = 2;
-  if (activeEra !== null) {
-    tabs.querySelectorAll('.museum-rail-tab')[activeEra]?.setAttribute('aria-current','page');
-    const hash = decodeURIComponent(location.hash || '');
-    const itemIndex = anchors.findIndex(a => a.dataset.era === String(activeEra) &&
-      new URL(a.href,document.baseURI).pathname.endsWith('/'+filename) &&
-      (hash ? new URL(a.href,document.baseURI).hash === hash : !new URL(a.href,document.baseURI).hash));
-    const index = itemIndex < 0 ? anchors.findIndex(a => a.dataset.era === String(activeEra)) : itemIndex;
-    if (index >= 0) {
-      anchors[index].setAttribute('aria-current','location');
-      requestAnimationFrame(() => {
-        viewport.scrollLeft = Math.max(0, anchors[index].offsetLeft - viewport.offsetLeft - 95);
-      });
+  // Highlight the current archival object without a separate category menu.
+  const filename=location.pathname.split('/').pop()||'index.html';
+  const era=filename==='antijudaism.html'?0:filename==='antisemitism.html'?1:
+    ['exhibition.html','colonialism.html','apartheid.html','genocide.html'].includes(filename)?2:null;
+  if(era!==null){
+    const hash=decodeURIComponent(location.hash||'');
+    const index=anchors.findIndex(a=>a.dataset.era===String(era)&&
+      new URL(a.href,document.baseURI).pathname.endsWith('/'+filename)&&
+      (hash?new URL(a.href,document.baseURI).hash===hash:!new URL(a.href,document.baseURI).hash));
+    const selected=index>=0?index:anchors.findIndex(a=>a.dataset.era===String(era));
+    if(selected>=0){
+      anchors[selected].setAttribute('aria-current','location');
+      requestAnimationFrame(()=>{viewport.scrollLeft=Math.max(0,anchors[selected].offsetLeft-viewport.offsetLeft-95)});
     }
-    indicator.style.setProperty('--museum-current-era',String(activeEra));
   }
 
   // A dot is the only persistent mark. One shared archival image is loaded
@@ -178,9 +142,13 @@
     preview.style.height=vh+'px';
     const left=Math.max(12,Math.min(innerWidth-vw-12,rect.left+rect.width/2-vw/2));
     preview.style.left=left+'px';
-    let top=rect.bottom+14;
-    if(top+vh>innerHeight-16)top=rect.top-vh-13;
-    preview.style.top=Math.max(12,top)+'px';
+    let top=rect.bottom+10;
+    if(top+vh>innerHeight-16)top=rect.top-vh-10;
+    top=Math.max(12,top);
+    preview.style.top=top+'px';
+    // The enlarged image emerges exactly from its dot.
+    preview.style.setProperty('--dot-origin-x',(rect.left+rect.width/2-left).toFixed(1)+'px');
+    preview.style.setProperty('--dot-origin-y',(rect.top+rect.height/2-top).toFixed(1)+'px');
     if(changed || full.dataset.picture!==link.dataset.picture){
       full.dataset.picture=link.dataset.picture;
       full.src=link.dataset.picture;
@@ -272,19 +240,6 @@
       if (!proximityFrame) proximityFrame = requestAnimationFrame(paintProximity);
     }, {passive:true});
     viewport.addEventListener('pointerleave', clearProximity, {passive:true});
-  }
-
-  if (finePointer && !reduced){
-    tabs.querySelectorAll('.museum-rail-tab').forEach(tab=>{
-      tab.addEventListener('pointermove',event=>{
-        const r=tab.getBoundingClientRect();
-        tab.style.setProperty('--museum-mx',Math.max(-4,Math.min(4,(event.clientX-r.left-r.width/2)*.07)).toFixed(2)+'px');
-        tab.style.setProperty('--museum-my',Math.max(-3,Math.min(3,(event.clientY-r.top-r.height/2)*.1)).toFixed(2)+'px');
-      },{passive:true});
-      tab.addEventListener('pointerleave',()=>{
-        tab.style.removeProperty('--museum-mx');tab.style.removeProperty('--museum-my');
-      });
-    });
   }
 
   // Shared gallery choreography: leave every existing word and source image alone.
