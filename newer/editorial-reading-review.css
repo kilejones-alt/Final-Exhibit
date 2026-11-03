@@ -856,3 +856,51 @@ body.geo-home .chromatic-framework figcaption{
     opacity:1!important;clip-path:none!important;
   }
 }
+
+
+/* Chromatic path continuation: top branches flow through the lower arrows. */
+body.geo-home .chromatic-framework .framework-era svg .chromatic-flow-down{
+  fill:none!important;
+  stroke:#f9c6d1!important;
+  stroke-width:2.45!important;
+  stroke-linecap:round!important;
+  stroke-dasharray:18 82!important;
+  stroke-dashoffset:100!important;
+  opacity:0!important;
+  filter:drop-shadow(0 0 4px rgba(211,72,108,.25));
+  transition:none!important;
+}
+body.geo-home .chromatic-framework.is-revealed .framework-era svg .chromatic-flow-down{
+  opacity:.93!important;
+  animation:chromatic-downstream 5.4s linear 4.5s infinite!important;
+}
+body.geo-home .chromatic-framework.is-revealed .framework-era:nth-child(2) svg .chromatic-flow-down{
+  animation-delay:5.1s!important;
+}
+body.geo-home .chromatic-framework.is-revealed .framework-era:nth-child(3) svg .chromatic-flow-down{
+  animation-delay:5.7s!important;
+}
+body.geo-home .chromatic-framework .framework-era strong,
+body.geo-home .chromatic-framework .framework-era>span{
+  background-image:linear-gradient(180deg,#f8f6f6 0%,#f8f6f6 34%,#d96375 43%,#fff5f6 49%,#f8f6f6 61%,#f8f6f6 100%);
+  background-size:100% 310%;
+  background-position:50% 0%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+body.geo-home .chromatic-framework.is-revealed .framework-era strong,
+body.geo-home .chromatic-framework.is-revealed .framework-era>span{
+  animation:chromatic-letterfall 9.8s cubic-bezier(.41,.04,.55,1) 2.4s infinite alternate;
+}
+body.geo-home .chromatic-framework.is-revealed .framework-era:nth-child(2) strong,
+body.geo-home .chromatic-framework.is-revealed .framework-era:nth-child(2)>span{animation-delay:3s}
+body.geo-home .chromatic-framework.is-revealed .framework-era:nth-child(3) strong,
+body.geo-home .chromatic-framework.is-revealed .framework-era:nth-child(3)>span{animation-delay:3.6s}
+@media(prefers-reduced-motion:reduce){
+  body.geo-home .chromatic-framework .framework-era svg .chromatic-flow-down{display:none!important}
+  body.geo-home .chromatic-framework .framework-era strong,
+  body.geo-home .chromatic-framework .framework-era>span{
+    background:none!important;-webkit-text-fill-color:#f5eff1!important;
+  }
+}
