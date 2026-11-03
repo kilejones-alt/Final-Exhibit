@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kilejones-alt.github.io/Final-Exhibit/sitemap.xml
+Sitemap: https://kilejones-alt.github.io/Final-Exhibit/newer/sitemap.xml
