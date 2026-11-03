@@ -218,7 +218,7 @@ html[dir="rtl"] .museum-rail-indicator{background:linear-gradient(270deg,rgba(16
 @media(hover:hover) and (pointer:fine){
   .museum-global-artframe:hover img,.museum-global-artframe:focus-within img{
     transform:scale(1.055);
-    filter:grayscale(1) brightness(1.06) contrast(1.035);
+    filter:brightness(1.06) contrast(1.025);
   }
 }
 @media(max-width:1050px){
@@ -275,8 +275,8 @@ html[dir="rtl"] .museum-rail-indicator{background:linear-gradient(270deg,rgba(16
 /* Touch equivalent of the 5.5-second gallery camera push. */
 @media(hover:none),(pointer:coarse){
  @keyframes museum-touch-camera {
-   from {transform:scale(1);filter:grayscale(1) brightness(.93)}
-   to {transform:scale(1.047);filter:grayscale(1) brightness(1.035)}
+   from {transform:scale(1);filter:brightness(.97)}
+   to {transform:scale(1.047);filter:brightness(1.035)}
  }
  .museum-global-artframe.museum-mobile-arrived img {
    animation:museum-touch-camera 5.5s cubic-bezier(.16,.68,.2,1) 1 both;
