@@ -843,3 +843,135 @@ body.museum-gallery-enabled:not(.official-entrance) .museum-gallery-rail .museum
     height:44px!important;min-height:44px!important;
   }
 }
+
+
+/* EDITORIAL FINISH — TWO SOURCE PAGES
+   Typography, alignment and original-image choreography only.
+   All exhibition prose remains sourced verbatim from Natasha's documents. */
+
+/* Three historical entrances: elegant and evenly measured; each door remains
+   one uninterrupted link and the images retain their original framing. */
+body.geo-home .hero.geo-doors .triptych .door.geo-door{
+  transition:translate 1.1s cubic-bezier(.16,.69,.2,1),filter 1s ease!important;
+}
+@media(hover:hover) and (pointer:fine){
+ body.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hover,:focus-visible){
+   translate:0 -6px;
+   filter:brightness(1.065);
+ }
+}
+body.geo-home .hero.geo-doors .geo-door-caption{
+  max-width:40ch;
+}
+body.geo-home .geo-evolution .home-message-copy{
+  max-width:830px!important;
+}
+body.geo-home .geo-evolution .home-message-copy p{
+  max-width:68ch!important;
+  text-wrap:pretty;
+}
+body.geo-home .geo-pattern .geo-table-scroll{
+  border:1px solid rgba(238,234,237,.15);
+  border-radius:2px;
+  background:rgba(255,255,255,.01);
+}
+body.geo-home .geo-pattern .geo-table :is(td,th){
+  border-color:rgba(238,234,237,.14)!important;
+}
+body.geo-home .geo-pattern .geo-table tr:is(:hover,:focus-within) :is(td,th){
+  background:rgba(255,255,255,.036)!important;
+}
+body.geo-home .geo-understanding .geo-era{align-self:stretch}
+body.geo-home .geo-about-grid .geo-about h2{text-wrap:balance}
+body.geo-home .geo-framework-wrap .framework-reference-art img{
+  object-position:center;
+  background:transparent;
+}
+body.geo-home .era-framework.is-revealed .framework-reference-art img{
+  animation-duration:9s!important;
+}
+body.geo-home main.geo-editorial :is(.geo-evolution,.geo-pattern,.geo-understanding,.geo-about-grid,.geo-explore,.geo-support,.geo-sources){
+  scroll-margin-top:calc(var(--museum-header-h) + 70px);
+}
+
+/* Era I: the source's opening lead and genealogy heading form a coherent
+   typographic hierarchy, preceding the preserved historical narrative. */
+.aj-page .aj-hero-copy p.aj-source-lead{
+  font:400 clamp(21px,1.8vw,27px)/1.55 Caslon,Georgia,serif!important;
+  color:#fff!important;
+  margin:0 0 clamp(30px,4vw,48px)!important;
+  max-width:51ch;
+  letter-spacing:-.012em;
+}
+.aj-page .aj-hero-copy .aj-source-subhead{
+  display:block;
+  margin:0 0 22px;
+  padding:22px 0 0;
+  border-top:1px solid rgba(255,255,255,.22);
+  font:400 clamp(24px,2.4vw,35px)/1.2 Caslon,Georgia,serif!important;
+  letter-spacing:-.025em;
+  color:#fff!important;
+}
+.aj-page .aj-intro-scene{
+  align-items:start;
+}
+.aj-page .aj-intro-scene .aj-object{margin-top:4px}
+.aj-page .aj-intro-scene .aj-intro-prose{max-width:66ch}
+.aj-page .aj-object figcaption .object-detail,
+.aj-page .aj-object figcaption .object-date{
+  color:#d4cfcc!important;
+}
+.aj-page .aj-libel-grid .aj-prose{
+  max-width:68ch;
+}
+.aj-page .aj-cycle-list li{
+  transition:background .9s ease,box-shadow .9s ease;
+}
+@media(hover:hover) and (pointer:fine){
+  .aj-page .aj-cycle-list li:hover{
+    background:rgba(255,255,255,.03);
+    box-shadow:inset 0 0 0 1px rgba(245,236,238,.08);
+  }
+}
+/* Alternating image and prose gives the three libels a measured visual rhythm.
+   Only visual order changes; the semantic HTML and manuscript order are intact. */
+@media(min-width:971px){
+  .aj-page #libel-blood .aj-libel-grid>.aj-object{
+    grid-column:2;
+    grid-row:1;
+    justify-self:end;
+  }
+  .aj-page #libel-blood .aj-libel-grid>.aj-prose{
+    grid-column:1;
+    grid-row:1;
+  }
+}
+.aj-page #deicide-film-watch{
+  display:inline-grid!important;
+  place-items:center;
+  width:64px;min-width:64px;
+  height:64px;min-height:64px;
+  border-radius:50%!important;
+  padding:0!important;
+  color:#191519;
+}
+.aj-page #deicide-film-watch svg{
+  display:block;width:23px;height:23px;
+  margin-left:3px;
+  pointer-events:none;
+}
+.aj-page main :is(.aj-hero,.aj-section,.aj-libel,.aj-next,.aj-intro-scene){
+  scroll-margin-top:calc(var(--museum-header-h) + 60px);
+}
+@media(max-width:970px){
+  .aj-page .aj-intro-scene .aj-object{margin-top:0}
+}
+@media(max-width:700px){
+  body.geo-home .hero.geo-doors .triptych .door.geo-door{translate:none}
+  .aj-page .aj-hero-copy .aj-source-subhead{padding-top:18px}
+  .aj-page #deicide-film-watch{width:58px;min-width:58px;height:58px;min-height:58px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.geo-home .hero.geo-doors .triptych .door.geo-door,
+  .aj-page .aj-cycle-list li{transition:none!important}
+}
