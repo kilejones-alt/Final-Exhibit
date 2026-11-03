@@ -201,3 +201,34 @@ main{min-height:calc(100svh - env(safe-area-inset-top));padding-bottom:env(safe-
 @media(prefers-reduced-motion:reduce){
  .official-entrance .entrance-controls .pill{transition:none}
 }
+
+/* Entrance music: a small text pill matching the two language pills.
+   Only affects the first page, not the silent Deicide slideshow. */
+.official-entrance .entrance-controls .music{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:6px;width:auto!important;min-width:0!important;
+  height:42px!important;min-height:42px!important;
+  padding:8px 12px!important;
+  border:1px solid rgba(243,222,215,.24)!important;
+  border-radius:999px!important;
+  background:rgba(12,9,12,.45)!important;color:#e5e1e0!important;
+  font:500 11px/1.2 Source,Arial,sans-serif!important;
+  letter-spacing:.025em!important;
+}
+.official-entrance .entrance-controls .music::before{content:none!important}
+.official-entrance .entrance-controls .music .music-note{font:400 13px/1 Arial,sans-serif}
+.official-entrance .entrance-controls .music[aria-pressed="true"]{
+  background:rgba(232,223,216,.92)!important;
+  border-color:rgba(232,223,216,.96)!important;
+  color:#161214!important;
+}
+.official-entrance .entrance-controls .music:is(:hover,:focus-visible){
+  transform:translateY(-3px);
+  border-color:rgba(247,222,214,.62)!important;
+}
+@media(max-width:420px){
+  .official-entrance .entrance-controls .music{
+    height:44px!important;min-height:44px!important;
+    padding:7px 10px!important;font-size:10px!important;
+  }
+}
