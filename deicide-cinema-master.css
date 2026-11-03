@@ -120,3 +120,25 @@ opacity:0;transition:opacity 2.5s ease}
   .copy>*{filter:none!important;transform:none!important}
   .film-grain{opacity:0}
 }
+
+
+/* Final museum-screen finishing: retain entire archival frames, with
+   peripheral darkness instead of cropping their documents or titles. */
+.image{
+  object-fit:contain!important;
+  filter:contrast(1.025) brightness(1.015);
+}
+.copy{
+  text-shadow:0 2px 17px rgba(0,0,0,.94),0 13px 52px #000;
+}
+.copy .title{letter-spacing:-.035em}
+.copy .quote{line-height:1.48}
+#film-hud{color:rgba(240,231,225,.68)}
+#transport{border-top-color:rgba(245,234,226,.19)}
+@media(max-width:700px){
+ .copy .quote{line-height:1.42}
+ .image{object-fit:contain!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .image{transition:none!important}
+}
