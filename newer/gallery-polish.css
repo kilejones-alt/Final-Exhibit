@@ -1,0 +1,75 @@
+/* One exhibition system: neutral type, measured spacing and artifact inspection. */
+body.gallery-polished{--fg:#fff;--muted:#bdbdbd;--gallery-serif:Caslon,Georgia,serif;color:#fff}
+body.gallery-polished:not(.deicide-film-host-open):not(.artwork-inspection-open){overflow:clip visible!important}
+body.gallery-polished.artwork-inspection-open{overflow:hidden!important}
+body.gallery-polished main :is(h1,h2,h3,h4,p,blockquote,summary,li,td,th){color:#fff!important}
+body.gallery-polished main :is(p,blockquote){font-family:var(--gallery-serif)!important;letter-spacing:0;text-wrap:pretty}
+body.gallery-polished main :is(p,h1,h2,h3,h4):hover{transform:none;translate:none;filter:none}
+body.gallery-polished main :is(p,blockquote){font-size:18px;line-height:1.7}
+body.gallery-polished main :is(.object-caption-line,.object-caption-line *,.object-credit,.object-detail,.src-note,.src-sources){color:#c4c4c4!important}
+body.gallery-polished :is(.source-room-subtitle,.aj-source-main h1,.aj-source-main h2,.aj-source-main h3,.src-libel-details summary){font-family:var(--gallery-serif)!important}
+body.gallery-polished .aj-source-main{--ivory:#fff;--muted:#bdbdbd;color:#fff;font-family:var(--gallery-serif)}
+body.gallery-polished .aj-source-main :is(.src-lead,.src-sub,.src-facts,.src-stage p,.src-faq details p,.src-cycle-caption){color:#fff}
+body.gallery-polished :is(.room-intro h1,.aj-source-main h1){font:400 clamp(54px,7.1vw,104px)/1 var(--gallery-serif)!important;letter-spacing:-.045em!important;text-wrap:balance}
+body.gallery-polished :is(.room-intro.room-title-only,.aj-source-main .src-hero){padding-block:clamp(36px,5vw,64px) 28px!important;min-height:0}
+body.gallery-polished .aj-source-main :is(.src-lead,.src-sub){font-size:clamp(20px,2vw,26px);line-height:1.45}
+body.gallery-polished article.artifact,
+body.gallery-polished article.artifact:nth-of-type(even){min-height:0;padding-block:clamp(28px,4vw,56px);border:0;background:#080809;gap:16px}
+body.gallery-polished article.artifact::before{display:none}
+body.gallery-polished article.artifact.gallery-text-row,
+body.gallery-polished article.artifact.gallery-text-row:nth-of-type(even){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:clamp(28px,4.5vw,64px)}
+body.gallery-polished .gallery-object-column{align-self:start}
+body.gallery-polished .gallery-text-row .source-narrative{max-width:62ch}
+body.gallery-polished article.artifact:not(.gallery-text-row) .art-open{max-width:1040px}
+body.gallery-polished article.artifact .art-open img{max-height:min(74svh,780px)}
+body.gallery-polished :is(.art-open,.aj-object){scroll-margin-top:calc(var(--museum-header-h,80px) + 70px)}
+body.gallery-polished .aj-source-main :is(section,.src-artifact){padding-block:clamp(28px,3.5vw,48px)}
+body.gallery-polished .aj-source-main .src-editorial-row{margin-block:28px}
+body.gallery-polished .aj-source-main :is(.src-artifact,.src-editorial-row){grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4.5vw,64px)}
+body.gallery-polished .aj-object .aj-inspect{width:100%;min-height:0;padding:0;display:block;cursor:zoom-in}
+body.gallery-polished .aj-object .aj-inspect img{width:100%;height:auto;max-height:70svh;object-fit:contain;background:transparent;box-shadow:none}
+body.gallery-polished .aj-object .aj-inspect:hover{transform:none;filter:none}
+body.gallery-polished .art-open{cursor:zoom-in}
+body.gallery-polished .art-open:focus-visible{outline:1px solid #fff;outline-offset:6px}
+/* The door apertures and matting share a common optical field; no source is cropped. */
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door-art{display:grid;place-items:center;padding:clamp(12px,1.5vw,23px)!important;aspect-ratio:4/5!important}
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door-art img{position:static!important;display:block!important;width:100%!important;height:100%!important;min-height:0;max-height:100%;object-fit:contain!important;object-position:center!important;transform:none!important;filter:grayscale(1) brightness(.95)!important}
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door:nth-child(2) .door-art img{width:82%!important}
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door-art::after{background:none;box-shadow:inset 0 0 25px #0004}
+body.gallery-polished.geo-home .hero.geo-doors :is(.geo-hero-tagline,.geo-door-type,.geo-door-claim,.geo-door-caption,.geo-lead-after-doors){color:#d4d4d4!important}
+/* Current dot is clear without adding a decorative ring or another divider. */
+body.gallery-polished .museum-gallery-rail{overflow:visible}
+body.gallery-polished.museum-gallery-enabled .museum-gallery-rail .museum-rail-image .museum-rail-dot{background:#8a8a8a!important;opacity:.65!important}
+body.gallery-polished.museum-gallery-enabled .museum-gallery-rail .museum-rail-image[aria-current] .museum-rail-dot{background:#fff!important;width:8px!important;height:8px!important;flex-basis:8px!important;opacity:1!important;box-shadow:0 0 9px #ffffff45}
+body.gallery-polished .museum-rail-context{position:absolute;right:max(20px,4vw);bottom:-23px;max-width:70vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:400 10px/1.4 Source,Arial,sans-serif;letter-spacing:.06em;color:#bdbdbd;background:#090909;padding:3px 6px;pointer-events:none}
+body.gallery-polished .museum-rail-preview-title{color:#fff!important}
+/* Fine outlines trace only interactive surfaces. No extra section rules. */
+body.gallery-polished .src-libel-details summary{isolation:isolate}
+body.gallery-polished .src-libel-details summary::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(#bcbcbc,#bcbcbc) left top/0 1px no-repeat,linear-gradient(#bcbcbc,#bcbcbc) right top/1px 0 no-repeat,linear-gradient(#bcbcbc,#bcbcbc) right bottom/0 1px no-repeat,linear-gradient(#bcbcbc,#bcbcbc) left bottom/1px 0 no-repeat;transition:background-size 1.4s cubic-bezier(.2,.6,.2,1)}
+body.gallery-polished .src-libel-details summary:is(:hover,:focus-visible)::before,
+body.gallery-polished .src-libel-details[open] summary::before{background-size:100% 1px,1px 100%,100% 1px,1px 100%}
+body.gallery-polished .src-stage .stage-outline rect{stroke:#bcbcbc}
+body.gallery-polished .src-stage:is(:hover,:focus-within){background:#181818}
+/* The same full-screen inspection surface in every room. */
+body.gallery-polished #artwork-inspector{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#050505;color:#fff;overflow:hidden;overscroll-behavior:contain}
+#artwork-inspector::backdrop{background:#000}
+#artwork-inspector .inspection-toolbar{position:absolute;z-index:3;top:max(16px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:12px;pointer-events:none}
+#artwork-inspector .inspection-tools{display:flex;gap:8px;pointer-events:auto}
+#artwork-inspector .inspection-control{display:grid;place-items:center;width:44px;height:40px;padding:0;border:1px solid #777;border-radius:4px;background:#121212e8;color:#fff;font:400 22px/1 Arial,sans-serif;transform:none;box-shadow:none;filter:none}
+#artwork-inspector .inspection-close{width:78px;border-radius:999px;font-size:26px;pointer-events:auto}
+#artwork-inspector .inspection-stage{position:absolute;inset:72px 18px 75px;overflow:hidden;display:grid;place-items:center;touch-action:none;cursor:zoom-in}
+#artwork-inspector .inspection-stage.is-zoomed{cursor:grab}
+#artwork-inspector .inspection-stage.is-dragging{cursor:grabbing}
+#artwork-inspector .inspection-image{display:block;max-width:calc(100vw - 36px);max-height:calc(100dvh - 147px);width:auto;height:auto;min-width:0;min-height:0;margin:0;object-fit:contain;transform:translate3d(var(--pan-x,0px),var(--pan-y,0px),0) scale(var(--inspect-zoom,1));transform-origin:center;filter:none!important;user-select:none;-webkit-user-drag:none;will-change:transform;transition:none}
+#artwork-inspector .inspection-caption{position:absolute;bottom:max(24px,env(safe-area-inset-bottom));left:22px;right:22px;margin:0;text-align:center;color:#fff;font:400 12px/1.45 Source,Arial,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#artwork-inspector .inspection-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(min-width:760px){body.gallery-polished :is(.gallery-object-column,.aj-source-main .src-artifact>.aj-object,.aj-source-main .src-editorial-row>.aj-object){position:sticky;top:calc(var(--museum-header-h,80px) + 64px)}}
+@media(max-width:759px){
+ body.gallery-polished article.artifact.gallery-text-row,body.gallery-polished article.artifact.gallery-text-row:nth-of-type(even),body.gallery-polished .aj-source-main :is(.src-artifact,.src-editorial-row){display:grid;grid-template-columns:1fr;gap:26px}
+ body.gallery-polished :is(.gallery-object-column,.aj-source-main .src-artifact>.aj-object,.aj-source-main .src-editorial-row>.aj-object){position:static}
+ body.gallery-polished article.artifact{padding-inline:24px}
+ body.gallery-polished :is(.room-intro h1,.aj-source-main h1){font-size:clamp(44px,9vw,66px)!important}
+ body.gallery-polished main :is(p,blockquote){font-size:18px;line-height:1.65}
+ body.gallery-polished .museum-rail-context{right:14px;max-width:90vw;bottom:-21px;font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){body.gallery-polished .src-libel-details summary::before{transition:none}}
