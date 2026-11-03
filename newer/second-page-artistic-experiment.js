@@ -201,8 +201,7 @@
       frame.append(layer);
     }
     stage.append(frame);
-    const originalCaption = inner.querySelector('figcaption');
-    if (originalCaption) stage.append(originalCaption.cloneNode(true));
+    // The supplied artwork already contains its own historical attribution.
     framework.insertBefore(stage, inner);
     framework.classList.add('framework-reference-ready');
 
