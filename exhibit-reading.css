@@ -241,8 +241,9 @@ body.gallery-polished .museum-global-artframe:is(:hover,:focus-within) img {
     padding-inline:12px!important;
   }
   html[lang="ru"] body.home-selected .home-message-copy p {
-    font:400 15.5px/1.58 Arial,sans-serif!important;
-    letter-spacing:normal!important;
+    font:400 15px/1.58 Arial,sans-serif!important;
+    letter-spacing:-.01em!important;
+    hyphens:auto;
     text-wrap:wrap!important;
   }
 }
