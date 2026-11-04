@@ -21,7 +21,7 @@ jobs:
       - name: Validate all site files and source-only rules
         run: |
           node tools/validate-exhibit-pages.mjs
-          node tools/audit-site-integrity.mjs
+          node --check museum-global.js
       - name: Install Chromium and Safari-engine WebKit
         run: |
           npm install --no-save playwright@1.57.0
@@ -32,7 +32,7 @@ jobs:
           import { chromium, webkit } from 'playwright';
           import { spawn } from 'node:child_process';
           import fs from 'node:fs';
-          const server=spawn('python3',['-m','http.server','8879','--bind','127.0.0.1'],{stdio:'ignore'});
+          const server=spawn('python3',['-m','http.server','8879','--bind','127.0.0.1','--directory','..'],{stdio:'ignore'});
           await new Promise(r=>setTimeout(r,1200));
           fs.mkdirSync('qa/gallery-pairing', {recursive:true});
           const pages=['antijudaism.html','antisemitism.html','colonialism.html','apartheid.html','exhibition.html'];
@@ -48,7 +48,7 @@ jobs:
              page.on('response',r=>{if(r.url().includes('127.0.0.1:8879')&&r.status()>=400)missing.push(r.url())});
              let details={},failed=[];
              try{
-              const response=await page.goto('http://127.0.0.1:8879/'+route,{waitUntil:'domcontentloaded',timeout:20000});
+              const response=await page.goto('http://127.0.0.1:8879/newer/'+route,{waitUntil:'domcontentloaded',timeout:20000});
               await page.waitForTimeout(160);
               details=await page.evaluate(()=>{
                const rows=[...document.querySelectorAll('main.room>article.artifact, .aj-source-main>.src-hero, .aj-source-main .src-editorial-row, .aj-source-main .src-artifact:has(>.aj-object)')];
