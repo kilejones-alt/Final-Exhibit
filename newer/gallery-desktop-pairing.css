@@ -1,0 +1,63 @@
+/* The Three Eras: pair existing artwork and historical text without rewriting either. */
+@media (min-width:901px){
+ body.gallery-polished main.room>article.artifact.gallery-text-row,
+ body.gallery-polished main.room>article.artifact.gallery-text-row:nth-of-type(even),
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row),
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row):nth-of-type(even){
+  display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr)!important;
+  gap:clamp(30px,4vw,78px)!important;align-items:center!important;direction:ltr!important;
+ }
+ body.gallery-polished main.room>article.artifact.gallery-text-row>.gallery-object-column{grid-column:1!important;grid-row:1!important;min-width:0!important}
+ body.gallery-polished main.room>article.artifact.gallery-text-row>.source-narrative{grid-column:2!important;grid-row:1!important;min-width:0!important;max-width:56ch!important}
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row)>.art-open,
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row):nth-of-type(even)>.art-open{
+  grid-column:1!important;grid-row:1!important;width:100%!important;min-width:0!important;justify-self:center!important}
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row)>.artifact-copy,
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row):nth-of-type(even)>.artifact-copy{
+  grid-column:2!important;grid-row:1!important;min-width:0!important;max-width:52ch!important;justify-self:start!important}
+ body.gallery-polished .aj-source-main>.src-hero,
+ body.gallery-polished .aj-source-main .src-editorial-row,
+ body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object){
+  display:grid!important;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;
+  gap:clamp(32px,5vw,88px)!important;align-items:start!important;direction:ltr!important}
+ body.gallery-polished .aj-source-main>.src-hero>.aj-object,
+ body.gallery-polished .aj-source-main .src-editorial-row>.aj-object,
+ body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object)>.aj-object{
+  grid-column:1!important;grid-row:1!important;min-width:0!important}
+ body.gallery-polished .aj-source-main>.src-hero>:not(.aj-object),
+ body.gallery-polished .aj-source-main .src-editorial-row>:not(.aj-object),
+ body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object)>:not(.aj-object){
+  grid-column:2!important;grid-row:1!important;min-width:0!important}
+ html[lang="he"] body.gallery-polished main.room>article.artifact.gallery-text-row>:is(.gallery-object-column,.source-narrative),
+ html[lang="he"] body.gallery-polished main.room>article.artifact:not(.gallery-text-row)>.artifact-copy,
+ html[lang="he"] body.gallery-polished .aj-source-main>.src-hero>:is(.aj-object,div),
+ html[lang="he"] body.gallery-polished .aj-source-main .src-editorial-row>:is(.aj-object,div),
+ html[lang="he"] body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object)>:is(.aj-object,div){
+  direction:rtl!important;text-align:right!important}
+}
+@media (max-width:900px){
+ body.gallery-polished main.room>article.artifact.gallery-text-row,
+ body.gallery-polished main.room>article.artifact.gallery-text-row:nth-of-type(even){
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:clamp(18px,3vw,30px)!important}
+ body.gallery-polished main.room>article.artifact.gallery-text-row>.gallery-object-column{grid-column:1!important;grid-row:1!important;min-width:0!important}
+ body.gallery-polished main.room>article.artifact.gallery-text-row>.source-narrative{grid-column:1!important;grid-row:2!important;min-width:0!important}
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row),
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row):nth-of-type(even){
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:clamp(18px,3vw,30px)!important}
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row)>.art-open{
+  grid-column:auto!important;grid-row:auto!important;order:0!important}
+ body.gallery-polished main.room>article.artifact:not(.gallery-text-row)>.artifact-copy{
+  grid-column:auto!important;grid-row:auto!important;order:1!important}
+ body.gallery-polished .aj-source-main>.src-hero,
+ body.gallery-polished .aj-source-main .src-editorial-row,
+ body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object){
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:clamp(18px,3vw,32px)!important}
+ body.gallery-polished .aj-source-main>.src-hero>.aj-object,
+ body.gallery-polished .aj-source-main .src-editorial-row>.aj-object,
+ body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object)>.aj-object{
+  grid-column:1!important;grid-row:1!important}
+ body.gallery-polished .aj-source-main>.src-hero>:not(.aj-object),
+ body.gallery-polished .aj-source-main .src-editorial-row>:not(.aj-object),
+ body.gallery-polished .aj-source-main .src-artifact:has(>.aj-object)>:not(.aj-object){
+  grid-column:1!important;grid-row:2!important}
+}
