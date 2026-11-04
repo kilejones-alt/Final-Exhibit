@@ -14,3 +14,16 @@ This branch modifies no exhibition wording, artwork, homepage animation, soundtr
 - The standalone Deicide film's current 87.5 seconds are preserved; the older 138-second idea is not a mandate to retime all its archival cards.
 
 The remainder of the quality review is recorded in companion local screenshots and browser reports; it is not evidence of editorial sign-off, full rights clearance, or final production release.
+
+
+## Completed browser evidence (review branch)
+
+- **102** Chromium rendered viewport checks over **17 routes**, at widths 320, 390, 768, 1024, 1440 and 1920: no reported missing assets, JavaScript exceptions or horizontal overflow.
+- **51** additional Chromium layout checks for 360px, 412px and 844×390 landscape: no reported missing assets, JavaScript exceptions or horizontal overflow.
+- **16** focused interaction checks cover opening image/title/background click-to-skip, music control independence, timeline desktop hover and phone taps, diagram presence and reduced motion.
+- **56/56** independent GitHub Actions checks passed across real desktop browser engines **Chromium and WebKit**, at 390px and 1440px: [review run](https://github.com/kilejones-alt/Final-Exhibit/actions/runs/41746995431).
+- An early WebKit Deicide screenshot captured the existing initial black fade. At 3.2 seconds, both WebKit and Chromium reported the stage at full opacity with the original artwork visible. No film timing, imagery or styling was altered.
+- The browser tests are **simulated mobile profiles**, not physical-device iPhone Safari or Android certification. Do not describe them as real phone testing.
+- A strict locale-coverage check must continue to **block claims of completed trilingual historical rooms**: eight main English rooms still have no approved Russian or Hebrew translations.
+
+**Release decision:** The existing visual presentation is technically stable in the tested environments. This is an evidence-backed *review candidate*, not a public release authorization, an editorial-language approval, or a completed rights audit. Keep all changes on review until explicit approval.
