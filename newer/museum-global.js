@@ -9,9 +9,9 @@
   const lang = (root.lang || 'en').slice(0, 2).toLowerCase();
   const locale = ['he','ru'].includes(lang) ? lang : 'en';
   const strings = {
-    en: { heading: 'The Three Eras of Jew-Hatred', eras: ['Antijudaism', 'Antisemitism', 'Antizionism'] },
-    he: { heading: 'שלוש תקופות של שנאת יהודים', eras: ['אנטי־יהדות', 'אנטישמיות', 'אנטי־ציונות'] },
-    ru: { heading: 'Три эпохи ненависти к евреям', eras: ['Антииудаизм', 'Антисемитизм', 'Антисионизм'] }
+    en: { heading: 'The Three Eras of Jew-Hatred', eras: ['Antijudaism', 'Antisemitism', 'Antizionism'], libels: ['Colonialism', 'Apartheid and Racism Libels', 'Genocide'] },
+    he: { heading: 'שלוש תקופות של שנאת יהודים', eras: ['אנטי־יהדות', 'אנטישמיות', 'אנטי־ציונות'], libels: ['קולוניאליזם', 'עלילות האפרטהייד והגזענות', 'רצח עם'] },
+    ru: { heading: 'Три эпохи ненависти к евреям', eras: ['Антииудаизм', 'Антисемитизм', 'Антисионизм'], libels: ['Колониализм', 'Обвинения в апартеиде и расизме', 'Геноцид'] }
   };
   const text = strings[locale];
   // Each stop opens the top of one public gallery page.
@@ -22,9 +22,9 @@
     [roomPrefix+'antijudaism.html', text.eras[0], 'assets/antijudaism-1.jpg'],
     [roomPrefix+'antisemitism.html', text.eras[1], 'assets/antisemitism-1.jpg'],
     [roomPrefix+'exhibition.html', text.eras[2], 'assets/naya-nelyubin-un-1978.webp'],
-    [roomPrefix+'colonialism.html', 'Colonialism', 'assets/naya-sayegh-1965.webp'],
-    [roomPrefix+'apartheid.html', 'Apartheid and Racism Libels', 'assets/naya-efimovsky-zionism-racism-1976.webp'],
-    [roomPrefix+'genocide.html', 'Genocide', null]
+    [roomPrefix+'colonialism.html', text.libels[0], 'assets/naya-sayegh-1965.webp'],
+    [roomPrefix+'apartheid.html', text.libels[1], 'assets/naya-efimovsky-zionism-racism-1976.webp'],
+    [roomPrefix+'genocide.html', text.libels[2], null]
   ];
   const main = document.querySelector('main');
   const header = document.querySelector('.site-header');
@@ -117,17 +117,25 @@
     link.classList.add('is-revealed');
     rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
-    const vw=art ? Math.min(finePointer?460:292,innerWidth*(finePointer?.54:.77)) : Math.min(finePointer?275:225,innerWidth-28);
-    const vh=art ? Math.min(finePointer?360:248,innerHeight*(finePointer?.46:.31)) : Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
+    const visual=window.visualViewport;
+    const screenWidth=Math.min(innerWidth,visual?.width || innerWidth);
+    const screenHeight=Math.min(innerHeight,visual?.height || innerHeight);
+    const originX=visual?.offsetLeft || 0;
+    const originY=visual?.offsetTop || 0;
+    const edge=12;
+    const desiredWidth=art ? Math.min(finePointer?460:292,screenWidth*(finePointer?.54:.77)) : Math.min(finePointer?275:225,screenWidth-28);
+    const desiredHeight=art ? Math.min(finePointer?360:248,screenHeight*(finePointer?.46:.31)) : Math.min(finePointer?284:245,Math.max(165,screenHeight*.34));
+    const vw=Math.max(1,Math.min(desiredWidth,screenWidth-edge*2));
+    const vh=Math.max(1,Math.min(desiredHeight,screenHeight-edge*2));
     preview.style.width=vw+'px';
     preview.style.height=vh+'px';
-    const left=Math.max(12,Math.min(innerWidth-vw-12,rect.left+rect.width/2-vw/2));
+    const left=Math.max(originX+edge,Math.min(originX+screenWidth-vw-edge,rect.left+rect.width/2-vw/2));
     preview.style.left=left+'px';
     let top=rect.bottom+10;
-    if(top+vh>innerHeight-16)top=rect.top-vh-10;
-    top=Math.max(12,top);
+    if(top+vh>originY+screenHeight-edge)top=rect.top-vh-10;
+    top=Math.max(originY+edge,Math.min(top,originY+screenHeight-vh-edge));
     preview.style.top=top+'px';
-    // The chapter label emerges from its dot.
+    // Retain the existing expansion from its dot, with no timing change.
     preview.style.setProperty('--dot-origin-x',(rect.left+rect.width/2-left).toFixed(1)+'px');
     preview.style.setProperty('--dot-origin-y',(rect.top+rect.height/2-top).toFixed(1)+'px');
     if(changed){
@@ -161,6 +169,10 @@
     if(!viewport.matches(':hover')&&!preview.matches(':hover'))closePreview();
   },{passive:true,capture:false});
   addEventListener('keydown',event=>{if(event.key==='Escape')closePreview()});
+  // Dismiss stale coordinates on rotation, browser resizing, or pinch zoom.
+  addEventListener('resize',closePreview,{passive:true});
+  window.visualViewport?.addEventListener('resize',closePreview,{passive:true});
+  window.visualViewport?.addEventListener('scroll',closePreview,{passive:true});
   document.addEventListener('pointerdown',event=>{
     if(!preview.contains(event.target) && !viewport.contains(event.target))closePreview();
   },{passive:true});
