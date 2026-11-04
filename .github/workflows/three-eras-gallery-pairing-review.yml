@@ -1,0 +1,100 @@
+name: Three Eras gallery pairing cross-browser review
+on:
+  push:
+    branches: [review/nov04-gallery-side-by-side-en-ru-he]
+    paths: [.github/workflows/three-eras-gallery-pairing-review.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pairing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    defaults:
+      run:
+        working-directory: newer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate all site files and source-only rules
+        run: |
+          node tools/validate-exhibit-pages.mjs
+          node tools/audit-site-integrity.mjs
+      - name: Install Chromium and Safari-engine WebKit
+        run: |
+          npm install --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium webkit
+      - name: Check room pairing on real browser engines at phone through desktop widths
+        run: |
+          node --input-type=module <<'CHECK'
+          import { chromium, webkit } from 'playwright';
+          import { spawn } from 'node:child_process';
+          import fs from 'node:fs';
+          const server=spawn('python3',['-m','http.server','8879','--bind','127.0.0.1'],{stdio:'ignore'});
+          await new Promise(r=>setTimeout(r,1200));
+          fs.mkdirSync('qa/gallery-pairing', {recursive:true});
+          const pages=['antijudaism.html','antisemitism.html','colonialism.html','apartheid.html','exhibition.html'];
+          const languages=['','ru/','he/'],widths=[390,768,1024,1440],report=[];
+          try{
+           for(const [engineName,engine] of [['Chromium',chromium],['WebKit',webkit]]){
+            const browser=await engine.launch({headless:true});
+            for(const locale of languages)for(const path of pages)for(const width of widths){
+             const route=locale+path,phone=width<801;
+             const context=await browser.newContext({viewport:{width,height:900},isMobile:phone,hasTouch:phone});
+             const page=await context.newPage(),errors=[],missing=[];
+             page.on('pageerror',e=>errors.push(String(e)));
+             page.on('response',r=>{if(r.url().includes('127.0.0.1:8879')&&r.status()>=400)missing.push(r.url())});
+             let details={},failed=[];
+             try{
+              const response=await page.goto('http://127.0.0.1:8879/'+route,{waitUntil:'domcontentloaded',timeout:20000});
+              await page.waitForTimeout(160);
+              details=await page.evaluate(()=>{
+               const rows=[...document.querySelectorAll('main.room>article.artifact, .aj-source-main>.src-hero, .aj-source-main .src-editorial-row, .aj-source-main .src-artifact:has(>.aj-object)')];
+               return {docWidth:document.documentElement.scrollWidth,
+                language:document.documentElement.lang,
+                pairs:rows.map(el=>{
+                 const art=el.querySelector(':scope>.gallery-object-column,:scope>.art-open,:scope>.aj-object');
+                 let copy=el.querySelector(':scope>.source-narrative,:scope>.artifact-copy,:scope>.src-editorial-copy');
+                 if(!copy)copy=[...el.children].find(e=>e!==art && e.tagName==='DIV');
+                 if(!art||!copy)return {error:'Missing image or copy'};
+                 const a=art.getBoundingClientRect(),b=copy.getBoundingClientRect();
+                 return {art:[a.left,a.top,a.right,a.bottom],copy:[b.left,b.top,b.right,b.bottom],
+                  textDirection:getComputedStyle(copy).direction};
+                })};
+              });
+              if(response.status()!==200)failed.push('HTTP '+response.status());
+              if(details.docWidth>width+1)failed.push('Horizontal overflow '+details.docWidth);
+              if(!details.pairs.length)failed.push('No image/text pairs');
+              for(const [i,pair] of details.pairs.entries()){
+               if(pair.error){failed.push('Pair '+i+': '+pair.error);continue;}
+               if(width>900&&pair.art[2]>pair.copy[0]+4)failed.push('Desktop art is not left of text at pair '+i);
+               if(width<=900&&pair.art[3]>pair.copy[1]+4)failed.push('Stacked art not above text at pair '+i);
+               if(locale==='he/'&&width>900&&pair.textDirection!=='rtl')failed.push('Hebrew reading direction wrong at pair '+i);
+              }
+              if(errors.length)failed.push(...errors);
+              if(missing.length)failed.push(...missing.slice(0,8));
+              if(path==='antisemitism.html'&&(width===390||width===1440)){
+               await page.locator('main.room>article.artifact').first().scrollIntoViewIfNeeded();
+               await page.screenshot({path:'qa/gallery-pairing/'+engineName.toLowerCase()+'-'+(locale||'en/').replace('/','')+'-'+width+'.png'});
+              }
+             }catch(e){failed.push(String(e));}
+             finally{report.push({engine:engineName,route,width,pairCount:details.pairs?.length||0,passed:failed.length===0,failures:failed});await context.close();}
+             console.log(engineName,route,width,failed.length?'FAIL '+failed.join('; ').slice(0,300):'PASS');
+            }
+            await browser.close();
+           }
+          }finally{server.kill();}
+          fs.writeFileSync('qa/gallery-pairing/results.json',JSON.stringify(report,null,2));
+          const bad=report.filter(r=>!r.passed);
+          console.log('TOTAL '+report.length+' PASSED '+(report.length-bad.length)+' FAILED '+bad.length);
+          if(bad.length)process.exitCode=1;
+          CHECK
+      - name: Save review screenshots and measured layout results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: three-eras-gallery-pairing-evidence
+          path: newer/qa/gallery-pairing
+          retention-days: 7
