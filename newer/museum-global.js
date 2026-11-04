@@ -83,8 +83,12 @@
 
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const preview = document.createElement('div');
+  // A preview is a real link, not a div depending on transient hover state.
+  const preview = document.createElement('a');
   preview.className = 'museum-rail-preview';
+  preview.tabIndex = -1;
+  // The existing rail is at 965 and the masthead at 975. Keep taps on top.
+  preview.style.setProperty('z-index','964','important');
   preview.setAttribute('aria-hidden','true');
   const previewImage = document.createElement('img');
   previewImage.className = 'museum-rail-preview-art';
@@ -106,12 +110,16 @@
   };
   const reveal = link => {
     if(!link)return;
+    const art = artworkByLink.get(link);
+    // Stops without archival artwork remain ordinary links, not empty cards.
+    if(!art){closePreview();return;}
     clearTimeout(hideTimer);
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
     const changed = chosen !== link;
     chosen=link;
-    const art = artworkByLink.get(link);
-    preview.classList.toggle('has-art', Boolean(art));
+    preview.href=link.href;
+    preview.setAttribute('aria-label',link.getAttribute('aria-label') || link.title);
+    preview.classList.add('has-art');
     if (art && previewImage.getAttribute('src') !== art) previewImage.src = art;
     previewImage.alt = art ? link.title : '';
     link.classList.add('is-revealed');
@@ -164,7 +172,20 @@
   });
   preview.addEventListener('pointerenter', () => clearTimeout(hideTimer));
   preview.addEventListener('pointerleave', closePreview);
-  preview.addEventListener('click', () => { if (chosen) location.href = chosen.href; });
+  // Native links preserve first-tap navigation, keyboard use and modified clicks.
+  // Re-selecting the current page returns to its start instead of seeming inert.
+  const returnToPageStart = event => {
+    if(event.defaultPrevented || event.button!==0 || event.metaKey ||
+       event.ctrlKey || event.shiftKey || event.altKey) return;
+    const destination=new URL(event.currentTarget.href,document.baseURI);
+    if(destination.origin!==location.origin || destination.pathname!==location.pathname ||
+       destination.search!==location.search || destination.hash) return;
+    event.preventDefault();
+    closePreview();
+    window.scrollTo({top:0,left:0,behavior:reduced?'instant':'smooth'});
+  };
+  anchors.forEach(link=>link.addEventListener('click',returnToPageStart));
+  preview.addEventListener('click',returnToPageStart);
   addEventListener('scroll',()=>{
     if(!viewport.matches(':hover')&&!preview.matches(':hover'))closePreview();
   },{passive:true,capture:false});
