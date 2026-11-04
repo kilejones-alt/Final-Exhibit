@@ -14,49 +14,17 @@
     ru: { heading: 'Три эпохи ненависти к евреям', eras: ['Антииудаизм', 'Антисемитизм', 'Антисионизм'] }
   };
   const text = strings[locale];
-  // Links refer to existing room sections/artifacts. The preview uses type so
-  // artwork is encountered only at its place in the exhibition.
-  const artworks = [
-    [0,'antijudaism.html'],
-    [0,'antijudaism.html#aj-title'],
-    [0,'antijudaism.html#aj-art-manesse'],
-    [0,'antijudaism.html#aj-art-host'],
-    [0,'antijudaism.html#deicide-cinema'],
-    [0,'antijudaism.html#libel-blood'],
-    [0,'antijudaism.html#libel-well'],
-    [1,'antisemitism.html'],
-    [1,'antisemitism.html#museum-object-01'],
-    [1,'antisemitism.html#museum-object-02'],
-    [1,'antisemitism.html#museum-object-03'],
-    [1,'antisemitism.html#museum-object-04'],
-    [1,'antisemitism.html#museum-object-05'],
-    [2,'exhibition.html'],
-    [2,'colonialism.html#museum-object-01'],
-    [2,'colonialism.html#museum-object-02'],
-    [2,'colonialism.html#museum-object-03'],
-    [2,'colonialism.html#museum-object-04'],
-    [2,'colonialism.html#museum-object-05'],
-    [2,'colonialism.html#museum-object-06'],
-    [2,'apartheid.html#museum-object-01']
+  // Each stop opens the top of one public gallery page.
+  const overview = locale === 'en' ? 'entrance.html' : locale + '/entrance.html';
+  const pages = [
+    [overview, text.heading, null],
+    ['antijudaism.html', text.eras[0], 'assets/antijudaism-1.jpg'],
+    ['antisemitism.html', text.eras[1], 'assets/antisemitism-1.jpg'],
+    ['exhibition.html', text.eras[2], 'assets/naya-nelyubin-un-1978.webp'],
+    ['colonialism.html', 'Colonialism', 'assets/naya-sayegh-1965.webp'],
+    ['apartheid.html', 'Apartheid and Racism Libels', 'assets/naya-efimovsky-zionism-racism-1976.webp'],
+    ['genocide.html', 'Genocide', null]
   ];
-  // Existing object images are loaded only when a visitor approaches a dot.
-  // Chapter/film points have no duplicate artwork preview.
-  const previewArt = [
-    'assets/antijudaism-1.jpg', null, 'assets/antijudaism-2.jpg',
-    'assets/antijudaism-4.jpg', null, 'assets/antijudaism-5.jpg',
-    'assets/antijudaism-3.jpg', null,
-    'assets/antisemitism-1.jpg', 'assets/antisemitism-2.jpg',
-    'assets/antisemitism-3.jpg', 'assets/antisemitism-4.jpg',
-    'assets/antisemitism-5.jpg',
-    'assets/naya-nelyubin-un-1978.webp',
-    'assets/naya-sayegh-1965.webp', 'assets/naya-rodinson-1967.webp',
-    'assets/naya-ivanov-beware-zionism-1969.webp',
-    'assets/naya-sychov-moscow-1972.webp',
-    'assets/naya-expansionists-krokodil-1973.webp',
-    'assets/naya-cherepanov-israeli-plan-1979.webp',
-    'assets/naya-efimovsky-zionism-racism-1976.webp'
-  ];
-  const chapters = ['I','II','III'];
   const main = document.querySelector('main');
   const header = document.querySelector('.site-header');
   const selectedEntrance = body.classList.contains('official-entrance');
@@ -73,22 +41,19 @@
   viewport.setAttribute('tabindex','0');
   const strip = document.createElement('div');
   strip.className = 'museum-rail-strip';
-  const counts = [0,0,0];
   const anchors = [];
-  for (const [era,href] of artworks) {
-    counts[era]++;
+  const artworkByLink = new Map();
+  for (const [href, label, artwork] of pages) {
     const a = document.createElement('a');
     a.className = 'museum-rail-image';
     a.href = href;
-    a.dataset.era = String(era);
-    a.dataset.ordinal = String(counts[era]);
-    a.title = chapters[era] + ' · ' + text.eras[era] + ' · ' + String(counts[era]).padStart(2,'0');
-    a.setAttribute('aria-label',a.title);
+    a.title = label;
+    a.setAttribute('aria-label', label);
+    artworkByLink.set(a, artwork);
     const point = document.createElement('span');
     point.className = 'museum-rail-dot';
     point.setAttribute('aria-hidden','true');
     a.append(point);
-    if (counts[era] === 1) a.classList.add('is-era-start');
     strip.append(a);
     anchors.push(a);
   }
@@ -111,25 +76,10 @@
   // Fixed timeline CSS is authoritative. No scroll-dependent pinning,
   // layout spacers or frame loops: faster, and stable on mobile Safari.
 
-  // Highlight the current archival object without a separate category menu.
-  const filename=location.pathname.split('/').pop()||'index.html';
-  const era=filename==='antijudaism.html'?0:filename==='antisemitism.html'?1:
-    ['exhibition.html','colonialism.html','apartheid.html','genocide.html'].includes(filename)?2:null;
-  if(era!==null){
-    const hash=decodeURIComponent(location.hash||'');
-    const index=anchors.findIndex(a=>a.dataset.era===String(era)&&
-      new URL(a.href,document.baseURI).pathname.endsWith('/'+filename)&&
-      (hash?new URL(a.href,document.baseURI).hash===hash:!new URL(a.href,document.baseURI).hash));
-    const selected=index>=0?index:anchors.findIndex(a=>a.dataset.era===String(era));
-    if(selected>=0){
-      anchors[selected].setAttribute('aria-current','location');
-      requestAnimationFrame(()=>{viewport.scrollLeft=Math.max(0,anchors[selected].offsetLeft-viewport.offsetLeft-95)});
-    }
-  }
+  // Keep the active stop tied to the page, including incoming chapter links.
+  const activePage = anchors.find(link => new URL(link.href).pathname === location.pathname);
+  activePage?.setAttribute('aria-current','page');
 
-  // A dot is the only persistent mark. Its chapter label appears on interaction.
-  // On a touchscreen, swiping to a dot reveals it; the first tap previews,
-  // and a second tap follows the original exhibition link.
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const preview = document.createElement('div');
@@ -144,25 +94,22 @@
   previewTitle.className = 'museum-rail-preview-title';
   preview.append(previewTitle);
   body.append(preview);
-  let chosen = null, hideTimer = 0, scrollFrame = 0;
-  let userScrolledTimeline = false;
-  let touchSelected = false;
+  let chosen = null, hideTimer = 0;
   const closePreview = () => {
     clearTimeout(hideTimer);
     chosen?.classList.remove('is-revealed');
-    chosen = null;touchSelected=false;
+    chosen = null;
     preview.classList.remove('is-open');
     preview.setAttribute('aria-hidden','true');
     rail.classList.remove('is-thread-active');
   };
-  const reveal = (link, fromTouch=false) => {
-    if (innerWidth <= 700 && !fromTouch) return;
+  const reveal = link => {
     if(!link)return;
     clearTimeout(hideTimer);
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
     const changed = chosen !== link;
-    chosen=link;touchSelected=fromTouch;
-    const art = previewArt[anchors.indexOf(link)];
+    chosen=link;
+    const art = artworkByLink.get(link);
     preview.classList.toggle('has-art', Boolean(art));
     if (art && previewImage.getAttribute('src') !== art) previewImage.src = art;
     previewImage.alt = art ? link.title : '';
@@ -190,59 +137,25 @@
     preview.classList.add('is-open');
     preview.setAttribute('aria-hidden','false');
   };
-  if(finePointer){
-    anchors.forEach(link=>{
-      link.addEventListener('pointerenter',()=>reveal(link));
-      link.addEventListener('pointerleave',()=>{
-        hideTimer=setTimeout(()=>{if(!preview.matches(':hover'))closePreview()},120);
-      });
-      link.addEventListener('focusin',()=>reveal(link));
-      link.addEventListener('focusout',()=>{hideTimer=setTimeout(closePreview,150)});
+  anchors.forEach(link => {
+    link.addEventListener('pointerenter', event => {
+      if (event.pointerType !== 'touch') reveal(link);
     });
-    preview.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
-    preview.addEventListener('pointerleave',closePreview);
-    // The expanded label remains a route to its original room.
-    preview.addEventListener('click',()=>{if(chosen)location.href=chosen.href});
-  }else{
-    // On tap, preview first and navigate on the second tap.
-    anchors.forEach(link=>{
-      // Keyboard and assistive-technology activation must navigate on the first
-      // attempt. The deliberate two-tap preview applies to touch only.
-      link.addEventListener('click',event=>{
-        if(event.detail===0 || event.pointerType==='mouse') return;
-        if(innerWidth <= 700 && !previewArt[anchors.indexOf(link)]) return;
-        if(chosen!==link || !touchSelected){
-          event.preventDefault();
-          reveal(link,true);
-        }
-      });
-      link.addEventListener('focusin',()=>reveal(link,false));
-      link.addEventListener('focusout',()=>{hideTimer=setTimeout(closePreview,150)});
+    link.addEventListener('pointerleave', () => {
+      hideTimer = setTimeout(() => {
+        if (!preview.matches(':hover')) closePreview();
+      }, 160);
     });
-    preview.addEventListener('click',()=>{if(chosen)location.href=chosen.href});
-    // Programmatic scrolling to the current chapter must not reveal art.
-    // Only deliberate touching, wheeling or keyboard navigation enables it.
-    viewport.addEventListener('pointerdown',()=>{userScrolledTimeline=true},{passive:true});
-    viewport.addEventListener('wheel',()=>{userScrolledTimeline=true},{passive:true});
-    viewport.addEventListener('keydown',()=>{userScrolledTimeline=true});
-    viewport.addEventListener('scroll',()=>{
-      if(!userScrolledTimeline)return;
-      if(scrollFrame)cancelAnimationFrame(scrollFrame);
-      scrollFrame=requestAnimationFrame(()=>{
-        scrollFrame=0;
-        if(!userScrolledTimeline)return;
-        const bounds=viewport.getBoundingClientRect(),middle=(bounds.left+bounds.right)/2;
-        let closest=null,distance=Infinity;
-        anchors.forEach(link=>{
-          const r=link.getBoundingClientRect();
-          if(r.right<bounds.left || r.left>bounds.right)return;
-          const d=Math.abs((r.left+r.right)/2-middle);
-          if(d<distance){distance=d;closest=link}
-        });
-        if(closest)reveal(closest,true);
-      });
-    },{passive:true});
-  }
+    link.addEventListener('focusin', () => reveal(link));
+    link.addEventListener('focusout', () => { hideTimer = setTimeout(closePreview, 160); });
+    link.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'touch') reveal(link);
+    }, { passive: true });
+    link.addEventListener('pointercancel', closePreview);
+  });
+  preview.addEventListener('pointerenter', () => clearTimeout(hideTimer));
+  preview.addEventListener('pointerleave', closePreview);
+  preview.addEventListener('click', () => { if (chosen) location.href = chosen.href; });
   addEventListener('scroll',()=>{
     if(!viewport.matches(':hover')&&!preview.matches(':hover'))closePreview();
   },{passive:true,capture:false});

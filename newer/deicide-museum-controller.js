@@ -6,7 +6,7 @@
   const section = document.getElementById('deicide-cinema');
 
     if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261103-scroll-back-v2&embedded=1';
+  const source = 'deicide-museum-film.html?edition=20261103-scroll-both-v1&embedded=1';
   const next = document.getElementById('libel-blood');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -59,17 +59,30 @@
     frame.setAttribute('referrerpolicy', 'same-origin');
     frame.setAttribute('loading', 'eager');
     overlay.appendChild(frame);
-    let upDistance=0;
-    overlay.addEventListener('wheel',event=>{
-      if(event.ctrlKey||event.deltaY>=0){upDistance=0;return}
-      event.preventDefault();upDistance-=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);
-      if(upDistance>45)close(false);
-    },{passive:false});
-    let touchY=null;
-    overlay.addEventListener('touchstart',event=>{touchY=event.touches.length===1?event.touches[0].clientY:null},{passive:true});
-    overlay.addEventListener('touchmove',event=>{
-      if(touchY!==null&&event.touches.length===1&&event.touches[0].clientY-touchY>55){event.preventDefault();touchY=null;close(false)}
-    },{passive:false});
+    const gestureReadyAt = performance.now() + 450;
+    let distance = 0, lastWheel = 0;
+    overlay.addEventListener('wheel', event => {
+      if (event.ctrlKey || !event.deltaY || performance.now() < gestureReadyAt) return;
+      event.preventDefault();
+      const now = performance.now();
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+      if (now - lastWheel > 280 || Math.sign(delta) !== Math.sign(distance)) distance = 0;
+      lastWheel = now;
+      distance += delta;
+      if (Math.abs(distance) > 45) close(distance > 0);
+    }, { passive: false });
+    let touchY = null;
+    overlay.addEventListener('touchstart', event => {
+      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+    }, { passive: true });
+    overlay.addEventListener('touchmove', event => {
+      if (touchY === null || event.touches.length !== 1) return;
+      const delta = touchY - event.touches[0].clientY;
+      if (Math.abs(delta) <= 55) return;
+      event.preventDefault();
+      touchY = null;
+      close(delta > 0);
+    }, { passive: false });
 
     let frameReady = false, arrivalFinished = false;
     const playWhenReady = () => {
@@ -122,13 +135,14 @@
     if (event.origin !== window.location.origin ||
         event.source !== overlay?.querySelector('iframe')?.contentWindow) return;
     if(event.data?.type==='deicide-film-scroll-back'){close(false);return}
-    if (event.data?.type === 'deicide-film-exit' ||
+    if (event.data?.type === 'deicide-film-scroll-forward' ||
+        event.data?.type === 'deicide-film-exit' ||
         event.data?.type === 'deicide-film-finished') close(true);
   });
 
   document.addEventListener('keydown', event => {
     if(opened&&['ArrowUp','PageUp'].includes(event.key)){event.preventDefault();close(false);return}
-    if (opened && event.key === 'Escape') {
+    if (opened && ['Escape','ArrowDown','PageDown'].includes(event.key)) {
       event.preventDefault();
       close(true);
     }
