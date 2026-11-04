@@ -136,6 +136,28 @@ body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art)::aft
   body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art) img,
   body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image .museum-rail-dot{transition:none!important}
 }
-body.gallery-polished.era-antisemitism main :is(.room-title-only h1,.source-room-subtitle,.support h2){
-  text-align:center!important;margin-inline:auto!important;width:100%!important;
+
+/* Center the exhibition's titles and section headings within their layout. */
+body.gallery-polished main.room :is(.room-intro > h1, .source-room-subtitle, .content-section > h2),
+body.gallery-polished main.aj-source-main :is(#aj-title, .src-eyebrow, .src-lead, .src-sub, .src-intro > h2, section > h2, footer > h2),
+body.home-selected main :is(.home-message-title, .home-overview-heading, .geo-understanding, .geo-about, .geo-explore, .home-message-actions, .geo-sources) > h2,
+body.dark main.sources-page--scholarly :is(h1, h2) {
+  text-align:center!important;
+  margin-inline:auto!important;
+  text-wrap:balance!important;
 }
+body.gallery-polished main.room .room-intro > h1 {
+  width:100%!important;
+  max-width:100%!important;
+  grid-column:1/-1!important;
+  justify-self:center!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+}
+body.gallery-polished main.room .room-intro > .prose {
+  grid-column:1/-1;
+  width:min(100%,68ch);
+  margin-inline:auto;
+}
+body.gallery-polished main.aj-source-main .src-redline {margin-inline:auto!important}
+body.gallery-polished main.room .source-room-subtitle {width:100%!important}
