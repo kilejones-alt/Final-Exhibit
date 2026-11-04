@@ -3,6 +3,9 @@ on:
   push:
     branches: [fix/nov04-timeline-native-navigation]
     paths: [newer/museum-global.js, .github/workflows/timeline-navigation-regression.yml]
+  pull_request:
+    branches: [main]
+    paths: [newer/museum-global.js, .github/workflows/timeline-navigation-regression.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -52,6 +55,12 @@ jobs:
                   await page.evaluate(()=>document.fonts.ready);
                   await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
                   assert.equal(await page.locator('.museum-rail-image').count(),7);
+                  assert(await page.locator('.museum-gallery-rail').evaluate(rail=>{
+                    const box=rail.getBoundingClientRect();
+                    const header=document.querySelector('.site-header').getBoundingClientRect();
+                    return Math.abs(box.left)<=1 && Math.abs(box.right-document.documentElement.clientWidth)<=1
+                      && Math.abs(box.top-header.bottom)<=2;
+                  }),'Timeline must span the viewport immediately below the header');
                   assert(await page.locator('.museum-rail-image').evaluateAll(es=>es.every(e=>{
                     const r=e.getBoundingClientRect();return r.left>=-1 && r.right<=innerWidth+1;
                   })),'Every stop must be visible without horizontal scrolling');
@@ -62,6 +71,10 @@ jobs:
                     await load();
                     await page.evaluate(()=>scrollTo({top:600,behavior:'instant'}));
                     await page.waitForTimeout(40);
+                    if(index===0) assert(await page.locator('.museum-gallery-rail').evaluate(rail=>{
+                      const header=document.querySelector('.site-header').getBoundingClientRect();
+                      return scrollY>0 && Math.abs(rail.getBoundingClientRect().top-header.bottom)<=2;
+                    }),'Timeline must stay pinned after scrolling');
                     const link=page.locator('.museum-rail-image').nth(index);
                     const destination=await link.evaluate(a=>a.href);
                     assert.equal(destination,base+lang+names[index]);
@@ -108,12 +121,22 @@ jobs:
                         const link=document.querySelectorAll('.museum-rail-image')[1];
                         const r=link.getBoundingClientRect();
                         const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('a');
-                        return {tag:preview.tagName,href:preview.href,duration:getComputedStyle(preview).transitionDuration,
+                        const style=getComputedStyle(preview);
+                        const line=getComputedStyle(rail.querySelector('.museum-rail-strip'),'::before');
+                        return {tag:preview.tagName,href:preview.href,duration:style.transitionDuration,
+                          diameter:parseFloat(style.width),height:parseFloat(style.height),radius:style.borderRadius,
+                          imageFit:getComputedStyle(preview.querySelector('img')).objectFit,
+                          lineInsets:[line.left,line.right],
                           previewZ:Number(getComputedStyle(preview).zIndex),railZ:Number(getComputedStyle(rail).zIndex),hit:hit?.href};
                       });
                       assert.equal(info.tag,'A');
                       assert.equal(info.href,base+lang+'antijudaism.html');
                       assert.equal(info.hit,info.href);
+                      assert.equal(info.diameter,info.height);
+                      assert(info.diameter<=168);
+                      assert.equal(info.radius,'50%');
+                      assert.equal(info.imageFit,'cover');
+                      assert.deepEqual(info.lineInsets,['0px','0px']);
                       assert(info.previewZ<info.railZ);
                       assert(info.duration.split(',').some(x=>x.trim()==='14s'));
                       await page.locator('.museum-rail-preview').evaluate(el=>el.style.setProperty('transition','none','important'));
