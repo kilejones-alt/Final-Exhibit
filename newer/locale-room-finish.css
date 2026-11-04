@@ -1,0 +1,12 @@
+/* Locale rooms: existing museum composition, original art and movement retained. */
+html[lang="he"] body{direction:rtl}
+html[lang="he"] :is(.room,.src-stage,.src-intro,.source-narrative,.aj-source-main,.sources-page){text-align:start}
+html[lang="he"] :is(.source-narrative,.prose,.aj-source-main) p{unicode-bidi:plaintext}
+html[lang="he"] .artifact-copy :is(.date,.object-credit){unicode-bidi:plaintext}
+html[lang="he"] :is(.object-caption-line,.art-open){direction:rtl}
+html[lang="he"] .room-nav{direction:rtl}
+html[lang="he"] .sources-page a[lang="en"]{unicode-bidi:isolate}
+@media(max-width:700px){
+ html:is([lang="ru"],[lang="he"]) :is(.source-narrative,.prose,.aj-source-main) p{overflow-wrap:break-word;hyphens:auto}
+ html:is([lang="ru"],[lang="he"]) .object-credit{font-size:13px;line-height:1.45}
+}
