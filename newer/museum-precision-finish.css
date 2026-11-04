@@ -28,21 +28,19 @@ body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image[aria-current
 body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image:is(:hover,:focus-visible) .museum-rail-dot {
   transform:translate3d(var(--thread-shift-x,0px),0,0) scale(1.85)!important;
 }
-/* Response is quick; the artwork retains its separate, gentle 5.5s camera motion. */
+/* Artwork starts at the dot; a gentle first half makes the growth legible. */
 body.museum-gallery-enabled .museum-rail-preview {
   background:rgba(5,5,6,.985)!important;
   border-color:rgba(230,220,226,.27)!important;
 }
-@media(min-width:701px) and (hover:hover) and (pointer:fine) {
-  body.museum-gallery-enabled .museum-rail-preview.has-art {
-    transition:transform .82s cubic-bezier(.16,.74,.22,1),opacity .35s ease,visibility .82s ease!important;
-  }
+body.museum-gallery-enabled .museum-rail-preview.has-art {
+  transition:none!important;
+}
+body.museum-gallery-enabled .museum-rail-preview.has-art.is-open {
+  transition:transform 10s cubic-bezier(.48,.14,.46,.88),opacity .8s ease-out!important;
 }
 @media(max-width:700px) {
-  body.museum-gallery-enabled .museum-rail-preview.has-art {
-    padding:10px!important;
-    transition:transform .72s cubic-bezier(.2,.7,.23,1),opacity .3s ease,visibility .72s ease!important;
-  }
+  body.museum-gallery-enabled .museum-rail-preview.has-art {padding:10px!important;}
   body.museum-gallery-enabled .museum-rail-preview.has-art .museum-rail-preview-title {
     font-size:10px!important;letter-spacing:.075em!important;
   }

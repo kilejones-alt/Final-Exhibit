@@ -1,12 +1,12 @@
-.home-selected .era-framework.diagram-directed{--diagram-paper:#f1edec;--diagram-line:rgba(233,228,231,.77);--diagram-current:#efb4c7;--diagram-ease:cubic-bezier(.19,.72,.25,1);position:relative;isolation:isolate;overflow:visible!important;filter:none!important;transform:none!important}
+.home-selected .era-framework.diagram-directed{--diagram-paper:#f1edec;--diagram-line:#f0edec;--diagram-current:#efb4c7;--diagram-ease:cubic-bezier(.19,.72,.25,1);position:relative;isolation:isolate;overflow:visible!important;filter:none!important;transform:none!important}
 .home-selected .era-framework.diagram-directed:hover{transform:none!important;filter:none!important}
 .home-selected .diagram-directed .framework-inner{opacity:1!important;clip-path:none!important;transform:none!important;overflow:visible!important;transition:none!important}
 .home-selected .diagram-directed .framework-main-title{line-height:1.11!important;padding:.1em .06em .08em!important;margin-top:0!important;overflow:visible!important;transform:none!important;filter:none!important;transition:none!important}
 .home-selected .diagram-directed .framework-branches{overflow:visible!important}
-.home-selected .diagram-directed .framework-base-branch,.home-selected .diagram-directed .framework-base-lower{stroke:var(--diagram-line)!important;stroke-width:1.85px!important;fill:none!important;stroke-linecap:round!important;vector-effect:non-scaling-stroke;stroke-dasharray:1!important;stroke-dashoffset:0;filter:none!important;transition:none!important}
-.home-selected .diagram-directed .framework-arrow-tip{stroke:var(--diagram-line)!important;fill:none!important;stroke-width:1.7px!important;stroke-linecap:round!important;stroke-linejoin:round!important;vector-effect:non-scaling-stroke;transition:none!important;opacity:1}
+.home-selected .diagram-directed .framework-base-branch,.home-selected .diagram-directed .framework-base-lower{stroke:var(--diagram-line)!important;stroke-width:var(--diagram-arrow-width)!important;fill:none!important;stroke-linecap:round!important;vector-effect:non-scaling-stroke;stroke-dasharray:1!important;stroke-dashoffset:0;filter:none!important;transition:none!important}
+.home-selected .diagram-directed .framework-arrow-tip{stroke:var(--diagram-line)!important;fill:none!important;stroke-width:var(--diagram-arrow-width)!important;stroke-linecap:round!important;stroke-linejoin:round!important;vector-effect:non-scaling-stroke;transition:none!important;opacity:1}
 .home-selected .diagram-directed :is(.chromatic-flow,.chromatic-flow-down,.museum-current-stroke){display:none!important;animation:none!important}
-.home-selected .diagram-directed .diagram-light-trace{display:block!important;stroke:var(--diagram-current)!important;stroke-width:3.25px!important;stroke-linecap:round!important;stroke-linejoin:round!important;fill:none!important;vector-effect:non-scaling-stroke;stroke-dasharray:16 84!important;stroke-dashoffset:100;opacity:0;filter:drop-shadow(0 0 5px rgba(235,140,171,.46));pointer-events:none;transition:none!important}
+.home-selected .diagram-directed .diagram-light-trace{display:block!important;stroke:var(--diagram-current)!important;stroke-width:var(--diagram-trace-width)!important;stroke-linecap:round!important;stroke-linejoin:round!important;fill:none!important;vector-effect:non-scaling-stroke;stroke-dasharray:16 84!important;stroke-dashoffset:100;opacity:0;filter:drop-shadow(0 0 5px rgba(235,140,171,.46));pointer-events:none;transition:none!important}
 .home-selected .diagram-directed .framework-main-title .chromatic-type{animation:none!important}
 .home-selected .diagram-directed .framework-era :is(strong,span),.home-selected .diagram-directed .framework-main-title .chromatic-type{background-image:none!important;background-position:initial!important;background-clip:border-box!important;-webkit-background-clip:border-box!important;-webkit-text-fill-color:var(--diagram-paper)!important;color:var(--diagram-paper)!important;text-shadow:none!important;filter:none;transition:none!important;animation:none!important}
 .home-selected .diagram-directed .framework-era{min-width:0;transform:none;filter:none}
@@ -109,4 +109,19 @@ html[lang="he"] body.home-selected .era-framework.diagram-directed :is(.framewor
   opacity:1!important;font-size:inherit!important;line-height:inherit!important;
   color:CanvasText!important;-webkit-text-fill-color:CanvasText!important;
  }
+}
+
+/* Give the arrows enough room to read as part of the figure. */
+body.home-selected .era-framework.diagram-directed{
+  --diagram-arrow-width:clamp(2.6px,.29vw,4.5px);
+  --diagram-trace-width:clamp(3.25px,.34vw,5.25px);
+}
+body.home-selected .era-framework.diagram-directed .framework-branches{
+  width:100%!important;
+  height:clamp(112px,15vw,208px)!important;
+}
+body.home-selected .era-framework.diagram-directed .framework-era svg{
+  width:clamp(34px,4vw,56px)!important;
+  height:clamp(72px,10vw,136px)!important;
+  margin-inline:auto!important;
 }
