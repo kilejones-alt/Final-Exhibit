@@ -6,7 +6,8 @@
   const section = document.getElementById('deicide-cinema');
 
     if (!section) return;
-  const source = 'deicide-museum-film.html?edition=20261103-scroll-back-v2&embedded=1';
+  const locale = ['ru','he'].includes(document.documentElement.lang) ? document.documentElement.lang + '/' : '';
+  const source = locale + 'deicide-museum-film.html?edition=20261103-scroll-back-v2&embedded=1';
   const next = document.getElementById('libel-blood');
   const siteAudio = document.getElementById('page-audio');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

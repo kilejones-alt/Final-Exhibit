@@ -79,7 +79,7 @@
     counts[era]++;
     const a = document.createElement('a');
     a.className = 'museum-rail-image';
-    a.href = href;
+    a.href = locale === 'en' ? href : locale + '/' + href;
     a.dataset.era = String(era);
     a.dataset.ordinal = String(counts[era]);
     a.title = chapters[era] + ' · ' + text.eras[era] + ' · ' + String(counts[era]).padStart(2,'0');
