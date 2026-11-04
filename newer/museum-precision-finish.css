@@ -163,14 +163,15 @@ body.gallery-polished main.aj-source-main .src-redline {margin-inline:auto!impor
 body.gallery-polished main.room .source-room-subtitle {width:100%!important}
 
 /* Keep entry titles legible while the rest of the page reveals on scroll. */
-body:is(.home-selected,.gallery-polished,.scholarly-sources) main h1[data-global-arrival] {
+body:is(.home-selected,.gallery-polished,.scholarly-sources) main h1:is([data-global-arrival],[data-museum-reveal]) {
   opacity:1!important;
   filter:none!important;
   transform:none!important;
 }
 
 /* Match the three era doors across the English, Russian, and Hebrew overviews. */
-body.home-selected .hero .triptych .door,
+body.home-selected:not(.geo-home) .hero .triptych .door,
+body.home-selected:not(.geo-home) .hero .triptych .door:is(:hover,:focus-visible),
 body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door,
 body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hover,:focus-visible) {
   background:transparent!important;
