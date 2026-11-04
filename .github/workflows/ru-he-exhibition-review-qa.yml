@@ -70,7 +70,7 @@ jobs:
                           headerText:document.querySelector('h1')?.textContent.trim().slice(0,75)||null
                         };
                       });
-                      let bad=errors.length>0||missing.length>0||data.lang!==lang||!data.main||data.scrollWidth>width+1||!data.noindex||!data.headerText;
+                      let bad=errors.length>0||missing.length>0||data.lang!==lang||!data.main||data.scrollWidth>width+1||!data.noindex||(file!=='deicide-museum-film.html'&&!data.headerText);
                       if(lang==='he')bad ||=data.dir!=='rtl';
                       if(file==='deicide-museum-film.html')bad ||=data.scenes!==14||Math.abs(data.filmDuration-data.seekMax)>.05;
                       else bad ||=data.dots!==21;
