@@ -201,3 +201,9 @@ body.scholarly-sources .sources-kicker {
 body.scholarly-sources .sources-page--scholarly > section {
   border-color:transparent;
 }
+
+@media (min-width:701px) {
+  body.gallery-polished.geo-home .hero.geo-doors .triptych {
+    align-items:stretch!important;
+  }
+}
