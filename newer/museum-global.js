@@ -16,14 +16,15 @@
   const text = strings[locale];
   // Each stop opens the top of one public gallery page.
   const overview = locale === 'en' ? 'entrance.html' : locale + '/entrance.html';
+  const roomPrefix = locale === 'en' ? '' : locale + '/';
   const pages = [
     [overview, text.heading, null],
-    ['antijudaism.html', text.eras[0], 'assets/antijudaism-1.jpg'],
-    ['antisemitism.html', text.eras[1], 'assets/antisemitism-1.jpg'],
-    ['exhibition.html', text.eras[2], 'assets/naya-nelyubin-un-1978.webp'],
-    ['colonialism.html', 'Colonialism', 'assets/naya-sayegh-1965.webp'],
-    ['apartheid.html', 'Apartheid and Racism Libels', 'assets/naya-efimovsky-zionism-racism-1976.webp'],
-    ['genocide.html', 'Genocide', null]
+    [roomPrefix+'antijudaism.html', text.eras[0], 'assets/antijudaism-1.jpg'],
+    [roomPrefix+'antisemitism.html', text.eras[1], 'assets/antisemitism-1.jpg'],
+    [roomPrefix+'exhibition.html', text.eras[2], 'assets/naya-nelyubin-un-1978.webp'],
+    [roomPrefix+'colonialism.html', 'Colonialism', 'assets/naya-sayegh-1965.webp'],
+    [roomPrefix+'apartheid.html', 'Apartheid and Racism Libels', 'assets/naya-efimovsky-zionism-racism-1976.webp'],
+    [roomPrefix+'genocide.html', 'Genocide', null]
   ];
   const main = document.querySelector('main');
   const header = document.querySelector('.site-header');
