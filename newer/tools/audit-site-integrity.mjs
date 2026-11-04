@@ -61,7 +61,12 @@ if (files.has(filmFile)) {
       total += scene.duration;
     }
     if (scenes.length !== 14) warnings.push('Deicide film scene count '+scenes.length+' (expected 14)');
-    if (Math.abs(total-138)>0.01) warnings.push('Deicide film duration '+total+'s (expected 138s)');
+    // The curated film is defined by its scene durations, not a legacy
+    // proposed duration. Check that the playback control agrees instead.
+    const slider = film.match(/<input\b[^>]*\bid=["']progress["'][^>]*>/i)?.[0];
+    const seekMax = Number(slider?.match(/\bmax=["']([0-9]+(?:\.[0-9]+)?)["']/i)?.[1]);
+    if (!slider || !Number.isFinite(seekMax) || Math.abs(total-seekMax)>0.05)
+      problems.push('Deicide film total '+total+'s does not match transport maximum '+(slider ? seekMax : 'missing')+'s');
   }
 }
 console.log(JSON.stringify({htmlFiles:htmlFiles.length,assetFiles:files.size,blankShells:reserved.length,problems,warnings},null,2));
