@@ -3,12 +3,15 @@ on:
   push:
     branches: [release/nov04-type-timeline-polish]
     paths: [.github/workflows/type-timeline-polish.yml]
+concurrency:
+  group: type-timeline-polish-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
   finish:
     if: github.ref == 'refs/heads/release/nov04-type-timeline-polish'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
