@@ -37,7 +37,7 @@ body.museum-gallery-enabled .museum-rail-preview.has-art {
   transition:none!important;
 }
 body.museum-gallery-enabled .museum-rail-preview.has-art.is-open {
-  transition:transform 10s cubic-bezier(.48,.14,.46,.88),opacity .8s ease-out!important;
+  transition:transform 14s cubic-bezier(.42,.14,.58,.86),opacity .8s ease-out!important;
 }
 @media(max-width:700px) {
   body.museum-gallery-enabled .museum-rail-preview.has-art {padding:10px!important;}
@@ -232,4 +232,28 @@ body.museum-gallery-enabled .museum-rail-preview .museum-rail-preview-title{
   white-space:normal!important;text-overflow:clip!important;
   overflow-wrap:anywhere;word-break:normal;min-width:0;
   line-height:1.4!important;text-align:start!important;
+}
+
+/* Header correction: center the existing music note and language links equally.
+   Keep their 44px tap targets, plain appearance and original audio behavior. */
+body.dark.museum-gallery-enabled header.site-header .header-pills > .header-pill{
+  box-sizing:border-box!important;
+  min-width:44px!important;
+  height:44px!important;min-height:44px!important;max-height:none!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+}
+body.dark.museum-gallery-enabled header.site-header .header-pills > .audio-toggle{
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  font-family:Arial,sans-serif!important;
+  font-size:16px!important;
+  line-height:1!important;
+}
+body.dark.museum-gallery-enabled header.site-header .header-pills > .audio-toggle > span{
+  display:block;
+  line-height:1;
+  pointer-events:none;
 }
