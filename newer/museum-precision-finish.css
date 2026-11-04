@@ -81,28 +81,28 @@ body:not(.official-entrance) .theater {
 }
 
 /* Keep the masthead and timeline visually joined at every browser width. */
-body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header{
+body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header{
   display:flex!important;flex-wrap:nowrap!important;justify-content:space-between!important;
   align-items:center!important;gap:clamp(6px,2vw,24px)!important;
-  grid-template-columns:none!important;background:#030304!important;
+  grid-template-columns:none!important;background:#030304!important;direction:ltr;
 }
-body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .brand{
+body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header .brand{
   display:flex!important;flex:0 1 auto!important;min-width:0!important;margin:0!important;
 }
-body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .brand img{
+body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header .brand img{
   display:block!important;width:clamp(94px,29vw,250px)!important;max-width:100%!important;height:auto!important;
 }
-body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .header-pills{
+body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header .header-pills{
   display:flex!important;flex:0 0 auto!important;flex-wrap:nowrap!important;align-items:center!important;
   align-self:center!important;justify-content:flex-end!important;margin:0 0 0 auto!important;position:static!important;
 }
-body:is(.gallery-polished,.home-selected).museum-gallery-enabled .museum-gallery-rail{
+body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .museum-gallery-rail{
   top:calc(var(--museum-header-h) - 2px)!important;background:#030304!important;
 }
 @media(max-width:480px){
-  body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header{padding-inline:clamp(8px,2.7vw,16px)!important}
-  body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .header-pills{gap:4px!important}
-  body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .header-pills>.header-pill{
+  body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header{padding-inline:clamp(8px,2.7vw,16px)!important}
+  body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header .header-pills{gap:4px!important}
+  body:is(.gallery-polished,.home-selected,.scholarly-sources).museum-gallery-enabled .site-header .header-pills>.header-pill{
     flex:0 0 auto!important;width:auto!important;min-width:36px!important;max-width:none!important;padding-inline:7px!important;
   }
 }
@@ -161,3 +161,40 @@ body.gallery-polished main.room .room-intro > .prose {
 }
 body.gallery-polished main.aj-source-main .src-redline {margin-inline:auto!important}
 body.gallery-polished main.room .source-room-subtitle {width:100%!important}
+
+/* Keep entry titles legible while the rest of the page reveals on scroll. */
+body:is(.home-selected,.gallery-polished,.scholarly-sources) main h1[data-global-arrival] {
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+}
+
+/* Match the three era doors across the English, Russian, and Hebrew overviews. */
+body.home-selected .hero .triptych .door,
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door,
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hover,:focus-visible) {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+body.home-selected .hero .triptych .door .door-art,
+body.home-selected .hero .triptych .door .door-art img {
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
+body.home-selected .hero .triptych .door:focus-visible {
+  outline:2px solid #f1edec;
+  outline-offset:4px;
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  body.home-selected .hero .triptych .door .door-art img {
+    transition:transform 5.5s cubic-bezier(.38,.14,.36,1), filter 2s ease!important;
+  }
+}
+body.scholarly-sources .sources-kicker {
+  text-align:center;
+}
+body.scholarly-sources .sources-page--scholarly > section {
+  border-color:transparent;
+}
