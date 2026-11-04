@@ -79,3 +79,63 @@ body:not(.official-entrance) .theater {
     padding-bottom:12px!important;
   }
 }
+
+/* Keep the masthead and timeline visually joined at every browser width. */
+body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header{
+  display:flex!important;flex-wrap:nowrap!important;justify-content:space-between!important;
+  align-items:center!important;gap:clamp(6px,2vw,24px)!important;
+  grid-template-columns:none!important;background:#030304!important;
+}
+body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .brand{
+  display:flex!important;flex:0 1 auto!important;min-width:0!important;margin:0!important;
+}
+body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .brand img{
+  display:block!important;width:clamp(94px,29vw,250px)!important;max-width:100%!important;height:auto!important;
+}
+body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .header-pills{
+  display:flex!important;flex:0 0 auto!important;flex-wrap:nowrap!important;align-items:center!important;
+  align-self:center!important;justify-content:flex-end!important;margin:0 0 0 auto!important;position:static!important;
+}
+body:is(.gallery-polished,.home-selected).museum-gallery-enabled .museum-gallery-rail{
+  top:calc(var(--museum-header-h) - 2px)!important;background:#030304!important;
+}
+@media(max-width:480px){
+  body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header{padding-inline:clamp(8px,2.7vw,16px)!important}
+  body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .header-pills{gap:4px!important}
+  body:is(.gallery-polished,.home-selected).museum-gallery-enabled .site-header .header-pills>.header-pill{
+    flex:0 0 auto!important;width:auto!important;min-width:36px!important;max-width:none!important;padding-inline:7px!important;
+  }
+}
+/* Artwork sits directly on the page. Keep the keyboard focus ring on controls. */
+body.gallery-polished main :is(.artifact,.art-open,.museum-global-artframe,.gallery-object-column,.door-art),
+body.museum-gallery-enabled .museum-rail-preview.has-art{
+  border-color:transparent!important;box-shadow:none!important;background:transparent!important;
+}
+body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art) img{
+  border:0!important;box-shadow:none!important;outline:0!important;
+}
+body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art)::before,
+body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art)::after{
+  border-color:transparent!important;box-shadow:none!important;
+}
+@media(hover:hover) and (pointer:fine){
+  body.gallery-polished main :is(.artifact,.art-open,.museum-global-artframe,.door-art,.src-stage,.libels a):hover,
+  body.home-selected .hero .triptych .door:is(:hover,:focus-visible),
+  body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hover,:focus-visible),
+  body:is(.gallery-polished,.home-selected) .site-header .header-pills>.header-pill:hover{
+    transform:none!important;translate:none!important;
+  }
+  body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art) img{
+    transition:transform 5.5s cubic-bezier(.38,.14,.36,1),filter 2s ease!important;
+  }
+  body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image .museum-rail-dot{
+    transition:transform 1s ease,opacity .8s ease!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.gallery-polished main :is(.art-open,.museum-global-artframe,.door-art) img,
+  body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image .museum-rail-dot{transition:none!important}
+}
+body.gallery-polished.era-antisemitism main :is(.room-title-only h1,.source-room-subtitle,.support h2){
+  text-align:center!important;margin-inline:auto!important;width:100%!important;
+}
