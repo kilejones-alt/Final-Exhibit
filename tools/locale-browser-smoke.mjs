@@ -12,7 +12,7 @@ for(const locale of ['he','ru']) {
   const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
   const errors=[];
   page.on('pageerror',e=>errors.push(String(e)));
-  await page.goto('http://127.0.0.1:8767/'+locale+'/entrance.html',{waitUntil:'networkidle'});
+  await page.goto('http://127.0.0.1:8767/newer/'+locale+'/entrance.html',{waitUntil:'networkidle'});
   const initial=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth,lang:document.documentElement.lang,dir:document.documentElement.dir,doors:document.querySelectorAll('.triptych .door').length,heading:document.querySelector('h1')?.innerText}));
   const framework=page.locator('.era-framework');
   if(await framework.count())await framework.scrollIntoViewIfNeeded();

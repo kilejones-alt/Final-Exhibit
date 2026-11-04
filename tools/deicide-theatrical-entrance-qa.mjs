@@ -14,8 +14,7 @@ try {
     const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'no-preference'});
     const errors=[];
     page.on('pageerror',e=>errors.push(String(e)));
-    await page.goto('http://127.0.0.1:8768/antijudaism.html',{waitUntil:'domcontentloaded'});
-    await page.locator('#deicide-film-watch').scrollIntoViewIfNeeded();
+    await page.goto('http://127.0.0.1:8768/newer/antijudaism.html#deicide-cinema',{waitUntil:'domcontentloaded'});
     await page.waitForSelector('.deicide-film-host iframe',{timeout:10000});
     const host=page.locator('.deicide-film-host');
     const film=page.frameLocator('.deicide-film-host iframe');
