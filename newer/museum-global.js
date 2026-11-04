@@ -83,7 +83,34 @@
 
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  const preview = document.createElement('div');
+  // Keep the native dot targets above the growing preview; broaden touch hit areas.
+  const navigationStyle = document.createElement('style');
+  navigationStyle.textContent = `/* Keep timeline navigation independent of artwork previews. */
+body.museum-gallery-enabled #museum-gallery-rail .museum-rail-strip{
+  width:100%!important;min-width:0!important;
+  justify-content:space-between!important;gap:0!important;
+}
+body.museum-gallery-enabled a.museum-rail-preview{
+  text-decoration:none!important;
+  z-index:964!important;
+}
+body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed .museum-rail-dot{
+  opacity:.9!important;
+}
+@media (pointer:coarse){
+  body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image{
+    width:clamp(36px,11vw,44px)!important;
+    min-width:clamp(36px,11vw,44px)!important;
+    flex:0 0 clamp(36px,11vw,44px)!important;
+  }
+  body.museum-gallery-enabled .museum-rail-preview{
+    pointer-events:none!important;
+  }
+}`;
+  document.head.append(navigationStyle);
+  const preview = document.createElement('a');
+  // A preview has its own native destination, independent of transient hover state.
+  preview.tabIndex = -1;
   preview.className = 'museum-rail-preview';
   preview.setAttribute('aria-hidden','true');
   const previewImage = document.createElement('img');
@@ -106,11 +133,15 @@
   };
   const reveal = link => {
     if(!link)return;
+    const art = artworkByLink.get(link);
+    // Text-only stops remain ordinary links; do not create empty-looking cards.
+    if (!art) { closePreview(); return; }
     clearTimeout(hideTimer);
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
     const changed = chosen !== link;
     chosen=link;
-    const art = artworkByLink.get(link);
+    preview.href = link.href;
+    preview.setAttribute('aria-label', link.title);
     preview.classList.toggle('has-art', Boolean(art));
     if (art && previewImage.getAttribute('src') !== art) previewImage.src = art;
     previewImage.alt = art ? link.title : '';
@@ -155,16 +186,32 @@
         if (!preview.matches(':hover')) closePreview();
       }, 160);
     });
-    link.addEventListener('focusin', () => reveal(link));
+    link.addEventListener('focusin', () => {
+      // Touch focus must not place a growing overlay between touch-down and click.
+      if (link.matches(':focus-visible')) reveal(link);
+    });
     link.addEventListener('focusout', () => { hideTimer = setTimeout(closePreview, 160); });
     link.addEventListener('pointerdown', event => {
-      if (event.pointerType === 'touch') reveal(link);
+      if (event.pointerType === 'touch') closePreview();
     }, { passive: true });
     link.addEventListener('pointercancel', closePreview);
   });
   preview.addEventListener('pointerenter', () => clearTimeout(hideTimer));
   preview.addEventListener('pointerleave', closePreview);
-  preview.addEventListener('click', () => { if (chosen) location.href = chosen.href; });
+  // Native links preserve first-tap navigation, keyboard use and modified clicks.
+  // Re-selecting the current page returns to its start instead of seeming inert.
+  const returnToPageStart = event => {
+    if(event.defaultPrevented || event.button!==0 || event.metaKey ||
+       event.ctrlKey || event.shiftKey || event.altKey) return;
+    const destination=new URL(event.currentTarget.href,document.baseURI);
+    if(destination.origin!==location.origin || destination.pathname!==location.pathname ||
+       destination.search!==location.search || destination.hash) return;
+    event.preventDefault();
+    closePreview();
+    window.scrollTo({top:0,left:0,behavior:reduced?'instant':'smooth'});
+  };
+  anchors.forEach(link=>link.addEventListener('click',returnToPageStart));
+  preview.addEventListener('click',returnToPageStart);
   addEventListener('scroll',()=>{
     if(!viewport.matches(':hover')&&!preview.matches(':hover'))closePreview();
   },{passive:true,capture:false});
