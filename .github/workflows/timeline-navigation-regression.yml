@@ -1,0 +1,136 @@
+name: Timeline single-tap navigation regression
+on:
+  push:
+    branches: [fix/nov04-timeline-native-navigation]
+    paths: [newer/museum-global.js, .github/workflows/timeline-navigation-regression.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  navigation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Check navigation source
+        run: node --check newer/museum-global.js
+      - name: Install browser engines
+        run: |
+          npm install --ignore-scripts --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium webkit
+      - name: Follow every timeline link and test preview click targets
+        run: |
+          node --input-type=module <<'TEST'
+          import { chromium, webkit } from 'playwright';
+          import { spawn } from 'node:child_process';
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+          const server=spawn('python3',['-m','http.server','8879','--bind','127.0.0.1'],{stdio:'ignore'});
+          await new Promise(r=>setTimeout(r,1000));
+          const base='http://127.0.0.1:8879/newer/';
+          const names=['entrance.html','antijudaism.html','antisemitism.html','exhibition.html','colonialism.html','apartheid.html','genocide.html'];
+          const report=[];
+          fs.mkdirSync('qa/timeline-navigation',{recursive:true});
+          try {
+            for(const [engineName,engine] of [['chromium',chromium],['webkit',webkit]]) {
+              const browser=await engine.launch();
+              for(const lang of ['', 'ru/', 'he/']) for(const mobile of [true,false]) {
+                const context=await browser.newContext({viewport:{width:mobile?390:1440,height:844},hasTouch:mobile,isMobile:mobile});
+                const page=await context.newPage();
+                const errors=[];
+                page.on('pageerror',e=>errors.push(String(e)));
+                const home=base+lang+'genocide.html';
+                const load=async()=>{
+                  const response=await page.goto(home,{waitUntil:'domcontentloaded'});
+                  assert.equal(response.status(),200);
+                  await page.waitForSelector('.museum-rail-image');
+                  assert.equal(await page.locator('.museum-rail-image').count(),7);
+                };
+                for(let index=0;index<7;index++) {
+                  let failure=null;
+                  try {
+                    await load();
+                    await page.evaluate(()=>scrollTo({top:600,behavior:'instant'}));
+                    const link=page.locator('.museum-rail-image').nth(index);
+                    const destination=await link.evaluate(a=>a.href);
+                    assert.equal(destination,base+lang+names[index]);
+                    const bounds=await link.boundingBox();
+                    const x=bounds.x+bounds.width/2,y=bounds.y+bounds.height/2;
+                    if(mobile) await page.touchscreen.tap(x,y); else await page.mouse.click(x,y);
+                    if(index===6) {
+                      await page.waitForFunction(()=>scrollY<2,{},{timeout:3500});
+                      assert.equal(page.url(),home);
+                    } else {
+                      await page.waitForURL(destination,{timeout:5000,waitUntil:'domcontentloaded'});
+                      const response=await context.request.get(destination);
+                      assert.equal(response.status(),200);
+                    }
+                  } catch(e) { failure=String(e); }
+                  report.push({engine:engineName,lang:lang||'en/',mobile,test:'single-activation',index,passed:!failure,failure});
+                  console.log(engineName,lang||'en',mobile?'phone':'desktop',index,failure||'PASS');
+                }
+                for(const test of ['keyboard','preview-link','no-empty-cards']) {
+                  let failure=null;
+                  try {
+                    await load();
+                    if(test==='keyboard') {
+                      await page.locator('.museum-rail-image').nth(2).focus();
+                      await page.keyboard.press('Enter');
+                      await page.waitForURL(base+lang+'antisemitism.html',{timeout:5000,waitUntil:'domcontentloaded'});
+                    } else if(test==='preview-link') {
+                      const link=page.locator('.museum-rail-image').nth(1);
+                      await link.focus();
+                      const info=await page.evaluate(()=>{
+                        const preview=document.querySelector('.museum-rail-preview');
+                        const rail=document.querySelector('.museum-gallery-rail');
+                        const link=document.querySelectorAll('.museum-rail-image')[1];
+                        const r=link.getBoundingClientRect();
+                        const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest('a');
+                        return {tag:preview.tagName,href:preview.href,duration:getComputedStyle(preview).transitionDuration,
+                          previewZ:Number(getComputedStyle(preview).zIndex),railZ:Number(getComputedStyle(rail).zIndex),hit:hit?.href};
+                      });
+                      assert.equal(info.tag,'A');
+                      assert.equal(info.href,base+lang+'antijudaism.html');
+                      assert.equal(info.hit,info.href);
+                      assert(info.previewZ<info.railZ);
+                      assert(info.duration.split(',').some(x=>x.trim()==='14s'));
+                      // Finish only this test's transition so a real click can follow the preview link.
+                      await page.locator('.museum-rail-preview').evaluate(el=>el.style.setProperty('transition','none','important'));
+                      await page.waitForTimeout(40);
+                      const box=await page.locator('.museum-rail-preview').boundingBox();
+                      if(mobile) await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
+                      else await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
+                      await page.waitForURL(base+lang+'antijudaism.html',{timeout:5000,waitUntil:'domcontentloaded'});
+                    } else {
+                      for(const index of [0,6]) {
+                        await page.locator('.museum-rail-image').nth(index).focus();
+                        assert.equal(await page.locator('.museum-rail-preview.is-open').count(),0);
+                      }
+                    }
+                  } catch(e) { failure=String(e); }
+                  report.push({engine:engineName,lang:lang||'en/',mobile,test,passed:!failure,failure});
+                  console.log(engineName,lang||'en',mobile?'phone':'desktop',test,failure||'PASS');
+                }
+                if(errors.length)report.push({engine:engineName,lang,mobile,test:'javascript-errors',passed:false,failure:errors});
+                await context.close();
+              }
+              await browser.close();
+            }
+          } finally { server.kill(); }
+          fs.writeFileSync('qa/timeline-navigation/results.json',JSON.stringify(report,null,2));
+          const failed=report.filter(r=>!r.passed);
+          console.log('RESULT',JSON.stringify({total:report.length,passed:report.length-failed.length,failed:failed.length}));
+          if(failed.length)process.exitCode=1;
+          TEST
+      - name: Save click-navigation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: timeline-navigation-evidence
+          path: qa/timeline-navigation
+          retention-days: 7
