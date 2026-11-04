@@ -238,10 +238,10 @@ body.gallery-polished .museum-global-artframe:is(:hover,:focus-within) img {
 
 @media (max-width:460px) {
   html[lang="ru"] body.home-selected .home-message.content-section {
-    padding-inline:clamp(12px,3.6vw,16px)!important;
+    padding-inline:12px!important;
   }
   html[lang="ru"] body.home-selected .home-message-copy p {
-    font:400 16px/1.58 Arial,sans-serif!important;
+    font:400 15.5px/1.58 Arial,sans-serif!important;
     letter-spacing:normal!important;
     text-wrap:wrap!important;
   }
