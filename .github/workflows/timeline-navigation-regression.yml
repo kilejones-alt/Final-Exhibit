@@ -49,18 +49,25 @@ jobs:
                   const response=await page.goto(home,{waitUntil:'domcontentloaded'});
                   assert.equal(response.status(),200);
                   await page.waitForSelector('.museum-rail-image');
+                  await page.evaluate(()=>document.fonts.ready);
+                  await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
                   assert.equal(await page.locator('.museum-rail-image').count(),7);
+                  assert(await page.locator('.museum-rail-image').evaluateAll(es=>es.every(e=>{
+                    const r=e.getBoundingClientRect();return r.left>=-1 && r.right<=innerWidth+1;
+                  })),'Every stop must be visible without horizontal scrolling');
                 };
                 for(let index=0;index<7;index++) {
                   let failure=null;
                   try {
                     await load();
                     await page.evaluate(()=>scrollTo({top:600,behavior:'instant'}));
+                    await page.waitForTimeout(40);
                     const link=page.locator('.museum-rail-image').nth(index);
                     const destination=await link.evaluate(a=>a.href);
                     assert.equal(destination,base+lang+names[index]);
                     const bounds=await link.boundingBox();
                     const x=bounds.x+bounds.width/2,y=bounds.y+bounds.height/2;
+                    assert(x>=0 && x<page.viewportSize().width,'Tap point outside viewport');
                     if(mobile) await page.touchscreen.tap(x,y); else await page.mouse.click(x,y);
                     if(index===6) {
                       await page.waitForFunction(()=>scrollY<2,{},{timeout:3500});
@@ -74,7 +81,8 @@ jobs:
                   report.push({engine:engineName,lang:lang||'en/',mobile,test:'single-activation',index,passed:!failure,failure});
                   console.log(engineName,lang||'en',mobile?'phone':'desktop',index,failure||'PASS');
                 }
-                for(const test of ['keyboard','preview-link','no-empty-cards']) {
+                const tests=['keyboard',mobile?'touch-direct-no-overlay':'preview-link','no-empty-cards','narrow-bounds'];
+                for(const test of tests) {
                   let failure=null;
                   try {
                     await load();
@@ -82,9 +90,18 @@ jobs:
                       await page.locator('.museum-rail-image').nth(2).focus();
                       await page.keyboard.press('Enter');
                       await page.waitForURL(base+lang+'antisemitism.html',{timeout:5000,waitUntil:'domcontentloaded'});
-                    } else if(test==='preview-link') {
+                    } else if(test==='touch-direct-no-overlay') {
                       const link=page.locator('.museum-rail-image').nth(1);
                       await link.focus();
+                      await link.dispatchEvent('pointerdown',{pointerType:'touch',bubbles:true});
+                      assert.equal(await page.locator('.museum-rail-preview.is-open').count(),0);
+                      assert.equal(await page.locator('.museum-rail-preview').evaluate(e=>getComputedStyle(e).pointerEvents),'none');
+                      const box=await link.boundingBox();
+                      await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
+                      await page.waitForURL(base+lang+'antijudaism.html',{timeout:5000,waitUntil:'domcontentloaded'});
+                    } else if(test==='preview-link') {
+                      const link=page.locator('.museum-rail-image').nth(1);
+                      await link.hover();
                       const info=await page.evaluate(()=>{
                         const preview=document.querySelector('.museum-rail-preview');
                         const rail=document.querySelector('.museum-gallery-rail');
@@ -99,13 +116,23 @@ jobs:
                       assert.equal(info.hit,info.href);
                       assert(info.previewZ<info.railZ);
                       assert(info.duration.split(',').some(x=>x.trim()==='14s'));
-                      // Finish only this test's transition so a real click can follow the preview link.
                       await page.locator('.museum-rail-preview').evaluate(el=>el.style.setProperty('transition','none','important'));
                       await page.waitForTimeout(40);
                       const box=await page.locator('.museum-rail-preview').boundingBox();
-                      if(mobile) await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
-                      else await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
+                      await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
                       await page.waitForURL(base+lang+'antijudaism.html',{timeout:5000,waitUntil:'domcontentloaded'});
+                    } else if(test==='narrow-bounds') {
+                      await page.setViewportSize({width:320,height:640});
+                      await page.waitForTimeout(80);
+                      const bounds=await page.locator('.museum-rail-image').evaluateAll(es=>es.map(e=>{
+                        const r=e.getBoundingClientRect();return [r.left,r.right,r.top,r.bottom];
+                      }));
+                      assert(bounds.every(r=>r[0]>=-1 && r[1]<=321),'All seven dots must fit at 320px');
+                      const last=page.locator('.museum-rail-image').nth(5),rect=await last.boundingBox();
+                      if(mobile)await page.touchscreen.tap(rect.x+rect.width/2,rect.y+rect.height/2);
+                      else await page.mouse.click(rect.x+rect.width/2,rect.y+rect.height/2);
+                      await page.waitForURL(base+lang+'apartheid.html',{timeout:5000,waitUntil:'domcontentloaded'});
+                      await page.setViewportSize({width:mobile?390:1440,height:844});
                     } else {
                       for(const index of [0,6]) {
                         await page.locator('.museum-rail-image').nth(index).focus();
