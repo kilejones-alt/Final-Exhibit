@@ -222,3 +222,16 @@ body.gallery-polished .museum-global-artframe:is(:hover,:focus-within) img {
     padding-inline:6px!important;
   }
 }
+
+/* Keep the small gallery trims on browsers without object-view-box. */
+@supports not (object-view-box: inset(1%)) {
+  body.gallery-polished .art-open img[src$="/naya-efimovsky-zionism-racism-1976.webp"] {
+    clip-path:inset(1.2% 4.25% 3.35% 1.55%);
+  }
+  body.gallery-polished .art-open img[src$="/naya-sychov-moscow-1972.webp"] {
+    clip-path:inset(.25% .2% .65% .2%);
+  }
+  body.gallery-polished main.aj-source-main #libel-blood .aj-object img {
+    clip-path:inset(0 3.8%);
+  }
+}

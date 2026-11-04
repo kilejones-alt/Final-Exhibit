@@ -68,7 +68,7 @@ async function one(name,width){
   const interlude=await page.evaluate(()=>({
     title:document.querySelector('#title').textContent,
     classOn:document.querySelector('#theater').classList.contains('is-typographic'),
-    displayed:getComputedStyle(document.querySelector('#interlude')).display,
+    art:[...document.querySelectorAll('.image.visible')].at(-1)?.src,
     quote:document.querySelector('.interlude-copy').textContent
   }));
   if(name==='webkit'&&width===390){
@@ -103,5 +103,5 @@ console.log('FILM_REPORT '+JSON.stringify(report));
 const failures=report.filter(r=>r.errors.length||r.opening.scrollWidth>r.width||r.opening.frameWidth<r.width*.80||r.settled.frameWidth<r.width*.99||r.settled.opacity<.98||!r.settled.artVisible||!r.opening.imageLoaded||Math.abs(r.pauseStart-r.pauseEnd)>.15||
  !r.jump.title.includes('JUSTIN MARTYR')||!r.jump.art?.includes('deicide_carousel_07')||
  Math.abs(r.music.time-r.before)>1.8||!r.music.paused||r.music.source!==''||r.music.volume!==0||
- !r.interlude.classOn||r.interlude.displayed==='none'||!r.credits.classOn||!r.credits.loaded||r.credits.copyDisplay!=='none');
+ !r.interlude.classOn||!r.interlude.art?.includes('deicide_carousel_09')||!r.credits.classOn||!r.credits.loaded||!r.credits.image?.includes('deicide_carousel_14'));
 if(failures.length){console.error('FILM_FAIL '+JSON.stringify(failures));process.exitCode=1}

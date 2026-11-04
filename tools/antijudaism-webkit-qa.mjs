@@ -13,13 +13,13 @@ try{
   const page=await browser.newPage({viewport:{width,height:844},isMobile:mobile,hasTouch:mobile,deviceScaleFactor:mobile?2:1,reducedMotion:'reduce'});
   const errors=[];page.on('pageerror',x=>errors.push(String(x)));
   page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
-  await page.goto('http://127.0.0.1:8771/antijudaism.html',{waitUntil:'domcontentloaded',timeout:30000});
+  await page.goto('http://127.0.0.1:8771/newer/antijudaism.html',{waitUntil:'domcontentloaded',timeout:30000});
   await page.evaluate(()=>document.fonts.ready);
   const snap=await page.evaluate(()=>{
-   const els=['.site-header','.site-header .brand','.site-header nav','.header-pills','.aj-hero h1','.aj-hero .aj-era-name','.aj-hero-art','.aj-intro-continuation','.aj-cycle-list','.aj-faq','.aj-next'];
+   const els=['.site-header','.site-header .brand','.header-pills','#aj-title','.src-hero','.src-editorial-row','#libels','#cycle','#faq','.exhibit-footer'];
    return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,
     visibleHeading:document.querySelector('h1')?.innerText||'',
-    sections:document.querySelectorAll('.aj-libel').length,steps:document.querySelectorAll('.aj-cycle-list li').length,
+    sections:document.querySelectorAll('#libels > .src-artifact').length,steps:document.querySelectorAll('#cycle .src-stage').length,
     bounds:els.map(selector=>{let el=document.querySelector(selector),r=el?.getBoundingClientRect();return {selector,display:el?getComputedStyle(el).display:null,left:r?.left,right:r?.right,width:r?.width}})};
   });
   await page.screenshot({path:`qa/generated/aj-safari-${width}.png`});
