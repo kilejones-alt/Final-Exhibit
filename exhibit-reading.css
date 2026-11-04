@@ -268,3 +268,20 @@ body.gallery-polished .museum-global-artframe:is(:hover,:focus-within) img {
     hyphens:auto;
   }
 }
+
+/* Keep the three plain controls together with separate tap targets. */
+body.dark.museum-gallery-enabled header.site-header .header-pills {
+  gap:2px!important;
+}
+body.dark.museum-gallery-enabled header.site-header .header-pills > .header-pill {
+  box-sizing:border-box;
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:44px!important;
+  max-width:none!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0 6px!important;
+}
