@@ -13,7 +13,7 @@ async function one(name,width){
   const page=await browser.newPage({viewport:{width,height:mobile?844:900},deviceScaleFactor:mobile?2:1,isMobile:mobile,hasTouch:mobile,reducedMotion:'no-preference'});
   const errors=[];
   page.on('pageerror',e=>errors.push(String(e)));
-  await page.goto('http://127.0.0.1:8777/deicide-museum-film.html',{waitUntil:'domcontentloaded'});
+  await page.goto('http://127.0.0.1:8777/newer/deicide-museum-film.html',{waitUntil:'domcontentloaded'});
   await page.locator('#theater.open').waitFor();
   await sleep(1050);
   const opening=await page.evaluate(()=>({
@@ -36,11 +36,11 @@ async function one(name,width){
     const b=await page.screenshot({type:'jpeg',quality:67});const str=b.toString('base64');
     console.log('FILM_SETTLED_BEGIN');for(let i=0;i<str.length;i+=3000)console.log('FILM_SETTLED_JPG '+str.slice(i,i+3000));console.log('FILM_SETTLED_END');
   }
-  await page.locator('#pause').click();
+  await page.keyboard.press('Space');
   const pauseStart=await page.evaluate(()=>time);
   await sleep(500);
   const pauseEnd=await page.evaluate(()=>time);
-  await page.locator('#pause').click();
+  await page.keyboard.press('Space');
   await page.locator('#progress').evaluate(el=>{
    el.value=String(offsets[6]+.2);
    el.dispatchEvent(new Event('change',{bubbles:true}));
@@ -52,14 +52,14 @@ async function one(name,width){
     counter:document.querySelector('#hud-counter').textContent
   }));
   const before=jump.time;
-  await page.locator('#narrate').click();
+  
   await sleep(600);
   const music=await page.evaluate(()=>({
     time,playing,sounding,paused:document.querySelector('#voice').paused,
     source:document.querySelector('#voice').currentSrc,
     volume:document.querySelector('#voice').volume
   }));
-  await page.locator('#narrate').click();
+  
   await page.locator('#progress').evaluate(el=>{
    el.value=String(offsets[8]+.2);
    el.dispatchEvent(new Event('change',{bubbles:true}));
@@ -101,7 +101,7 @@ try{
 fs.writeFileSync('qa/generated/deicide-master-report.json',JSON.stringify(report,null,2));
 console.log('FILM_REPORT '+JSON.stringify(report));
 const failures=report.filter(r=>r.errors.length||r.opening.scrollWidth>r.width||r.opening.frameWidth<r.width*.80||r.settled.frameWidth<r.width*.99||r.settled.opacity<.98||!r.settled.artVisible||!r.opening.imageLoaded||Math.abs(r.pauseStart-r.pauseEnd)>.15||
- !r.jump.title.includes('JUSTIN MARTYR')||!r.jump.art?.includes('scene_07')||
- Math.abs(r.music.time-r.before)>1.8||r.music.paused||!r.music.source.includes('deicide_quick_ambient')||
+ !r.jump.title.includes('JUSTIN MARTYR')||!r.jump.art?.includes('deicide_carousel_07')||
+ Math.abs(r.music.time-r.before)>1.8||!r.music.paused||r.music.source!==''||r.music.volume!==0||
  !r.interlude.classOn||r.interlude.displayed==='none'||!r.credits.classOn||!r.credits.loaded||r.credits.copyDisplay!=='none');
 if(failures.length){console.error('FILM_FAIL '+JSON.stringify(failures));process.exitCode=1}
