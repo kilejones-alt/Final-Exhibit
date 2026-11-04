@@ -178,7 +178,9 @@ body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door:is(:hove
   border-color:transparent!important;
   box-shadow:none!important;
 }
-body.home-selected .hero .triptych .door .door-art,
+body.home-selected:not(.geo-home) .hero .triptych .door .door-art,
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door .door-art,
+body.gallery-polished.geo-home .hero.geo-doors .triptych .door .door-art::after,
 body.home-selected .hero .triptych .door .door-art img {
   border:0!important;
   box-shadow:none!important;
