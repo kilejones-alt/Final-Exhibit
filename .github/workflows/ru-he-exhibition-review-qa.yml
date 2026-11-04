@@ -1,0 +1,99 @@
+name: Russian and Hebrew Exhibition Review QA
+on:
+  push:
+    branches: [review/nov04-ru-he-exhibition-complete]
+    paths:
+      - .github/workflows/ru-he-exhibition-review-qa.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: newer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate link and translation structure without publishing drafts
+        run: |
+          node tools/validate-exhibit-pages.mjs
+          node tools/audit-site-integrity.mjs
+          node tools/audit-locale-coverage.mjs --strict
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium webkit
+      - name: Test 16 translated rooms in Chromium and Safari-engine WebKit
+        run: |
+          node --input-type=module <<'CHECK'
+          import { chromium,webkit } from 'playwright';
+          import { spawn } from 'node:child_process';
+          import fs from 'node:fs';
+          const server=spawn('python3',['-m','http.server','8879','--bind','127.0.0.1'],{stdio:'ignore'});
+          await new Promise(r=>setTimeout(r,1200));
+          fs.mkdirSync('qa/generated',{recursive:true});
+          const base='http://127.0.0.1:8879/';
+          const rooms=['antijudaism.html','antisemitism.html','exhibition.html','colonialism.html',
+            'apartheid.html','genocide.html','historical-sources.html','deicide-museum-film.html'];
+          const tests=[],failures=[];
+          try{
+            for(const engine of [chromium,webkit]){
+              const browser=await engine.launch({headless:true});
+              for(const lang of ['ru','he']){
+                for(const file of rooms){
+                  for(const [width,height] of [[390,844],[1440,900]]){
+                    const path=lang+'/'+file;
+                    const page=await browser.newPage({viewport:{width,height},hasTouch:width<700,isMobile:width<700,deviceScaleFactor:width<700?2:1});
+                    const errors=[],missing=[];
+                    page.on('pageerror',e=>errors.push(String(e)));
+                    page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400)missing.push(r.url())});
+                    try{
+                      await page.goto(base+path,{waitUntil:'domcontentloaded',timeout:25000});
+                      await page.waitForTimeout(file==='deicide-museum-film.html'?3300:450);
+                      const data=await page.evaluate(()=>{
+                        const d=document.documentElement, body=document.body;
+                        return {
+                          lang:d.lang,dir:d.dir,viewport:innerWidth,
+                          scrollWidth:Math.max(d.scrollWidth,body.scrollWidth),
+                          main:!!document.querySelector('main,[role="main"]'),
+                          imageCount:document.querySelectorAll('main img, [role="main"] img').length,
+                          dots:document.querySelectorAll('.museum-rail-dot').length,
+                          noindex:document.querySelector('meta[name="robots"]')?.content.includes('noindex')||false,
+                          scenes:typeof SCENES!=='undefined'?SCENES.length:null,
+                          filmDuration:typeof SCENES!=='undefined'?SCENES.reduce((a,x)=>a+x.duration,0):null,
+                          seekMax:Number(document.querySelector('#progress')?.max)||null,
+                          headerText:document.querySelector('h1')?.textContent.trim().slice(0,75)||null
+                        };
+                      });
+                      let bad=errors.length>0||missing.length>0||data.lang!==lang||!data.main||data.scrollWidth>width+1||!data.noindex||!data.headerText;
+                      if(lang==='he')bad ||=data.dir!=='rtl';
+                      if(file==='deicide-museum-film.html')bad ||=data.scenes!==14||Math.abs(data.filmDuration-data.seekMax)>.05;
+                      else bad ||=data.dots!==21;
+                      const result={path,engine:engine===chromium?'chromium':'webkit',width,bad,errors,missing,...data};
+                      tests.push(result);if(bad)failures.push(result);
+                      if(width===390 && ['antijudaism.html','exhibition.html','deicide-museum-film.html'].includes(file))
+                        await page.screenshot({path:'qa/generated/ru-he-'+(engine===chromium?'chromium':'webkit')+'-'+path.replaceAll('/','-')+'.png',fullPage:false});
+                    }catch(e){const result={path,engine:engine===chromium?'chromium':'webkit',width,bad:true,error:String(e)};tests.push(result);failures.push(result)}
+                    await page.close();
+                  }
+                }
+              }
+              await browser.close();
+            }
+          }finally{server.kill();}
+          fs.writeFileSync('qa/generated/ru-he-crossbrowser-report.json',JSON.stringify({tested:tests.length,passed:tests.length-failures.length,failed:failures},null,2));
+          console.log(JSON.stringify({tested:tests.length,passed:tests.length-failures.length,failed:failures},null,2));
+          if(failures.length)process.exitCode=1;
+          CHECK
+      - name: Store localized screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: russian-hebrew-localization-qa
+          path: newer/qa/generated/ru-he-*
+          retention-days: 7
