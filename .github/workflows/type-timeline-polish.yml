@@ -1,0 +1,61 @@
+name: Verify typography and timeline finishing pass
+on:
+  push:
+    branches: [release/nov04-type-timeline-polish]
+    paths: [.github/workflows/type-timeline-polish.yml]
+permissions:
+  contents: write
+jobs:
+  finish:
+    if: github.ref == 'refs/heads/release/nov04-type-timeline-polish'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Apply only the reviewed prose-boundary and timeline patch
+        run: |
+          python3 tools/apply-type-timeline-polish.py
+          node --check newer/museum-global.js
+          python3 - <<'VERIFY'
+          from pathlib import Path
+          import subprocess, hashlib
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          allowed={'newer/museum-global.js','newer/museum-precision-finish.css'}
+          rooms=['entrance.html','antijudaism.html','antisemitism.html','exhibition.html','colonialism.html','apartheid.html','genocide.html','historical-sources.html']
+          for lang in ['','ru/','he/']:
+              allowed.update('newer/'+lang+room for room in rooms)
+          assert set(changed)==allowed, str(changed)
+          expected={'newer/museum-global.js':'88b55cc2c4fcdd4e5247056ac8ea15ede9f30446cf218960f533259e53c1502d','newer/museum-precision-finish.css':'2fce4d899d4eb6ec856531174fdcf5999e527f3c097376d4e42b418de7711697'}
+          for file,digest in expected.items():
+              assert hashlib.sha256(Path(file).read_bytes()).hexdigest()==digest,file
+          print('All 26 file changes are within scope; CSS/JS hashes match the reviewed local patch.')
+          print('All opener, film, diagram, image and sound files are untouched.')
+          VERIFY
+          node tools/validate-exhibit-pages.mjs
+          node tools/audit-site-integrity.mjs
+      - name: Install isolated browser-test dependencies
+        run: |
+          npm install --ignore-scripts --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium webkit
+      - name: Test typography and timeline in Chromium and WebKit
+        run: node tools/test-type-timeline-polish.mjs
+      - name: Commit only the verified website files to the release branch
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add newer/*.html newer/ru/*.html newer/he/*.html newer/museum-global.js newer/museum-precision-finish.css
+          git diff --cached --stat
+          git commit -m 'Polish paragraph flow and localize the existing timeline without redesign'
+          git push origin HEAD:release/nov04-type-timeline-polish
+          git rev-parse HEAD
+      - name: Save exact cross-browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: type-timeline-polish-evidence
+          path: qa/type-timeline-polish
+          retention-days: 7
