@@ -83,16 +83,37 @@
 
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  // Keep the native dot targets above the growing preview; broaden touch hit areas.
+  // Keep the native dot targets above the growing artwork and span the header.
   const navigationStyle = document.createElement('style');
   navigationStyle.textContent = `/* Keep timeline navigation independent of artwork previews. */
+body.museum-gallery-enabled #museum-gallery-rail{
+  padding-inline:0!important;
+}
 body.museum-gallery-enabled #museum-gallery-rail .museum-rail-strip{
+  box-sizing:border-box!important;
   width:100%!important;min-width:0!important;
+  padding-inline:max(8px,env(safe-area-inset-left)) max(8px,env(safe-area-inset-right))!important;
   justify-content:space-between!important;gap:0!important;
+}
+body.museum-gallery-enabled #museum-gallery-rail .museum-rail-strip::before{
+  left:0!important;right:0!important;
 }
 body.museum-gallery-enabled a.museum-rail-preview{
   text-decoration:none!important;
   z-index:964!important;
+}
+body.museum-gallery-enabled a.museum-rail-preview.has-art{
+  box-sizing:border-box!important;
+  grid-template: minmax(0,1fr) / minmax(0,1fr);
+  gap:0;
+  padding:0!important;
+  border-radius:50%!important;
+  overflow:hidden!important;
+  box-shadow:none!important;
+}
+body.museum-gallery-enabled a.museum-rail-preview.has-art .museum-rail-preview-art{
+  width:100%!important;height:100%!important;
+  object-fit:cover!important;
 }
 body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed .museum-rail-dot{
   opacity:.9!important;
@@ -118,9 +139,6 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
   previewImage.alt = '';
   previewImage.decoding = 'async';
   preview.append(previewImage);
-  const previewTitle = document.createElement('span');
-  previewTitle.className = 'museum-rail-preview-title';
-  preview.append(previewTitle);
   body.append(preview);
   let chosen = null, hideTimer = 0;
   const closePreview = () => {
@@ -142,9 +160,8 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
     chosen=link;
     preview.href = link.href;
     preview.setAttribute('aria-label', link.title);
-    preview.classList.toggle('has-art', Boolean(art));
-    if (art && previewImage.getAttribute('src') !== art) previewImage.src = art;
-    previewImage.alt = art ? link.title : '';
+    preview.classList.add('has-art');
+    if (previewImage.getAttribute('src') !== art) previewImage.src = art;
     link.classList.add('is-revealed');
     rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
@@ -154,23 +171,19 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
     const originX=visual?.offsetLeft || 0;
     const originY=visual?.offsetTop || 0;
     const edge=12;
-    const desiredWidth=art ? Math.min(finePointer?460:292,screenWidth*(finePointer?.54:.77)) : Math.min(finePointer?275:225,screenWidth-28);
-    const desiredHeight=art ? Math.min(finePointer?360:248,screenHeight*(finePointer?.46:.31)) : Math.min(finePointer?284:245,Math.max(165,screenHeight*.34));
-    const vw=Math.max(1,Math.min(desiredWidth,screenWidth-edge*2));
-    const vh=Math.max(1,Math.min(desiredHeight,screenHeight-edge*2));
-    preview.style.width=vw+'px';
-    preview.style.height=vh+'px';
-    const left=Math.max(originX+edge,Math.min(originX+screenWidth-vw-edge,rect.left+rect.width/2-vw/2));
+    const diameter=Math.max(1,Math.min(168,screenWidth*.28,screenHeight*.31,screenWidth-edge*2,screenHeight-edge*2));
+    preview.style.width=diameter+'px';
+    preview.style.height=diameter+'px';
+    const left=Math.max(originX+edge,Math.min(originX+screenWidth-diameter-edge,rect.left+rect.width/2-diameter/2));
     preview.style.left=left+'px';
-    let top=rect.bottom+10;
-    if(top+vh>originY+screenHeight-edge)top=rect.top-vh-10;
-    top=Math.max(originY+edge,Math.min(top,originY+screenHeight-vh-edge));
+    let top=rect.bottom+6;
+    if(top+diameter>originY+screenHeight-edge)top=rect.top-diameter-6;
+    top=Math.max(originY+edge,Math.min(top,originY+screenHeight-diameter-edge));
     preview.style.top=top+'px';
     // Retain the existing expansion from its dot, with no timing change.
     preview.style.setProperty('--dot-origin-x',(rect.left+rect.width/2-left).toFixed(1)+'px');
     preview.style.setProperty('--dot-origin-y',(rect.top+rect.height/2-top).toFixed(1)+'px');
     if(changed){
-      previewTitle.textContent=link.title;
       preview.classList.remove('is-open');
       void preview.offsetWidth;
     }
