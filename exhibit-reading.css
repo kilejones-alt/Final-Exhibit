@@ -257,3 +257,14 @@ body.gallery-polished .museum-global-artframe:is(:hover,:focus-within) img {
     letter-spacing:-.02em!important;
   }
 }
+
+@media (max-width:359px) {
+  html[lang="ru"] body.home-selected .home-era-details details {
+    padding-inline:10px!important;
+  }
+  html[lang="ru"] body.home-selected .home-era-details details p {
+    padding-inline:0!important;
+    font:400 14px/1.58 Arial,sans-serif!important;
+    hyphens:auto;
+  }
+}
