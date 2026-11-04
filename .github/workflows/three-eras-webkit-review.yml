@@ -54,7 +54,7 @@ jobs:
                   let data={};
                   try{
                     await page.goto('http://127.0.0.1:8878/'+path,{waitUntil:'domcontentloaded',timeout:25000});
-                    await page.waitForTimeout(300);
+                    await page.waitForTimeout(path==='deicide-museum-film.html'?3200:300);
                     data=await page.evaluate(()=>{
                       const d=document.documentElement;
                       const x={width:innerWidth,scrollWidth:Math.max(d.scrollWidth,document.body.scrollWidth),
@@ -68,6 +68,7 @@ jobs:
                       if(document.querySelector('#theater')){
                         x.filmTotal=typeof SCENES!=='undefined'?SCENES.reduce((a,s)=>a+s.duration,0):null;
                         x.seekMax=Number(document.querySelector('#progress')?.max);
+                        x.stageOpacity=Number(getComputedStyle(document.querySelector('.stage')).opacity);
                       }
                       return x;
                     });
@@ -79,7 +80,7 @@ jobs:
                     if(isEntrance)bad ||=data.dots!==21||!data.framework;
                     if(isEntrance&&isTranslated)bad ||=data.markedEnglishLinks<7;
                     if(path.startsWith('he/'))bad ||=data.dir!=='rtl';
-                    if(path==='deicide-museum-film.html')bad ||=Math.abs(data.filmTotal-data.seekMax)>.05;
+                    if(path==='deicide-museum-film.html')bad ||=Math.abs(data.filmTotal-data.seekMax)>.05 || data.stageOpacity<.85;
                     if(device==='phone'&&['index.html','entrance.html','ru/entrance.html','he/entrance.html','deicide-museum-film.html'].includes(path)){
                       await page.screenshot({path:'qa/generated/round2-'+(engine===chromium?'chromium':'webkit')+'-'+path.replaceAll('/','-')+'.png'});
                     }
