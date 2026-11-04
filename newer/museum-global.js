@@ -169,8 +169,8 @@
     link.classList.add('is-revealed');
     rail.classList.add('is-thread-active');
     const rect=link.getBoundingClientRect();
-    const vw=art ? Math.min(760,innerWidth*.72) : Math.min(finePointer?275:225,innerWidth-28);
-    const vh=art ? Math.min(650,innerHeight*.73) : Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
+    const vw=art ? Math.min(finePointer?460:292,innerWidth*(finePointer?.54:.77)) : Math.min(finePointer?275:225,innerWidth-28);
+    const vh=art ? Math.min(finePointer?360:248,innerHeight*(finePointer?.46:.31)) : Math.min(finePointer?284:245,Math.max(165,innerHeight*.34));
     preview.style.width=vw+'px';
     preview.style.height=vh+'px';
     const left=Math.max(12,Math.min(innerWidth-vw-12,rect.left+rect.width/2-vw/2));
@@ -239,7 +239,7 @@
           const d=Math.abs((r.left+r.right)/2-middle);
           if(d<distance){distance=d;closest=link}
         });
-        if(closest)reveal(closest,false);
+        if(closest)reveal(closest,true);
       });
     },{passive:true});
   }

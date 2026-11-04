@@ -1255,3 +1255,32 @@ body.museum-gallery-enabled .museum-rail-preview:not(.has-art) .museum-rail-prev
     transition:none!important;transform:none!important;
   }
 }
+
+/* November 3 review: one timeline stroke, slightly larger quiet dots,
+   and a measured archival image enlargement only on interaction. */
+.museum-gallery-rail .museum-rail-image .museum-rail-dot,
+.museum-gallery-rail .museum-rail-image[aria-current] .museum-rail-dot{
+  width:5px!important;height:5px!important;flex-basis:5px!important;
+  opacity:.84!important;
+  box-shadow:0 0 0 2px rgba(7,7,8,.93)!important;
+}
+.museum-gallery-rail .museum-rail-image:is(:hover,:focus-visible) .museum-rail-dot{
+  transform:translate3d(var(--thread-shift-x,0px),0,0) scale(1.7)!important;
+}
+@media(min-width:701px) and (hover:hover) and (pointer:fine){
+ body.museum-gallery-enabled .museum-rail-preview.has-art{
+  transition:transform 5.5s cubic-bezier(.18,.51,.2,1),
+    opacity .95s ease,visibility 5.5s ease!important;
+ }
+}
+@media(max-width:700px){
+ .museum-gallery-rail .museum-rail-image .museum-rail-dot{
+   width:5.5px!important;height:5.5px!important;flex-basis:5.5px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .museum-gallery-rail .museum-rail-image .museum-rail-dot,
+ body.museum-gallery-enabled .museum-rail-preview.has-art{
+   transition:none!important;animation:none!important;
+ }
+}

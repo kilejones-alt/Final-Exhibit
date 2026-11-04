@@ -1,0 +1,109 @@
+name: Three Eras WebKit and Chromium release review
+on:
+  push:
+    branches: [review/nov03-release-gate-round2]
+    paths: [.github/workflows/three-eras-webkit-review.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: newer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check all reserved pages, links and current film timing
+        run: |
+          node tools/validate-exhibit-pages.mjs
+          node tools/audit-site-integrity.mjs
+          node tools/audit-locale-coverage.mjs
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium webkit
+      - name: Check English, Russian, Hebrew, rooms and Deicide in both engines
+        run: |
+          node --input-type=module <<'CHECK'
+          import { chromium, webkit } from 'playwright';
+          import { spawn } from 'node:child_process';
+          import fs from 'node:fs';
+          const engines=[chromium,webkit];
+          const server=spawn('python3',['-m','http.server','8878','--bind','127.0.0.1'],{stdio:'ignore'});
+          await new Promise(r=>setTimeout(r,1200));
+          fs.mkdirSync('qa/generated',{recursive:true});
+          const routes=['index.html','ru/index.html','he/index.html','entrance.html',
+            'ru/entrance.html','he/entrance.html','antijudaism.html',
+            'antisemitism.html','exhibition.html','colonialism.html',
+            'apartheid.html','genocide.html','historical-sources.html','deicide-museum-film.html'];
+          const results=[];
+          try{
+            for(const engine of engines){
+              const browser=await engine.launch({headless:true});
+              for(const path of routes){
+                for(const [device,width,height,touch] of [['phone',390,844,true],['desktop',1440,900,false]]){
+                  const page=await browser.newPage({viewport:{width,height},hasTouch:touch,isMobile:touch,deviceScaleFactor:touch?2:1});
+                  const errors=[],missing=[];
+                  page.on('pageerror',e=>errors.push(String(e)));
+                  page.on('response',r=>{if(r.url().includes('127.0.0.1:8878')&&r.status()>=400)missing.push(r.url())});
+                  let data={};
+                  try{
+                    await page.goto('http://127.0.0.1:8878/'+path,{waitUntil:'domcontentloaded',timeout:25000});
+                    await page.waitForTimeout(path==='deicide-museum-film.html'?3200:300);
+                    data=await page.evaluate(()=>{
+                      const d=document.documentElement;
+                      const x={width:innerWidth,scrollWidth:Math.max(d.scrollWidth,document.body.scrollWidth),
+                        lang:d.lang,dir:d.dir,main:!!document.querySelector('main,[role="main"]'),
+                        photos:document.querySelectorAll('.cinema-plate').length,
+                        enter:document.querySelectorAll('.entry-pill').length,
+                        next:document.querySelectorAll('.cinema-skip').length,
+                        dots:document.querySelectorAll('.museum-rail-dot').length,
+                        framework:!!document.querySelector('.era-framework'),
+                        markedEnglishLinks:document.querySelectorAll('a[hreflang="en"][href$=".html"]').length};
+                      if(document.querySelector('#theater')){
+                        x.filmTotal=typeof SCENES!=='undefined'?SCENES.reduce((a,s)=>a+s.duration,0):null;
+                        x.seekMax=Number(document.querySelector('#progress')?.max);
+                        x.stageOpacity=Number(getComputedStyle(document.querySelector('.stage')).opacity);
+                      }
+                      return x;
+                    });
+                    const isHome=path.endsWith('index.html');
+                    const isEntrance=path.endsWith('entrance.html');
+                    const isTranslated=path.startsWith('ru/')||path.startsWith('he/');
+                    let bad=data.scrollWidth>width+1||!data.main||errors.length>0||missing.length>0;
+                    if(isHome)bad ||=data.photos!==24||data.enter!==1||data.next!==0;
+                    if(isEntrance)bad ||=data.dots!==21||!data.framework;
+                    if(isEntrance&&isTranslated)bad ||=data.markedEnglishLinks<7;
+                    if(path.startsWith('he/'))bad ||=data.dir!=='rtl';
+                    if(path==='deicide-museum-film.html')bad ||=Math.abs(data.filmTotal-data.seekMax)>.05 || data.stageOpacity<.85;
+                    if(device==='phone'&&['index.html','entrance.html','ru/entrance.html','he/entrance.html','deicide-museum-film.html'].includes(path)){
+                      await page.screenshot({path:'qa/generated/round2-'+(engine===chromium?'chromium':'webkit')+'-'+path.replaceAll('/','-')+'.png'});
+                    }
+                    results.push({engine:engine===chromium?'chromium':'webkit',path,device,bad,errors,missing,...data});
+                    console.log('CHECK',path,device,engine===chromium?'chromium':'webkit',bad?'FAIL':'PASS');
+                  }catch(e){
+                    results.push({engine:engine===chromium?'chromium':'webkit',path,device,bad:true,error:String(e),errors,missing,...data});
+                    console.log('CHECK ERROR',path,device,String(e));
+                  }finally{await page.close()}
+                }
+              }
+              await browser.close();
+            }
+          }finally{server.kill()}
+          fs.writeFileSync('qa/generated/round2-crossbrowser.json',JSON.stringify(results,null,2));
+          const failed=results.filter(x=>x.bad);
+          console.log('SUMMARY',JSON.stringify({tested:results.length,passed:results.length-failed.length,failed}));
+          if(failed.length)process.exitCode=1;
+          CHECK
+      - name: Keep device-engine screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: three-eras-round2-browser-evidence
+          path: newer/qa/generated/round2-*
+          retention-days: 7
