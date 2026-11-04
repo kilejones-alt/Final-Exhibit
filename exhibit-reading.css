@@ -174,3 +174,51 @@ body.museum-gallery-enabled .museum-gallery-rail .museum-rail-image[aria-current
     line-height:1.58!important;
   }
 }
+
+/* Keep prose and headlines on consistent measures. */
+body.gallery-polished main.room .source-room-subtitle {
+  margin-block:0 clamp(17px,3vw,30px)!important;
+}
+body.gallery-polished main.room :is(.prose,.source-narrative,.content-section) p {
+  text-align:start;
+}
+body.gallery-polished main.room .prose p {
+  margin-block:0 clamp(15px,2vw,24px)!important;
+}
+body.gallery-polished main.room .source-narrative .installation-quotation {
+  font-size:clamp(19px,2.2vw,31px)!important;
+  line-height:1.38!important;
+}
+body.gallery-polished main.room .gallery-text-row .source-narrative {
+  max-width:62ch!important;
+}
+body.gallery-polished main.room > .source-narrative {
+  width:min(100%,68ch);
+  margin-inline:auto;
+}
+body.gallery-polished .museum-global-artframe:is(:hover,:focus-within) img {
+  filter:none!important;
+}
+@media (min-width:721px) and (max-width:1040px) {
+  body.gallery-polished main.room .gallery-text-row,
+  body.gallery-polished main.aj-source-main :is(.src-editorial-row,.src-artifact) {
+    grid-template-columns:minmax(0,42fr) minmax(0,58fr)!important;
+    gap:clamp(20px,3vw,35px)!important;
+  }
+}
+@media (max-width:460px) {
+  body.gallery-polished main.room :is(.room-intro,.gallery-text-row),
+  body.gallery-polished main.room > :is(.source-narrative,.content-section),
+  body.gallery-polished main.aj-source-main > section {
+    padding-inline:clamp(14px,4.4vw,20px)!important;
+  }
+  body.gallery-polished main.room :is(.prose,.source-narrative,.content-section) p,
+  body.gallery-polished main.aj-source-main :is(.src-intro,.src-editorial-copy,.src-artifact,.src-faq) p,
+  body.gallery-polished main.geo-editorial :is(.geo-lead,.home-message-copy p,.geo-evolution > p,.geo-era > p,.geo-about p) {
+    font-size:16px!important;
+    line-height:1.62!important;
+  }
+  body.gallery-polished main.aj-source-main .src-faq details {
+    padding-inline:6px!important;
+  }
+}

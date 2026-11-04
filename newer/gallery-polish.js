@@ -1,38 +1,6 @@
 (() => {
   'use strict';
   if (!document.body.classList.contains('gallery-polished')) return;
-  const labels={"antijudaism.html":"Synagoga, Strasbourg Cathedral (facade replica) · c. 1220–1230","antijudaism.html#aj-title":"ANTI-JUDAISM","antijudaism.html#aj-art-manesse":"Süßkind of Trimberg, Codex Manesse · 1305–1340","antijudaism.html#aj-art-host":"Miracle of the Profaned Host · 1467–1468","antijudaism.html#deicide-cinema":"The Deicide Libel","antijudaism.html#libel-blood":"Simon of Trent in the Nuremberg Chronicle · 1493","antijudaism.html#libel-well":"Burning of Jews during the Black Death · c. 1352–1353","antisemitism.html":"Antisemitism","antisemitism.html#museum-object-01":"Exile · 1904","antisemitism.html#museum-object-02":"The Black Banner · 1905","antisemitism.html#museum-object-03":"The Birth of Jewish Resistance · 1905","antisemitism.html#museum-object-04":"After the Pogrom · c. 1910","antisemitism.html#museum-object-05":"Small Town after the Pogrom · 1917","exhibition.html":"But He Does Not Listen to the UN… · 1978","colonialism.html#museum-object-01":"Zionist Colonialism in Palestine · 1965","colonialism.html#museum-object-02":"Israel: A Colonial-Settler State? · 1967","colonialism.html#museum-object-03":"Beware: Zionism! · 1969","colonialism.html#museum-object-04":"May Day anti-Zionist display, Moscow · 1972","colonialism.html#museum-object-05":"The Expansionists · 1973","colonialism.html#museum-object-06":"Israeli Plan · 1979","apartheid.html#museum-object-01":"Zionism = Racism · 1976"};
-  const rail=document.querySelector('.museum-gallery-rail');
-  if(rail){
-    const links=[...rail.querySelectorAll('.museum-rail-image')];
-    const context=document.createElement('span');
-    context.className='museum-rail-context';context.setAttribute('aria-hidden','true');rail.append(context);
-    const active=link=>{
-      if(!link)return;
-      links.forEach(a=>a.removeAttribute('aria-current'));
-      link.setAttribute('aria-current','location');context.textContent=link.title;
-    };
-    const filename=location.pathname.split('/').pop();
-    const local=[];
-    links.forEach(link=>{
-      const url=new URL(link.href,document.baseURI),key=url.pathname.split('/').pop()+url.hash;
-      if(labels[key]){link.title=labels[key];link.setAttribute('aria-label',link.title)}
-      if(url.pathname.split('/').pop()===filename&&url.hash){
-        const target=document.getElementById(decodeURIComponent(url.hash.slice(1)));
-        if(target)local.push({link,target});
-      }
-    });
-    active(links.find(a=>a.hasAttribute('aria-current')));
-    // Read geometry only on scroll frames; use existing object/section targets.
-    let frame=0;
-    const update=()=>{
-      frame=0;const line=Math.max(0,rail.getBoundingClientRect().bottom)+innerHeight*.25;
-      let chosen=null;for(const item of local){if(item.target.getBoundingClientRect().top<=line)chosen=item.link}
-      active(chosen||links.find(a=>{const u=new URL(a.href,document.baseURI);return u.pathname.split('/').pop()===filename&&!u.hash})||local[0]?.link);
-    };
-    addEventListener('scroll',()=>{if(!frame)frame=requestAnimationFrame(update)},{passive:true});
-    addEventListener('hashchange',update);update();
-  }
   // The existing images become inspection buttons; captions stay one line.
   document.querySelectorAll('.aj-object').forEach(figure=>{
     const image=figure.querySelector(':scope > img');if(!image)return;

@@ -2,15 +2,6 @@
   'use strict';
   const main=document.querySelector('main');
   if(!main||!document.body.classList.contains('gallery-polished'))return;
-  // Group existing objects in chronological order. No extra copies or new prose.
-  const wall=(ids,triptych=false)=>{
-    const objects=ids.map(id=>document.getElementById(id));if(objects.some(x=>!x))return;
-    const section=document.createElement('section');section.className='installation-wall'+(triptych?' is-triptych':'');
-    objects[0].before(section);objects.forEach(object=>section.append(object));
-  };
-  const page=location.pathname.split('/').pop();
-  if(page==='antisemitism.html')wall(['museum-object-03','museum-object-04']);
-  if(page==='colonialism.html')wall(['museum-object-04','museum-object-05','museum-object-06'],true);
   main.querySelectorAll('.src-stage b').forEach(label=>{
     const original=label.textContent,match=original.match(/^(\d{2})([\s\S]*)$/);if(!match)return;
     const number=document.createElement('span');number.className='stage-number';number.textContent=match[1];
