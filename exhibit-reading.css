@@ -285,3 +285,24 @@ body.dark.museum-gallery-enabled header.site-header .header-pills > .header-pill
   margin:0!important;
   padding:0 6px!important;
 }
+
+/* Give the regrouped English overview paragraphs enough room to read. */
+@media (max-width:1200px) {
+  html[lang="en"] body.geo-home main.geo-editorial #understanding .geo-three-columns {
+    grid-template-columns:1fr!important;
+    gap:clamp(38px,6vw,66px)!important;
+  }
+  html[lang="en"] body.geo-home main.geo-editorial #understanding .geo-three-columns .geo-era {
+    border:0!important;
+    padding-inline:0!important;
+  }
+}
+@media (max-width:359px) {
+  html[lang="en"] body.geo-home main.geo-editorial :is(#introduction,#understanding,#about) {
+    padding-inline:10px!important;
+  }
+  html[lang="en"] body.geo-home main.geo-editorial #historical-entrances > .geo-lead-after-doors {
+    padding-inline:10px!important;
+    font-size:17px!important;
+  }
+}
