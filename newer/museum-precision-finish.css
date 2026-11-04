@@ -207,3 +207,29 @@ body.scholarly-sources .sources-page--scholarly > section {
     align-items:stretch!important;
   }
 }
+
+/* Final editorial and timeline polish: no page-layout or animation changes. */
+body:is(.gallery-polished,.home-selected,.scholarly-sources) main :is(h1,h2,h3,h4){
+  break-after:avoid;page-break-after:avoid;
+}
+body:is(.gallery-polished,.home-selected,.scholarly-sources) main :is(p,li){
+  orphans:3;widows:3;
+}
+body.gallery-polished main .artifact-copy>.date{
+  margin-block:8px 6px!important;
+}
+body.gallery-polished main .artifact-copy>.object-credit{
+  margin-block:6px 0!important;line-height:1.5!important;
+}
+body.gallery-polished main .object-caption-line{
+  column-gap:.55em!important;row-gap:4px!important;
+}
+body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image[aria-current="page"]:not(:focus-visible):not(.is-revealed) .museum-rail-dot{
+  background:#f0e4ec!important;opacity:1!important;
+  box-shadow:0 0 0 3px rgba(224,205,219,.14)!important;
+}
+body.museum-gallery-enabled .museum-rail-preview .museum-rail-preview-title{
+  white-space:normal!important;text-overflow:clip!important;
+  overflow-wrap:anywhere;word-break:normal;min-width:0;
+  line-height:1.4!important;text-align:start!important;
+}
