@@ -1,0 +1,74 @@
+/* Shared end-of-page navigation and support for exhibit pages. */
+body > footer.exhibit-footer,
+main.aj-source-main > footer.exhibit-footer {
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:14px!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:clamp(32px,6vw,72px) 24px!important;
+  border:0!important;
+  background:transparent!important;
+  text-align:center!important;
+}
+body .room-nav,
+body .support.content-section,
+body .geo-support,
+body .geo-sources,
+body main > :has(+ .room-nav) {
+  border:0!important;
+  box-shadow:none!important;
+}
+body .room-nav,
+body .exhibit-footer .src-footerbuttons,
+body :is(.support,.home-message-actions) .actions {
+  display:flex!important;
+  flex-flow:row wrap!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(8px,2vw,22px) clamp(14px,3vw,38px)!important;
+  text-align:center;
+}
+body .room-nav {
+  max-width:var(--installation-width,1440px);
+  margin-inline:auto;
+  padding:clamp(22px,4vw,52px) 24px!important;
+}
+body .room-nav a,
+body .exhibit-footer .src-footerbuttons .src-btn,
+body :is(.support,.home-message-actions) .actions > .button {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  max-width:100%;
+  min-height:44px;
+  margin:0!important;
+  padding:8px 2px!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:inherit!important;
+  text-align:center;
+}
+body :is(.support,.home-message-actions) .actions {
+  margin:clamp(18px,3vw,32px) auto 0!important;
+}
+body .exhibit-footer .src-pill {
+  border:0!important;
+  background:transparent!important;
+}
+body .exhibit-footer :is(a,p),
+body .room-nav a {text-wrap:balance}
+body .exhibit-footer a:hover,
+body .room-nav a:hover,
+body :is(.support,.home-message-actions) .actions > .button:hover {
+  text-decoration:underline;
+  text-underline-offset:.28em;
+}
+body.museum-gallery-enabled .museum-gallery-rail .museum-rail-context {
+  display:none!important;
+}
