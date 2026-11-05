@@ -80,10 +80,10 @@ body.gallery-polished.geo-home #historical-entrances > .geo-lead-after-doors {
 }
 
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
-  body.geo-home main.geo-editorial :is(h1,h2,h3,h4):not([data-reading-reveal]) {
+  body.geo-home #main.geo-editorial :is(h1,h2,h3,h4):not([data-reading-reveal]) {
     transition:translate .4s ease,scale .4s ease!important;
   }
-  body.geo-home main.geo-editorial :is(h1,h2,h3,h4):not([data-reading-reveal]):hover {
+  body.geo-home #main.geo-editorial :is(h1,h2,h3,h4):not([data-reading-reveal]):hover {
     transform:none!important;
     translate:0 -4px!important;
     scale:1.02;
