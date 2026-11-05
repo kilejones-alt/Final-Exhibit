@@ -82,6 +82,7 @@
   activePage?.setAttribute('aria-current','page');
 
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const phoneLayout = matchMedia('(max-width:700px)');
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
   // Keep the native dot targets above the growing preview; broaden touch hit areas.
   const navigationStyle = document.createElement('style');
@@ -106,12 +107,45 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
   body.museum-gallery-enabled .museum-rail-preview{
     pointer-events:none!important;
   }
-}`;
+}
+body.museum-gallery-enabled { --exhibit-black:#050505 }
+body.museum-gallery-enabled:not(.official-entrance) > .site-header,
+body.museum-gallery-enabled #museum-gallery-rail { background:var(--exhibit-black)!important }
+
+body.museum-gallery-enabled #museum-rail-art-preview {
+  box-sizing:border-box!important; display:grid!important;
+  grid-template:auto auto / minmax(0,1fr); gap:7px; padding:0!important;
+  border:0!important; background:none!important; box-shadow:none!important;
+  opacity:0!important; visibility:hidden; pointer-events:none!important;
+  transform:scale(.06)!important;
+  transition:transform .32s ease,opacity .24s ease,visibility .32s!important;
+}
+body.museum-gallery-enabled #museum-rail-art-preview.is-open {
+  opacity:1!important; visibility:visible; pointer-events:auto!important; transform:scale(1)!important;
+  transition:transform 4.8s cubic-bezier(.55,.03,.36,1),opacity 2.8s ease-in,visibility 0s!important;
+}
+body.museum-gallery-enabled #museum-rail-art-preview .museum-rail-preview-art {
+  display:block!important; width:100%!important; height:auto!important;
+  aspect-ratio:1; object-fit:cover!important; border-radius:50%!important;
+  border:1px solid!important; border-color:#bdb5ae #938a84 #746c66 #a49b94!important;
+  box-sizing:border-box; box-shadow:0 0 0 1px var(--exhibit-black),0 6px 16px rgba(0,0,0,.38)!important;
+}
+body.museum-gallery-enabled #museum-rail-art-preview .museum-rail-preview-title {
+  display:block!important; align-self:start; justify-self:center;
+  max-width:100%; box-sizing:border-box; padding:3px 7px; text-align:center!important;
+  color:#fff!important; background:var(--exhibit-black)!important; font:600 11px/1.35 Source,Arial,sans-serif!important;
+}
+@media (prefers-reduced-motion:reduce) {
+  body.museum-gallery-enabled #museum-rail-art-preview,
+  body.museum-gallery-enabled #museum-rail-art-preview.is-open { transition:none!important }
+}
+`;
   document.head.append(navigationStyle);
   const preview = document.createElement('a');
   // A preview has its own native destination, independent of transient hover state.
   preview.tabIndex = -1;
   preview.className = 'museum-rail-preview';
+  preview.id = 'museum-rail-art-preview';
   preview.setAttribute('aria-hidden','true');
   const previewImage = document.createElement('img');
   previewImage.className = 'museum-rail-preview-art';
@@ -122,11 +156,12 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
   previewTitle.className = 'museum-rail-preview-title';
   preview.append(previewTitle);
   body.append(preview);
-  let chosen = null, hideTimer = 0;
+  let chosen = null, touchPreview = null, touchedLink = null, hideTimer = 0;
   const closePreview = () => {
     clearTimeout(hideTimer);
     chosen?.classList.remove('is-revealed');
     chosen = null;
+    touchPreview = null;
     preview.classList.remove('is-open');
     preview.setAttribute('aria-hidden','true');
     rail.classList.remove('is-thread-active');
@@ -139,6 +174,7 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
     clearTimeout(hideTimer);
     if(chosen && chosen !== link)chosen.classList.remove('is-revealed');
     const changed = chosen !== link;
+    if (changed) touchPreview = null;
     chosen=link;
     preview.href = link.href;
     preview.setAttribute('aria-label', link.title);
@@ -154,21 +190,20 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
     const originX=visual?.offsetLeft || 0;
     const originY=visual?.offsetTop || 0;
     const edge=12;
-    const desiredWidth=art ? Math.min(finePointer?460:292,screenWidth*(finePointer?.54:.77)) : Math.min(finePointer?275:225,screenWidth-28);
-    const desiredHeight=art ? Math.min(finePointer?360:248,screenHeight*(finePointer?.46:.31)) : Math.min(finePointer?284:245,Math.max(165,screenHeight*.34));
-    const vw=Math.max(1,Math.min(desiredWidth,screenWidth-edge*2));
-    const vh=Math.max(1,Math.min(desiredHeight,screenHeight-edge*2));
-    preview.style.width=vw+'px';
-    preview.style.height=vh+'px';
-    const left=Math.max(originX+edge,Math.min(originX+screenWidth-vw-edge,rect.left+rect.width/2-vw/2));
-    preview.style.left=left+'px';
-    let top=rect.bottom+10;
-    if(top+vh>originY+screenHeight-edge)top=rect.top-vh-10;
-    top=Math.max(originY+edge,Math.min(top,originY+screenHeight-vh-edge));
-    preview.style.top=top+'px';
-    // Retain the existing expansion from its dot, with no timing change.
-    preview.style.setProperty('--dot-origin-x',(rect.left+rect.width/2-left).toFixed(1)+'px');
-    preview.style.setProperty('--dot-origin-y',(rect.top+rect.height/2-top).toFixed(1)+'px');
+    const diameter = Math.min(phoneLayout.matches ? 116 : 170, screenWidth * .43, screenHeight * .36);
+    const previewHeight = diameter + 42;
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const left = Math.max(originX + edge, Math.min(originX + screenWidth - diameter - edge, centerX - diameter / 2));
+    const below = rect.bottom + 5;
+    const preferredTop = below + previewHeight <= originY + screenHeight - edge ? below : rect.top - previewHeight - 5;
+    const top = Math.max(originY + edge, Math.min(preferredTop, originY + screenHeight - previewHeight - edge));
+    preview.style.width = diameter + 'px';
+    preview.style.height = 'auto';
+    preview.style.left = left + 'px';
+    preview.style.top = top + 'px';
+    preview.style.setProperty('--dot-origin-x', (centerX - left) + 'px');
+    preview.style.setProperty('--dot-origin-y', (centerY - top) + 'px');
     if(changed){
       previewTitle.textContent=link.title;
       preview.classList.remove('is-open');
@@ -183,22 +218,35 @@ body.museum-gallery-enabled #museum-gallery-rail .museum-rail-image.is-revealed 
     });
     link.addEventListener('pointerleave', () => {
       hideTimer = setTimeout(() => {
-        if (!preview.matches(':hover')) closePreview();
-      }, 160);
+        if (!touchPreview && !preview.matches(':hover')) closePreview();
+      }, 280);
     });
     link.addEventListener('focusin', () => {
       // Touch focus must not place a growing overlay between touch-down and click.
       if (link.matches(':focus-visible')) reveal(link);
     });
-    link.addEventListener('focusout', () => { hideTimer = setTimeout(closePreview, 160); });
+    link.addEventListener('focusout', () => {
+      hideTimer = setTimeout(() => { if (!touchPreview) closePreview(); }, 280);
+    });
     link.addEventListener('pointerdown', event => {
-      if (event.pointerType === 'touch') closePreview();
+      touchedLink = event.pointerType === 'touch' ? link : null;
     }, { passive: true });
-    link.addEventListener('pointercancel', closePreview);
+    link.addEventListener('pointercancel', () => { touchedLink = null; closePreview(); });
+    link.addEventListener('click', event => {
+      const fromTouch = event.pointerType === 'touch' || touchedLink === link;
+      touchedLink = null;
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey ||
+          event.ctrlKey || event.shiftKey || event.altKey || !artworkByLink.get(link) ||
+          !(fromTouch || (phoneLayout.matches && event.detail > 0))) return;
+      if (touchPreview === link) return;
+      event.preventDefault();
+      reveal(link);
+      touchPreview = link;
+    });
   });
   preview.addEventListener('pointerenter', () => clearTimeout(hideTimer));
-  preview.addEventListener('pointerleave', closePreview);
-  // Native links preserve first-tap navigation, keyboard use and modified clicks.
+  preview.addEventListener('pointerleave', () => { if (!touchPreview) closePreview(); });
+  // Retain native navigation on a second tap, keyboard activation, or modified click.
   // Re-selecting the current page returns to its start instead of seeming inert.
   const returnToPageStart = event => {
     if(event.defaultPrevented || event.button!==0 || event.metaKey ||
