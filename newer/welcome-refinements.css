@@ -28,7 +28,7 @@ body.geo-home .hero.geo-doors .triptych .door.geo-door .door-label{width:100%!im
   }
 }
 @media (min-width:701px) {
-  body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door :is(.geo-door-type,.geo-door-claim,.geo-door-caption,.geo-door-cta) {
+  body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door :is(.geo-door-type,.geo-door-claim,.geo-door-cta) {
     align-self:center!important;
     width:calc(100% - 2 * clamp(15px,1.5vw,23px));
     margin-inline:auto!important;
@@ -253,5 +253,39 @@ body.gallery-polished.geo-home #historical-entrances :is(.door.geo-door,.door-ar
   }
   html[lang="en"] body.geo-home main.geo-editorial #understanding .geo-three-columns .geo-era:last-child {
     padding-inline-end:0!important;
+  }
+}
+
+/* Align the artwork, headings, descriptions and Enter links across the three doors. */
+@media (min-width:701px) {
+  body.gallery-polished.geo-home #historical-entrances .triptych {
+    row-gap:0!important;
+  }
+  body.gallery-polished.geo-home #historical-entrances .triptych .door.geo-door {
+    display:grid!important;
+    grid-row:span 5;
+    grid-template-rows:subgrid!important;
+  }
+  body.gallery-polished.geo-home #historical-entrances .triptych .door.geo-door :is(.geo-door-type,.geo-door-claim,.geo-door-cta) {
+    align-self:start!important;
+  }
+}
+
+/* Keep 01, 02 and 03 in a single row, with room for the original copy. */
+@media (max-width:900px) {
+  html[lang="en"] body.geo-home main.geo-editorial #understanding .geo-three-columns {
+    box-sizing:border-box;
+    grid-template-columns:repeat(3, minmax(min(15rem, 86%), 1fr))!important;
+    gap:clamp(12px, 3vw, 24px)!important;
+    overflow-x:auto!important;
+    padding-block-end:12px!important;
+    scroll-snap-type:x proximity;
+    scrollbar-width:thin;
+    scrollbar-color:#b82431 transparent;
+  }
+  html[lang="en"] body.geo-home main.geo-editorial #understanding .geo-three-columns .geo-era {
+    border:0!important;
+    padding-inline:0!important;
+    scroll-snap-align:start;
   }
 }
