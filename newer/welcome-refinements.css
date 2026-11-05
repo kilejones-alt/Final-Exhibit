@@ -1,7 +1,19 @@
 body.geo-home .hero.geo-doors .triptych .door.geo-door::before{content:none!important}
 body.geo-home .hero.geo-doors .triptych .door.geo-door .door-label{width:100%!important;box-sizing:border-box!important;justify-content:center!important;text-align:center!important}
 
-@media (max-width:700px){.entrance-tagline-phrase{display:inline-block;white-space:nowrap}}
+body.gallery-polished.geo-home #historical-entrances .hero-title .geo-hero-tagline {
+  font-size:clamp(16px,1.3vw,19px)!important;
+}
+
+@media (max-width:700px) {
+  body.gallery-polished.geo-home #historical-entrances .hero-title .geo-hero-tagline {
+    font-size:clamp(14px,3.7vw,16px)!important;
+  }
+
+  #historical-entrances .entrance-tagline-phrase {
+    display:block;
+  }
+}
 
 @media (max-width:700px) {
   body.gallery-polished.geo-home .hero.geo-doors .hero-title {
@@ -23,7 +35,8 @@ body.geo-home .hero.geo-doors .triptych .door.geo-door .door-label{width:100%!im
     padding-top:0!important;
     line-height:1!important;
   }
-  body.gallery-polished.geo-home .hero.geo-doors .triptych .door.geo-door .door-art img {
+  body.gallery-polished.geo-home #historical-entrances .triptych .door.geo-door .door-art img {
+    width:100%!important;
     object-position:center top!important;
   }
 }
@@ -287,5 +300,39 @@ body.gallery-polished.geo-home #historical-entrances :is(.door.geo-door,.door-ar
     border:0!important;
     padding-inline:0!important;
     scroll-snap-align:start;
+  }
+}
+
+/* Give the original diagram lettering a smaller footprint on the welcome page. */
+html[lang="en"] body.home-selected .era-framework.diagram-directed .framework-main-title {
+  width:min(72%, 660px)!important;
+}
+
+#introduction .era-framework .framework-accusation,
+#understanding .geo-era-index {
+  color:#b82431;
+}
+
+#introduction .era-framework .framework-accusation {
+  -webkit-text-fill-color:currentColor;
+}
+
+/* Give each phone door the same text edge and description start. */
+@media (max-width:700px) {
+  body.gallery-polished.geo-home #historical-entrances .triptych .door.geo-door
+    :is(.door-label,.geo-door-type,.geo-door-claim,.geo-door-cta) {
+    box-sizing:border-box!important;
+    width:100%!important;
+    padding-inline:clamp(10px,3.1vw,14px)!important;
+    text-align:start!important;
+  }
+
+  body.gallery-polished.geo-home #historical-entrances .triptych .door.geo-door .door-label {
+    justify-content:flex-start!important;
+  }
+
+  body.gallery-polished.geo-home #historical-entrances .triptych .door.geo-door .geo-door-claim {
+    align-self:start!important;
+    padding-block-start:14px!important;
   }
 }
